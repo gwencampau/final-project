@@ -1,0 +1,18 @@
+{% extends '_layout.html' %}
+
+{% block title %}Create Event{% endblock %}
+
+{% block body %}
+
+<div class="d-flex bd-highlight justify-content-center ">
+    {%for x in data%}
+    <div class="p-2 bd-highlight mx-5">
+        <h3>{{x["title"]}}</h3>
+        <p>{{x["info"]}}</p>
+    </div>
+    {%endfor%}
+  </div>
+
+
+{% endblock %}
+
