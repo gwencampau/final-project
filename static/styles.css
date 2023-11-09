@@ -1,0 +1,40 @@
+:root{
+    font-family: 'Cabin', sans-serif;
+    --main-light-blue: #A9B3CE;
+    --main-dark-blue: #171738;
+    --main-dark-grey: #474954;
+    --main-light-grey: #BDBDBD;
+    --main-white: #E8E8E8;
+}
+
+nav{
+    background-color: var(--main-dark-blue);
+    color: var(--main-white);
+    position: fixed;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3rem;
+}
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+nav ul li {
+    display: inline-block;
+    margin-right: 2rem;
+}
+nav ul a{
+    text-decoration: none;
+    color: var(--main-white);
+}
+
+body{
+    margin-top: 3rem;
+}
+h1{
+    font-weight: 700;
+}
