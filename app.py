@@ -26,4 +26,6 @@ def about():
 def faq():
     return render_template('main_faq.html')
 
-
+@app.get('/login')
+def login():
+    return render_template('login.html')
