@@ -8,9 +8,13 @@ about_data = [{"title":"Feeling lonely?", "info":"Well CommuniFree is for you!"}
 def index():
     return render_template('index.html')
 
-@app.route('/create')
-def create():
+@app.get('/create')
+def create_form():
     return render_template('create_event.html')
+
+@app.post('/create')
+def create_event():
+    return redirect('/')
 
 @app.route('/friends')
 def friends():
