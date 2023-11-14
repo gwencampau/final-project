@@ -38,3 +38,22 @@ body{
 h1{
     font-weight: 700;
 }
+/*Angelina's CSS for view event*/
+
+
+
+
+.btn {
+    height: 30px; 
+}
+.btn-event {
+    width: 20vh; 
+    height:5vh;
+}
+.profile-div{
+    overflow: auto;
+            white-space: nowrap; width:100vh;
+}
+.profile-img{
+    display: inline-block;
+}
