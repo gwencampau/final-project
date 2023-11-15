@@ -3,6 +3,23 @@
 {% block title %}FAQ{% endblock %}
 
 {% block body %}
-<h1>Test FAQ</h1>
+
+<main>
+    <div class="">
+        <h2>Need help? We've got you covered!!</h2>
+    </div>
+    <div class="container">
+        <form action="/FAQ/account" method="get">
+            <button class="buttons" type="submit">Account</button>
+        </form>
+        <form action="/FAQ/" method="get">
+            <button class="buttons" type="submit">Events</button>
+        </form>
+        <div class="contact-container">
+            <img src="" alt="">
+            <p>xxx-xxx-xxxx</p>
+        </div>
+    </div>
+</main>
 
 {% endblock %}
