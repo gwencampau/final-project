@@ -9,9 +9,13 @@ all_events_data = [{'title': 'ITSC-3155', 'desc': 'Come join us for our weekly m
 def index():
     return render_template('index.html', events=all_events_data)
 
-@app.route('/create')
-def create():
+@app.get('/create')
+def create_form():
     return render_template('create_event.html')
+
+@app.post('/create')
+def create_event():
+    return redirect('/')
 
 @app.route('/friends')
 def friends():
