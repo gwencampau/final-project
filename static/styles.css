@@ -35,6 +35,28 @@ nav ul a{
 body{
     margin-top: 3rem;
 }
+
 h1{
     font-weight: 700;
 }
+
+
+/*Angelina's CSS for view event*/
+
+.btn-event {
+    width: 20vh; 
+    height:5vh;
+}
+.profile-div{
+    overflow: auto;
+    white-space: nowrap; width:90vh;
+}
+.profile-img{
+    display: inline-block;
+    height:100px;
+}
+.img-event{
+    width:90vh;
+    
+}
+/*End Angelina's CSS for view event*/
