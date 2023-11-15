@@ -1,17 +1,21 @@
 {% extends '_layout.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block body %}
 <body class="login-page">
     <main class="login">
         <form action="#" class="login">
-            <h1>Login</h1>
+            <h1>Sign Up</h1>
+            <p>Email</p>
+            <input type="text" id="email" name="email" placeholder="Email" required>
+            <p>Username</p>
             <input type="text" id="username" name="username" placeholder="Username" required autocomplete="username">
+            <p>Password</p>
             <input type="text" id="password" name="password" placeholder="Password" required>
-            <input type="submit" id="submit" value="Log in">
+            <input type="submit" id="submit" value="Sign up">
         </form>
-        <p class="switch_login"><a href="/sign_up">Create an account?</a></p>
+        <p class="switch_login">Already a user? <a href="/login">Sign up</a></p>
     </main>
 </body>
 {% endblock %}
