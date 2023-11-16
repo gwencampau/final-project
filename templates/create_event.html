@@ -4,47 +4,41 @@
 
 {% block body %}
 
-<div class="container">
-  <div class="hero-image">
-    <div class="hero-text">
-      <h1 style="text-align: center;">Create Event</h1>
-    </div>
+<div class="hero-image">
+  <div class="hero-text">
+    <h1>Create Event</h1>
   </div>
+</div>
+
+<div class="container mt-5">
     <form action="/create" method="post">
       <div class="row">
         <div class="col">
-          <div class="form-group mb-5">
+          <div class="mb-5">
             <label for="title" class="form-label">Title</label>
-            <input class="form-control border border-primary" id="title" placeholder="Enter event title">
+            <input class="form-control border-create" name="title" id="title" placeholder="Enter event title">
           </div>
-        <div class="form-group mb-5">
+        <div class="mb-5">
             <label for="description">Description</label>
-            <textarea class="form-control border border-primary" id="description" rows="5"></textarea>
-          </div>
-        <div class="form-group mb-5">
-            <label for="location" class="form-label">Location</label>
-            <input class="form-control border border-primary" id="location" placeholder="Enter physical address or online URL">
+            <textarea class="form-control border-create" name="description" id="description" rows="5"></textarea>
           </div>
         </div>
         <div class="col">
-          <div class="form-group mb-5">
+          <div class="mb-5">
             <label for="date" class="form-label">Date and Time</label>
-            <input type="datetime-local" class="form-control border border-primary" id="date">
+            <input type="datetime-local" class="form-control border-create" name='date' id="date">
           </div>
-          <div class="form-group mb-5">
-            <label for="color" class="form-label">Color</label>
-            <select name="color" id="color">
-              <option value="red">Red</option>
-              <option value="orange">Orange</option>
-              <option value="yellow">Yellow</option>
-              <option value="green">Green</option>
-              <option value="blue">Blue</option>
-              <option value="purple">Purple</option>
-            </select>
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input class="form-control border-create" name="location" id="location" placeholder="Enter physical address or online URL">
+          </div>
+          <div class="mb-5">
+            <label for="image" class="form-label">Image Link</label>
+            <input type="text" class="form-control border-create" name="link" id="link" placeholder="Enter image url">
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Create Event</button>
+      <button type="submit" class="btn btn-create"  style="width: 100%">Create Event</button>
     </form>
 </div>
 {% endblock %}

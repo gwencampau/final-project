@@ -195,3 +195,35 @@ form p{
 .login-page{
     background-image: linear-gradient(to right, var(--main-midlight-blue), var(--main-white),var(--main-midlight-blue));
 }
+
+/*Gwen's hero image css*/
+.hero-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("calendar_banner_test.jpeg");
+  
+    height: 150px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+
+  .hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
+
+  .btn-create {
+    background-color: var(--main-dark-blue);
+    font-family: "Cabin", sans-serif;
+    color: white;
+  }
+
+  .border-create {
+    border-color: var(--main-dark-blue);
+  }
+  /*End*/
