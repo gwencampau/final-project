@@ -31,7 +31,7 @@ def friends():
 
 @app.route('/about')
 def about():
-    image = '/templates/images/about.png'
+   
     return render_template('about.html', data=about_data)
     
 @app.route('/event') #Will change routing to /<event_name> once DB is started
