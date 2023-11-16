@@ -1,6 +1,8 @@
 :root{
     font-family: 'Cabin', sans-serif;
     --main-light-blue: #A9B3CE;
+    --main-midlight-blue: #8E97B3;
+    --main-medium-blue: #606583;
     --main-dark-blue: #171738;
     --main-dark-grey: #474954;
     --main-light-grey: #BDBDBD;
@@ -26,7 +28,7 @@ nav ul {
 }
 nav ul li {
     display: inline-block;
-    margin-right: 2rem;
+    margin-left: 2rem;
 }
 nav ul a{
     text-decoration: none;
@@ -130,3 +132,66 @@ h1{
     
 }
 /*End Angelina's CSS for view event*/
+
+/* Login Page styling */
+
+.login{
+    background-color: var(--main-dark-blue);
+    color: var(--main-white);
+    text-align: center;
+    margin: auto;
+    margin-top: 20vh;
+    border-radius: 1rem;
+    max-width: 550px;
+}
+main.login{
+    box-shadow: 8px 5px 10px var(--main-midlight-blue);
+}
+
+main.login h1{
+    padding: 1.25rem 0rem;
+}
+form.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+form.login input{
+    margin-bottom: 1rem;
+}
+.switch_login{
+    padding-bottom: 1rem;
+}
+
+#email, #username, #password{
+    border-radius: 8px;
+    border-color: var(--main-midlight-blue);
+    border-style:solid;
+    border-width: 2px;
+    height: 2rem;
+    width: 70%;
+}
+#email:focus, #username:focus, #password:focus{
+    outline-color: var(--main-dark-blue);
+}
+
+#submit{
+    background-color: var(--main-midlight-blue);
+    color: var(--main-white);
+    border-radius: 8px;
+    border-style: none;
+    font-weight: 700;
+    padding: .3rem 1rem
+}
+#submit:active{
+    background-color: var(--main-medium-blue);
+}
+
+form p{
+    text-align: start;
+    font-size: small;
+    margin-bottom: 0;
+}
+.login-page{
+    background-image: linear-gradient(to right, var(--main-midlight-blue), var(--main-white),var(--main-midlight-blue));
+}
