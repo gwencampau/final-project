@@ -46,6 +46,10 @@ def faq():
 def login():
     return render_template('login.html')
 
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
 @app.get('/sign_up')
 def sign_up():
     return render_template('sign_up.html')
