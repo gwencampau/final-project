@@ -53,3 +53,11 @@ def profile():
 @app.get('/sign_up')
 def sign_up():
     return render_template('sign_up.html')
+
+@app.route('/FAQ/account')
+def account_faq():
+    return render_template('account_faq.html')
+
+@app.route('/FAQ/events')
+def events_faq():
+    return render_template('event_faq.html')
