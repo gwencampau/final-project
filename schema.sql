@@ -1,3 +1,5 @@
+CREATE DATABASE communifree;
+
 CREATE TABLE app_user (
     user_id SERIAL,
     username VARCHAR(20) NOT NULL,
