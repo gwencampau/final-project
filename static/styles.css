@@ -37,6 +37,12 @@ nav ul a{
 
 body{
     margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main{
+    flex: 1;
 }
 
 h1{
@@ -227,3 +233,31 @@ form p{
     border-color: var(--main-dark-blue);
   }
   /*End*/
+
+/* Footer Styling */
+footer {
+    background-color: var(--main-dark-blue);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+footer ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+footer ul li a:link{
+    text-decoration: none;
+    color: var(--main-white);
+}
+footer ul li a:visited{
+    text-decoration: none;
+    color: var(--main-white);
+}
+footer ul li a:hover{
+    text-decoration: underline;
+    color: var(--main-light-grey);
+}
+footer ul li:last-child{
+    font-size: small;
+}
