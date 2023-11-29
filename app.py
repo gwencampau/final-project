@@ -1,10 +1,12 @@
 from flask import Flask, redirect, render_template, request, abort
 
-from src.models import db, AppUser
+from src.models import db, AppUser, Event
 
 import os
 
 app = Flask(__name__)
+
+#app.app_context().push() #this allowed me to test adding things to the database in this file
 
 app.config['SQLALCHEMY_DATABASE_URI'] = \
      f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/communifree'
