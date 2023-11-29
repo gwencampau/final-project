@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, abort
 
-from src.models import db, AppUser
+from src.models import db, app_user, event, participatingIn, friends
+from src.repositories.communifree_repository import communifree_repository_singleton
 
 import os
 
@@ -17,8 +18,60 @@ test_create_form_data = []
 
 @app.get('/')
 def index():
-    all_users = AppUser.query.all()
+
+    all_users = communifree_repository_singleton.get_all_users()
     print(all_users)
+
+    select_user = communifree_repository_singleton.get_user_by_id(27)
+    print(select_user)
+
+    # all_users = app_user.query.all()
+    # print(all_users)
+    # all_events = event.query.all()
+    # print(all_events)
+    # test_thing = event.query.get(1)
+    # print(test_thing.event_id)
+    # user_event = app_user.query.get(1)
+    # print(user_event.author)
+    # all_participants = participatingIn.query.all()
+    # print(all_participants)
+    # all_friends = friends.query.all()
+    # print(all_friends)
+
+    # # db.session.query(app_user).delete()
+    # # db.session.commit()
+
+    # binary_data = "101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010"
+    # binary_data = bytes(binary_data, 'utf-8')
+    # new_user = app_user('Hello2', 'World2', binary_data, 'My bio 2')
+    # db.session.add(new_user)
+    # db.session.commit()
+    # print(new_user)
+
+    # # db.session.query(event).delete()
+    # # db.session.commit()
+
+    # new_event = event('Event Title', '10/31/2023', '11:00pm', 'image_link.com', 'This is my description for my ultra cool event.', ['cool', 'fun'], 1, True)
+    # db.session.add(new_event)
+    # db.session.commit()
+    # print(new_event)
+
+    # # db.session.query(participatingIn).delete()
+    # # db.session.commit()
+
+    # new_participant = participatingIn(1, 1)
+    # db.session.add(new_participant)
+    # db.session.commit()
+    # print(new_participant)
+
+    # # db.session.query(friends).delete()
+    # # db.session.commit()
+
+    # new_friend = friends(1, 2)
+    # db.session.add(new_friend)
+    # db.session.commit()
+    # print(new_friend)
+
     return render_template('index.html', events=all_events_data)
 
 @app.get('/create')
@@ -37,7 +90,7 @@ def create_event():
     return redirect('/')
 
 @app.route('/friends')
-def friends():
+def friends_list():
     return render_template('friends.html')
 
 @app.route('/about')
