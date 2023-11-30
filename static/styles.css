@@ -315,6 +315,13 @@ form p{
  p a:hover{
     text-decoration: underline;
  }
- 
+.accordion{
+    --bs-accordion-btn-focus-border-color: var(--main-dark-blue);
+    --bs-accordion-active-bg:var(--main-dark-blue);
+    --bs-accordion-active-color:var(--main-white);
+    font-family: 'Cabin', sans-serif;
+    
+
+}
   /*End*/
 
