@@ -10,11 +10,11 @@
                 <img src="/static/test.jpeg" alt="Data for class"   class="rounded img-event"> 
            
             <!----->
-            <div class="d-flex align-items-start justify-content-around">
+            <div class="d-flex align-items-start justify-content-center ">
 
-                <button type="button" class="btn btn-secondary btn-event" >Attend</button>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle btn-event" type="button"  data-bs-toggle="dropdown" >
+                <button type="button" class="btn btn-secondary btn-event btn-class" >Attend</button>
+                <div class="dropdown btn-class">
+                    <button class="btn btn-secondary dropdown-toggle btn-event " type="button"  data-bs-toggle="dropdown" >
                       Invite Friends
                     </button>
                     <ul class="dropdown-menu">
@@ -22,19 +22,23 @@
                       
                     </ul>
                   </div>
-                  <div class="dropdown">
+                  <div class="dropdown btn-class">
                     <button class="btn btn-event btn-secondary dropdown-toggle" type="button"   data-bs-toggle="dropdown" >
                       Share
                     </button>
                     <ul class="dropdown-menu" >
                       <li><a class="dropdown-item" href="#">link</a></li> <!--Get link from DB-->
                     </ul>
+                    
                   </div>
-                
+                  <form action="/event/edit" method="get">
+                    <button type="submit" class="btn btn-secondary btn-event btn-class">Edit event</button>
+                  </form>
             </div>
             <div class="d-flex justify-content-around">
                 <span  class="h2">Group: Test name</span><!--Will be converted once DB is done--> 
                 <span  class="h2"> Friends attending</span>
+                
             </div>
             <div  class="profile-div">
                 <img src="/static/test.jpeg"  class="rounded-circle profile-img" alt="Place holder" > 
