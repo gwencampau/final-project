@@ -31,9 +31,19 @@
                     </ul>
                     
                   </div>
-                  <form action="/event/edit" method="get">
-                    <button type="submit" class="btn btn-secondary btn-event btn-class">Edit event</button>
-                  </form>
+
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle btn-event" type="button"  data-bs-toggle="dropdown" >
+                      Edit
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Edit</a></li> 
+                      <li><a class="dropdown-item" href="/delete">delete</a></li> 
+                      
+                    </ul>
+                  </div>
+                
+
             </div>
             <div class="d-flex justify-content-around">
                 <span  class="h2">Group: Test name</span><!--Will be converted once DB is done--> 
