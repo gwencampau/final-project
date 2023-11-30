@@ -116,12 +116,13 @@ h1{
 /*Angelina's CSS for view event*/
 
 .btn-event {
-    width: 20vh; 
+    width: 15vh; 
     height:5vh;
 }
 .profile-div{
     overflow: auto;
-    white-space: nowrap; width:90vh;
+    white-space: nowrap; 
+    width:90vh;
 }
 .profile-img{
     display: inline-block;
@@ -130,6 +131,9 @@ h1{
 .img-event{
     width:90vh;
     
+}
+.btn-class{
+    margin: 10px;
 }
 /*End Angelina's CSS for view event*/
 
