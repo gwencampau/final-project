@@ -98,11 +98,10 @@ def create_event():
 
 @app.route('/friends')
 def friends_list():
-    return render_template('friends.html')
+    return render_template('/profile_sections/friends.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
 
 @app.route('/about')
 def about():
-   
     return render_template('about.html', data=about_data)
     
 @app.route('/event') #Will change routing to /<event_name> once DB is started
@@ -127,7 +126,12 @@ def login():
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username="@Username")
+
+@app.route('/settings')
+def settings():
+    return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
+
 
 @app.get('/sign_up')
 def sign_up():
