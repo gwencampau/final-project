@@ -1,3 +1,5 @@
+CREATE DATABASE communifree;
+
 CREATE TABLE app_user (
     user_id SERIAL,
     username VARCHAR(20) NOT NULL,
@@ -17,22 +19,25 @@ CREATE TABLE event (
     author_id INT NOT NULL,
     tags TEXT[] NULL,
     public BOOLEAN NOT NULL,
+    location VARCHAR(255) NOT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (author_id) REFERENCES app_user(user_id)
 );
 
-CREATE TABLE participatingIn(
+CREATE TABLE participating_in(
+    participating_id SERIAL,
     user_id INT NOT NULL,
     event_id INT NOT NULL,
-    PRIMARY KEY (user_id, event_id),
+    PRIMARY KEY (participating_id),
     FOREIGN KEY (user_id) REFERENCES app_user(user_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
 
 CREATE TABLE friends(
+    friend_id SERIAL,
     user1_id INT NOT NULL,
     user2_id INT NOT NULL,
-    PRIMARY KEY (user1_id, user2_id),
+    PRIMARY KEY (friend_id),
     FOREIGN KEY (user1_id) REFERENCES app_user(user_id),
     FOREIGN KEY (user2_id) REFERENCES app_user(user_id)
 );
