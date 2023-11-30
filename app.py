@@ -22,8 +22,8 @@ def index():
     all_users = communifree_repository_singleton.get_all_users()
     print(all_users)
 
-    select_user = communifree_repository_singleton.get_user_by_id(27)
-    print(select_user)
+    # select_user = communifree_repository_singleton.get_user_by_id(27)
+    # print(select_user)
 
     # all_users = app_user.query.all()
     # print(all_users)
@@ -51,7 +51,7 @@ def index():
     # # db.session.query(event).delete()
     # # db.session.commit()
 
-    # new_event = event('Event Title', '10/31/2023', '11:00pm', 'image_link.com', 'This is my description for my ultra cool event.', ['cool', 'fun'], 1, True)
+    # new_event = event('Event Title', '10/31/2023', '11:00pm', 'image_link.com', 'This is my description for my ultra cool event.', ['cool', 'fun'], 1, True, 'Location')
     # db.session.add(new_event)
     # db.session.commit()
     # print(new_event)

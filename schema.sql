@@ -19,6 +19,7 @@ CREATE TABLE event (
     author_id INT NOT NULL,
     tags TEXT[] NULL,
     public BOOLEAN NOT NULL,
+    location VARCHAR(255) NOT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (author_id) REFERENCES app_user(user_id)
 );
