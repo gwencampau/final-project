@@ -16,21 +16,25 @@
         <div class="col">
           <div class="mb-5">
             <label for="title" class="form-label">Title</label>
-            <input class="form-control border-create" name="title" id="title" placeholder="Enter event title">
+            <input class="form-control border-create" name="title" id="title" placeholder="Enter event title" required>
           </div>
         <div class="mb-5">
             <label for="description">Description</label>
-            <textarea class="form-control border-create" name="description" id="description" rows="5"></textarea>
+            <textarea class="form-control border-create" name="description" id="description" rows="5" required></textarea>
           </div>
+        <div class="mb-5">
+          <label class='form-check-label' for="public">Public?</label>
+          <input class='form-check-input' type="checkbox" name="public" id="public">
+        </div>
         </div>
         <div class="col">
           <div class="mb-5">
             <label for="date" class="form-label">Date and Time</label>
-            <input type="datetime-local" class="form-control border-create" name='date' id="date">
+            <input type="datetime-local" class="form-control border-create" name='date' id="date" required>
           </div>
           <div class="mb-3">
             <label for="location" class="form-label">Location</label>
-            <input class="form-control border-create" name="location" id="location" placeholder="Enter physical address or online URL">
+            <input class="form-control border-create" name="location" id="location" placeholder="Enter physical address or online URL" required>
           </div>
           <div class="mb-5">
             <label for="image" class="form-label">Image Link</label>

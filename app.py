@@ -38,6 +38,14 @@ def about():
 def events():
     return render_template('view_event.html')
 
+@app.get('/event/edit')
+def edit_event_page():
+    return render_template('edit_event.html')
+
+@app.post('/event/edit')
+def edit_event():
+    return redirect('/event')
+
 @app.route('/FAQ')
 def faq():
     return render_template('main_faq.html')
