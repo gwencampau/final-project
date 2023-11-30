@@ -3,16 +3,27 @@
 {% block title %}About{% endblock %}
 
 {% block body %}
-
-<div class="d-flex bd-highlight justify-content-center ">
-    {%for x in data%}
-    <div class="p-2 bd-highlight mx-5">
-        <h3>{{x["title"]}}</h3>
-        <p>{{x["info"]}}</p>
-    </div>
-    {%endfor%}
-  </div>
-
+<main>
+  <div class="banner">About Us</div>
+  <section class="about">
+    <h3>What is Communifree?</h3>
+    <p>Commifree is an app where people can plan and attend events.
+      Unlike other apps, Communifree allow individuals to create events instead of big groups.
+      Our mission is to help people create authentic and lifelong friendships. </p>
+  </section>
+  <section class="about">
+    <h3>Who is Communifree for?</h3>
+    <p>Communifree is for all adults looking to meet new people or exploring new hobbies.
+      They can range from someone moving to a new city and looking for new friends to a grandma wanting to host a
+      knitting party.
+    </p>
+  </section>
+  <section class="about_container">
+      <h3>Contact Us</h3>
+      <p>Phone: <a href="tel:+">xxx-xxx-xxxx</a></p>
+      <p>Email: <a href="mailto:">communifree@gmail.com</a></p>
+  </section>
+  <p>Have any question? Click <a href="/FAQ"><strong>here</strong></a> to go to our FAQ page</p>
+</main>
 
 {% endblock %}
-

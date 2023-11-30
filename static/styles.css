@@ -238,6 +238,103 @@ form p{
   }
   /*End*/
 
+  /*Kiana's CSS*/
+  .banner{
+    background-image: linear-gradient(to right, var(--main-dark-blue), var(--main-medium-blue),var(--main-dark-blue));
+    height: 5rem;
+    color: var(--main-white);
+    font-family: "Cabin", sans-serif;
+    font-weight: 600;
+    font-size: 2em;
+    text-align: center;
+    padding: 1rem;
+  }
+  .main_text{
+    text-align: center;
+    font-family: "Cabin", sans-serif;
+    padding: 1rem;
+  }
+  .container_faq{
+    display: flex;
+    gap: 1rem;
+    justify-content: space-evenly;
+    
+  }
+  
+  .buttons_faq{
+    background-color: var(--main-medium-blue);
+    box-shadow: 0 5px 10px 0 rgba(17,12, 46 , 0.8) ;
+    color: var(--main-white);
+    font-family: "Cabin", sans-serif;
+    font-size: 1.5rem;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    height: 250px;
+    width: 290px;
+    justify-content: center;
+  }
+  .container_faq button:hover{
+    background-color: var(--main-light-grey);
+  }
+  .accordion{
+    padding: 0.5rem;
+  }
+ .image_icon{
+    display: flex;
+    font-family: "Cabin", sans-serif;
+    text-decoration: underline;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+ }
+ .faq_backbtn{
+    text-decoration: none;
+    font-family: "Cabin", sans-serif;
+    color: var(--main-dark-blue);
+    border: transparent;
+ }
+ .faq_backbtn:hover{
+    color: var(--main-medium-blue);
+    text-decoration: underline;  
+ }
+
+ .about{
+    font-family: "Cabin", sans-serif;
+    text-align: center;
+    
+ }
+ .about h3{
+    text-decoration: underline;
+ }
+ .about_container{
+    font-family: "Cabin", sans-serif;
+    display: flex;
+    flex-direction: column;
+ }
+ .about_container + p{
+    font-family: 'Cabin', sans-serif;
+    font-size: 0.9rem;
+ }
+ p a{
+    text-decoration: none;
+    color: black;
+ }
+ p a:hover{
+    text-decoration: underline;
+ }
+.accordion{
+    --bs-accordion-btn-focus-border-color: var(--main-dark-blue);
+    --bs-accordion-active-bg:var(--main-dark-blue);
+    --bs-accordion-active-color:var(--main-white);
+    font-family: 'Cabin', sans-serif;
+    
+
+}
+  /*End*/
+
 /* Footer Styling */
 footer {
     background-color: var(--main-dark-blue);
