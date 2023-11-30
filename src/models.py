@@ -47,8 +47,9 @@ class event(db.Model):
     user = db.relationship('app_user', backref='author')
     # public BOOLEAN NOT NULL,
     public = db.Column(db.Boolean, nullable=False)
+    location = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, title: str, date: str, time: str, image_link: str, description: str, tags: list, author_id: int, public: bool):
+    def __init__(self, title: str, date: str, time: str, image_link: str, description: str, tags: list, author_id: int, public: bool, location: str):
         self.title = title
         self.date = date
         self.time = time
@@ -57,9 +58,10 @@ class event(db.Model):
         self.tags = tags
         self.author_id = author_id
         self.public = public
+        self.location = location
     
     def __repr__(self) -> str:
-        return f'Event({self.event_id}, {self.title}, {self.date}, {self.time}, {self.image_link}, {self.description}, {self.author_id}, {self.public})'
+        return f'Event({self.event_id}, {self.title}, {self.date}, {self.time}, {self.image_link}, {self.description}, {self.author_id}, {self.public}, {self.location})'
     
 
 

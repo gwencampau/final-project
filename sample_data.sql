@@ -7,9 +7,9 @@ VALUES
 SELECT * FROM app_user;
 
 
-INSERT INTO event (event_id, title, date, time, image_link, author_id, public)
+INSERT INTO event (event_id, title, date, time, image_link, author_id, public, location)
 VALUES
-    (1, 'Football', '11/28/2023', '10:00pm', 'image link', 1, true)
+    (1, 'Football', '11/28/2023', '10:00pm', 'image link', 1, true, 'Location')
 ;
 
 SELECT * FROM event;

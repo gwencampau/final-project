@@ -22,7 +22,6 @@ def index():
     
     #all_users = communifree_repository_singleton.get_all_users()
     #print(all_users)
-
     #select_user = communifree_repository_singleton.get_user_by_id(27)
     #print(select_user)
 
@@ -52,7 +51,7 @@ def index():
     # # db.session.query(event).delete()
     # # db.session.commit()
 
-    # new_event = event('Event Title', '10/31/2023', '11:00pm', 'image_link.com', 'This is my description for my ultra cool event.', ['cool', 'fun'], 1, True)
+    # new_event = event('Event Title', '10/31/2023', '11:00pm', 'image_link.com', 'This is my description for my ultra cool event.', ['cool', 'fun'], 1, True, 'Location')
     # db.session.add(new_event)
     # db.session.commit()
     # print(new_event)
@@ -110,6 +109,14 @@ def about():
 def events():
     return render_template('view_event.html')
 
+@app.get('/event/edit')
+def edit_event_page():
+    return render_template('edit_event.html')
+
+@app.post('/event/edit')
+def edit_event():
+    return redirect('/event')
+
 @app.route('/FAQ')
 def faq():
     return render_template('main_faq.html')
@@ -125,3 +132,11 @@ def profile():
 @app.get('/sign_up')
 def sign_up():
     return render_template('sign_up.html')
+
+@app.route('/FAQ/account')
+def account_faq():
+    return render_template('account_faq.html')
+
+@app.route('/FAQ/events')
+def events_faq():
+    return render_template('event_faq.html')
