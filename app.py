@@ -4,6 +4,7 @@ from src.models import db, app_user, event, participatingIn, friends
 from src.repositories.communifree_repository import communifree_repository_singleton
 
 import os
+import datetime
 
 app = Flask(__name__)
 
@@ -80,13 +81,21 @@ def create_form():
 
 @app.post('/create')
 def create_event():
-    #This is all just temporary to test that the form works until database is set up
+    #Still in progress testing this
     title = request.form.get("title")
     description = request.form.get("description")
     location = request.form.get("location")
-    date = request.form.get("date")
+    whole_date = datetime(request.form.get("date"))
+    date = whole_date.date 
+    time = whole_date.time
     link = request.form.get("link")
-    test_create_form_data.append({title:[description, location, date, link]})
+    public = request.form.get("public")
+    if not public:
+        public = False
+    public = True
+    new_event = event(title=title, description=description, location=location, date=date, time=time, image_link=link, public=public)
+    db.session.add(new_event)
+    db.session.commit()
     return redirect('/')
 
 @app.route('/friends')
@@ -102,7 +111,7 @@ def about():
 def events():
     return render_template('view_event.html')
 
-@app.get('/event/edit')
+@app.get('/event/edit') 
 def edit_event_page():
     return render_template('edit_event.html')
 
