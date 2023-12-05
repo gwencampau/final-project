@@ -1,0 +1,55 @@
+{% extends '_layout.html' %}
+
+{% block title %}Search Events{% endblock %}
+
+{% block body %}
+
+<div class="hero-image">
+    <div class="hero-text">
+      <h1>Events</h1>
+    </div>
+</div>
+
+<section class="list-all-events">
+
+    <form action="/events/search" method="get" class="mb-5">
+        <div class="input-group">
+            <input type="text" placeholder="Search Events" name="q" id="q" class="form-control" autocomplete="off">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <div style="margin-top: 100px;"></div>
+
+    <p id="events-all" style="color: white;">_</p>
+    <p style="color: white;">_</p>
+
+    <h1>Search Results for {{ search_query }}</h1>
+
+    <div class="all-events card-group card-group-scroll">
+    {% for event in events %}
+        <div class="card">
+            <div class="event">
+                {% if event.image_link == 'image_link.com' %}
+                    <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top" alt="...">
+                {% else %}
+                    <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top" alt="...">
+                {% endif %}
+                <div class="card-body">
+                <h5 class="card-title">{{ event.title }}</h5>
+                <p class="card-text">{{ event.description }}</p>
+                <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+                <form action="/event/{{ event.event_id }}" method="get">
+                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+</section>
+
+{% endblock %}

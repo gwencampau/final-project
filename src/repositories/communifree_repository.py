@@ -1,4 +1,3 @@
-# This highkey doesn't work at the moment
 from src.models import app_user, event, participatingIn, friends, db
 
 class CommunifreeRepository:
@@ -18,6 +17,10 @@ class CommunifreeRepository:
     def get_event_by_id(self, id):
         select_event = event.query.get(id)
         return select_event
+    
+    def search_events(self, title: str):
+        searched_event = event.query.filter(event.title.ilike(title)).all()
+        return searched_event
 
 # Singleton to be used in other modules
 communifree_repository_singleton = CommunifreeRepository()
