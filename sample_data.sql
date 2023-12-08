@@ -1,7 +1,7 @@
-INSERT INTO app_user (user_id, username, password, profile_img, bio)
+INSERT INTO app_user (user_id, email, username, password, profile_img, bio)
 VALUES
-    (1, 'Aaron', 'Rodgers', 'img1', 'My bio 1'),
-    (2, 'Jordan', 'Love', 'img2', 'My bio 2')
+    (1, 'arod@example.com', 'Aaron', 'Rodgers', 'img1', 'My bio 1'),
+    (2, 'jlove@example.com', 'Jordan', 'Love', 'img2', 'My bio 2')
 ;
 
 SELECT * FROM app_user;
