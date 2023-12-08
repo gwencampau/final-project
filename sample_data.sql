@@ -7,9 +7,12 @@ VALUES
 SELECT * FROM app_user;
 
 
-INSERT INTO event (event_id, title, date, time, image_link, author_id, public, location)
+INSERT INTO event (event_id, title, date, time, image_link, description, author_id, tags, public, location)
 VALUES
-    (1, 'Football', '11/28/2023', '10:00pm', 'image link', 1, true, 'Location')
+    (1, 'Football', '11/28/2023', '10:00pm', 'https://www.fisu.net/app/uploads/2023/08/american_football.jpg', 'Let us play football outside in my backyard!', 1, ARRAY['cool', 'fun'], true, 'Location'),
+    (2, 'Superbowl Watch Party', '02/11/2024', '08:00pm', 'https://e1.365dm.com/17/01/2048x1152/skysports-super-bowl_3879214.jpg', 'Superbowl night! Who is going to win! Watch with us!',2, ARRAY['cool', 'sports'], true, 'Location'),
+    (3, 'Football 2', '12/28/2023', '10:00pm', 'https://www.fisu.net/app/uploads/2023/08/american_football.jpg', 'Let us play football outside in my backyard!', 1, ARRAY['cool', 'fun'], true, 'Location'),
+    (4, 'Superbowl', '02/13/2024', '08:00pm', 'https://e1.365dm.com/17/01/2048x1152/skysports-super-bowl_3879214.jpg', 'Superbowl night! Who is going to win! Watch with us!',2, ARRAY['cool', 'sports'], true, 'Location')
 ;
 
 SELECT * FROM event;

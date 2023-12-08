@@ -50,7 +50,28 @@ h1{
 }
 
 
-/* All Events Page */
+/* Hallie - All Events Page */
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--main-light-grey); 
+  }
+
 
 .list-all-events {
     padding: 50px 150px;
@@ -67,12 +88,28 @@ h1{
     border: 1px solid lightgray;
     border-radius: 10px;
     width: 350px;
+    height: 450px;
+    margin-bottom: 10px;
 }
 
 .card-img-top {
+    position: relative;
     width: 100%;
-    height: 40%;
+    height: 150px;
     object-fit: cover;
+}
+
+.past-event {
+    filter: brightness(50%);
+}
+
+.blank-event {
+    filter: brightness(0%);
+}
+
+.card {
+    width: 50%;
+    gap: 100px;
 }
 
 @media (min-width: 576px) {
@@ -97,10 +134,27 @@ h1{
 
 .card-title {
     font-weight: 700;
+    position: absolute;
+    top: 180px;
+}
+
+.card-text {
+    position: absolute;
+    top: 220px;
+}
+
+.card-date {
+    position: absolute;
+    top: 70%;
 }
 
 .card-text .card-date {
     color: var(--main-dark-grey);
+}
+
+.detail-btn {
+    position: absolute;
+    bottom: 40px;
 }
 
 .top-btn {

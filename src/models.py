@@ -38,7 +38,7 @@ class event(db.Model):
     # image_link VARCHAR(500) NULL, --I made this varchar instead of bytea since currently our images work by submitting a link
     image_link = db.Column(db.String(500), nullable=True)
     # description VARCHAR(255) NULL,
-    description = db.Column(db.String(255), nullable=True)
+    description = db.Column(db.String(150), nullable=True)
     # tags TEXT[] NULL
     tags = db.Column(db.ARRAY(db.String))
     # author_id INT NOT NULL,

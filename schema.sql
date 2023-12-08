@@ -15,7 +15,7 @@ CREATE TABLE event (
     date DATE NOT NULL,
     time TIME NOT NULL,
     image_link VARCHAR(500) NULL, --I made this varchar instead of bytea since currently our images work by submitting a link
-    description VARCHAR(255) NULL,
+    description VARCHAR(150) NULL,
     author_id INT NOT NULL,
     tags TEXT[] NULL,
     public BOOLEAN NOT NULL,

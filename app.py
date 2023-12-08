@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, request, abort
+from datetime import date, datetime
 
 from src.models import db, app_user, event, participatingIn, friends
 from src.repositories.communifree_repository import communifree_repository_singleton
@@ -17,6 +18,7 @@ db.init_app(app)
 about_data = [{"title":"Fpeeling lonely?", "info":"Well CommuniFree is for you!"},{"title":"Cash strapped?", "info":"Test"},{"title":"For humans by humans", "info":"Test"}]
 all_events_data = [{'title': 'ITSC-3155', 'desc': 'Come join us for our weekly meeting on how to cope with a world that has Figma in it!', 'image': 'https://stanforddaily.com/wp-content/uploads/2022/04/chris-ried-ieic5Tq8YMk-unsplash-scaled.jpg', 'date': 'November 13th, 2023'},{'title': 'Graduation Life', 'desc': 'Sad you are not able to graduate just yet? We are too! Join us to cope about this. Pretend to walk the stage with us.', 'image': 'https://stanforddaily.com/wp-content/uploads/2022/04/chris-ried-ieic5Tq8YMk-unsplash-scaled.jpg', 'date': 'November 14th, 2023'},{'title': 'Chancellor Escape Room', 'desc': 'It is time to escape the GABER MANSION! AHHHHHHHHHHHHH! Join us for food and a chance at free tutition.', 'image': 'https://stanforddaily.com/wp-content/uploads/2022/04/chris-ried-ieic5Tq8YMk-unsplash-scaled.jpg', 'date': 'November 15th, 2023'},{'title': 'TA Office Hours', 'desc': 'Hi. We are a couple of students who kinda know what we are doing. Maybe we can help? No promises though.','image': 'https://stanforddaily.com/wp-content/uploads/2022/04/chris-ried-ieic5Tq8YMk-unsplash-scaled.jpg', 'date': 'November 16th, 2023'},{'title': 'Norm', 'desc': 'norm wants your soul give him your soul give him your soul now go niners will he PICK your soul come give us your soul', 'image': 'https://stanforddaily.com/wp-content/uploads/2022/04/chris-ried-ieic5Tq8YMk-unsplash-scaled.jpg', 'date': 'April 9th, 1949'}]
 test_create_form_data = []
+display_events = []
 
 @app.get('/')
 def index():
@@ -29,6 +31,7 @@ def index():
     #all_users = app_user.query.all()
     #print(all_users)
     # all_events = event.query.all()
+    # today = date.today()
     # print(all_events)
     # test_thing = event.query.get(1)
     # print(test_thing.event_id)
@@ -73,7 +76,22 @@ def index():
     # db.session.commit()
     # print(new_friend)
 
-    return render_template('index.html', events=all_events_data)
+    all_events = event.query.all()
+    today = date.today()
+    print(all_events)
+    
+    return render_template('index.html', events=all_events, today=today)
+
+@app.get('/events/search')
+def search_events():
+    found_events = []
+    q = request.args.get('q', '')
+    if q != '':
+        found_events = communifree_repository_singleton.search_events(q)
+        return render_template('search_events.html', search_active=True, events=found_events, search_query=q)
+    else:
+        return index()
+
 
 @app.get('/delete') #Will change routing to /<event_name> once DB is troubleshot
 def delete_event():
