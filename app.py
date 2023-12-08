@@ -7,6 +7,9 @@ from src.repositories.communifree_repository import communifree_repository_singl
 
 import os
 import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
