@@ -5,8 +5,10 @@ db = SQLAlchemy()
 class app_user(db.Model):
     # user_id SERIAL,
     user_id = db.Column(db.Integer, primary_key=True)
+    # email VARCHAR(50) NOT NULL,
+    email = db.Column(db.String(255), nullable=False)
     # username VARCHAR(20) NOT NULL,
-    username = db.Column(db.String(20), nullable=False)
+    username = db.Column(db.String(20), nullable=False, unique=True)
     # password VARCHAR(255) NOT NULL,
     password = db.Column(db.String(255), nullable=False)
     # profile_img VARCHAR(10) NULL, --Postgres does not support BLOB so I had to find an alternative
@@ -14,14 +16,15 @@ class app_user(db.Model):
     # bio VARCHAR(150) NULL,
     bio = db.Column(db.String(150), nullable=True)
 
-    def __init__(self, username: str, password: str, profile_img: str, bio: str):
+    def __init__(self, email: str, username: str, password: str, profile_img: str, bio: str):
+        self.email = email
         self.username = username
         self.password = password
         self.profile_img = profile_img
         self.bio = bio
 
     def __repr__(self) -> str:
-        return f'User({self.user_id}, {self.username}, {self.password}, {self.profile_img}, {self.bio})'
+        return f'User({self.user_id}, {self.email}, {self.username}, {self.password}, {self.profile_img}, {self.bio})'
 
 
 

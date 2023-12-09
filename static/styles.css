@@ -227,6 +227,10 @@ form.login input{
     padding-bottom: 1rem;
 }
 
+.switch_login a{
+    color: var(--main-midlight-blue);
+}
+
 #email, #username, #password{
     border-radius: 8px;
     border-color: var(--main-midlight-blue);

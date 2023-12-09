@@ -2,7 +2,8 @@ CREATE DATABASE communifree;
 
 CREATE TABLE app_user (
     user_id SERIAL,
-    username VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    username VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     profile_img bytea NULL, --Postgres does not support BLOB so I had to find an alternative
     bio VARCHAR(150) NULL,
