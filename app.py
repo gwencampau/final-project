@@ -137,6 +137,16 @@ def faq():
 def login():
     return render_template('login.html')
 
+@app.route('/login_form', methods=['POST', 'GET'])
+def login_post():
+    username = request.form.get("username")
+    raw_password = request.form.get("password")
+    existing_user = app_user.query.filter_by(username=username).first()
+    if existing_user and bcrypt.check_password_hash(existing_user.password, raw_password):
+        return redirect('/')
+    else:
+        return render_template('login.html', show_wrong=True)
+
 @app.route('/profile')
 def profile():
     return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username="@Username")
