@@ -19,7 +19,7 @@ class CommunifreeRepository:
         return select_event
     
     def search_events(self, title: str):
-        searched_event = event.query.filter(event.title.ilike(title)).all()
+        searched_event = event.query.filter(event.title.ilike(f"%{title}%")).all()
         return searched_event
 
 # Singleton to be used in other modules
