@@ -255,6 +255,11 @@ form.login input{
     background-color: var(--main-medium-blue);
 }
 
+form p.wrong{
+    color: red;
+    margin-bottom: 5px;
+}
+
 form p{
     text-align: start;
     font-size: small;
