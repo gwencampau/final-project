@@ -8,6 +8,9 @@ from flask_bcrypt import Bcrypt
 
 import os
 import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
