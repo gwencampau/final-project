@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, abort
+from flask import Flask, redirect, render_template, request, abort, session
 from datetime import date, datetime
 
 from src.models import db, app_user, event, participatingIn, friends
@@ -16,6 +16,8 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = \
      f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/communifree'
+
+app.secret_key = 'chicken_nuggies'
 
 db.init_app(app)
 
@@ -86,6 +88,8 @@ def index():
     all_events = event.query.all()
     today = date.today()
     print(all_events)
+    if 'username' in session:
+        return render_template('index.html', events=all_events, today=today, in_session = True)
     
     return render_template('index.html', events=all_events, today=today)
 
@@ -94,7 +98,9 @@ def search_events():
     found_events = []
     q = request.args.get('q', '')
     if q != '':
-        found_events = communifree_repository_singleton.search_events(q)
+        if 'username' in session:
+            found_events = communifree_repository_singleton.search_events(q)
+            return render_template('search_events.html', search_active=True, events=found_events, search_query=q,in_session = True)
         return render_template('search_events.html', search_active=True, events=found_events, search_query=q)
     else:
         return index()
@@ -109,6 +115,8 @@ def delete_event():
 
 @app.get('/create')
 def create_form():
+    if 'username' in session:
+        return render_template('create_event.html',in_session=True)
     return render_template('create_event.html')
 
 @app.post('/create')
@@ -132,14 +140,20 @@ def create_event():
 
 @app.route('/friends')
 def friends_list():
+    if 'username' in session:
+        return render_template('/profile_sections/friends.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session = True)
     return render_template('/profile_sections/friends.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
 
 @app.route('/about')
 def about():
-    return render_template('about.html', data=about_data)
+    if 'username' in session:
+        return render_template('about.html',in_session = True)
+    return render_template('about.html')
     
 @app.route('/event') #Will change routing to /<event_name> once DB is started
 def events():
+    if 'username' in session:
+        return render_template('view_event.html',in_session=True)
     return render_template('view_event.html')
 
 @app.get('/event/edit') 
@@ -152,10 +166,14 @@ def edit_event():
 
 @app.route('/FAQ')
 def faq():
+    if 'username' in session:
+        return render_template('main_faq.html',in_session=True)
     return render_template('main_faq.html')
 
 @app.get('/login')
 def login():
+    if 'username' in session:
+        return redirect('/')
     return render_template('login.html')
 
 @app.route('/login_form', methods=['POST', 'GET'])
@@ -164,21 +182,28 @@ def login_post():
     raw_password = request.form.get("password")
     existing_user = app_user.query.filter_by(username=username).first()
     if existing_user and bcrypt.check_password_hash(existing_user.password, raw_password):
+        session['username'] = username
         return redirect('/')
     else:
         return render_template('login.html', show_wrong=True)
 
 @app.route('/profile')
 def profile():
-    return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username="@Username")
+    if 'username' in session:
+        return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username=session['username'],in_session = True)
+
+    return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username='@username')
 
 @app.route('/settings')
 def settings():
-    return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
+    if 'username' in session:
+        return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session= True)
 
 
 @app.get('/sign_up')
 def sign_up():
+    if 'username' in session:
+        return redirect('/')
     return render_template('sign_up.html')
 
 @app.post('/sign_up_form')
@@ -197,8 +222,12 @@ def sign_up_post():
 
 @app.route('/FAQ/account')
 def account_faq():
+    if 'username' in session:
+       return render_template('account_faq.html',in_session = True) 
     return render_template('account_faq.html')
 
 @app.route('/FAQ/events')
 def events_faq():
+    if 'username' in session:
+        return render_template('event_faq.html',in_session= True)
     return render_template('event_faq.html')

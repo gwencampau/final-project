@@ -15,6 +15,15 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    {% if in_session %}
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <!--Login should be "Profile" when logged in, so We'll need to create that feature at some point"-->
+        </ul>
+    </nav>
+    {% else %}
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
@@ -22,6 +31,7 @@
             <!--Login should be "Profile" when logged in, so We'll need to create that feature at some point"-->
         </ul>
     </nav>
+    {% endif %}
     <main>
     {% block body %}{% endblock %}
     </main>
