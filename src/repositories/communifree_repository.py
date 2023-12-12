@@ -19,7 +19,7 @@ class CommunifreeRepository:
         return select_event
     
     def search_events(self, title: str):
-        searched_event = event.query.filter(event.title.ilike(title)).all()
+        searched_event = event.query.filter(event.title.ilike(f"%{title}%")).all()
         return searched_event
     def get_friends_by_event(self, id):
         # Instructor.query.filter_by(last_name='Garner').all()
