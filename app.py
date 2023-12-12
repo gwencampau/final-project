@@ -244,3 +244,8 @@ def events_faq():
     if 'username' in session:
         return render_template('event_faq.html',in_session= True)
     return render_template('event_faq.html')
+
+@app.post('/logout')
+def logout():
+    del session['username']
+    return redirect('/')
