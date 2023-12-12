@@ -7,6 +7,7 @@ from src.repositories.communifree_repository import communifree_repository_singl
 from flask_bcrypt import Bcrypt
 
 import os
+
 import datetime
 from dotenv import load_dotenv
 
@@ -106,11 +107,11 @@ def search_events():
         return index()
 
 
-@app.get('/delete') #Will change routing to /<event_name> once DB is troubleshot
-def delete_event():
-    # del = communifree_repository_singleton.get_event_by_id(x)
-    # db.session.delete(del)
-    # db.session.commit()
+@app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot
+def delete_event(event_id):
+    delete = communifree_repository_singleton.get_event_by_id(event_id)
+    db.session.delete(delete)
+    db.session.commit()
     return render_template('delete.html')
 
 @app.get('/create')
@@ -125,17 +126,26 @@ def create_event():
     title = request.form.get("title")
     description = request.form.get("description")
     location = request.form.get("location")
-    whole_date = datetime(request.form.get("date"))
-    date = whole_date.date 
-    time = whole_date.time
+    date = request.form.get('date')
+    time = request.form.get('time')
     link = request.form.get("link")
     public = request.form.get("public")
     if not public:
         public = False
     public = True
-    new_event = event(title=title, description=description, location=location, date=date, time=time, image_link=link, public=public)
-    db.session.add(new_event)
-    db.session.commit()
+    tags=[]
+    if request.form.get('music'):
+        tags.append('music')
+    if request.form.get('sports'):
+        tags.append('sports')
+    if request.form.get('gaming'):
+        tags.append('gaming')
+    if request.form.get('tech'):
+        tags.append('tech')
+    if request.form.get('crafts'):
+        tags.append('crafts')
+    event=communifree_repository_singleton.create_event(title, description, location, date, time, link, public, tags)
+    print(event)
     return redirect('/')
 
 @app.route('/friends')
@@ -150,11 +160,14 @@ def about():
         return render_template('about.html',in_session = True)
     return render_template('about.html')
     
-@app.route('/event') #Will change routing to /<event_name> once DB is started
-def events():
+
+@app.route('/event/<int:event_id>') #Will change routing to /<event_name> once DB is started
+def events(event_id):
+    event_data = communifree_repository_singleton.get_event_by_id(event_id)
+    event_friends = communifree_repository_singleton.get_friends_by_event(event_id)
     if 'username' in session:
-        return render_template('view_event.html',in_session=True)
-    return render_template('view_event.html')
+        return render_template('view_event.html', event_data=event_data,  event_friends= event_friends,in_session = True)
+    return render_template('view_event.html', event_data=event_data,  event_friends= event_friends)
 
 @app.get('/event/edit') 
 def edit_event_page():
