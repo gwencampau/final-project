@@ -125,8 +125,8 @@ def create_event():
         public = False
     public = True
     tags=[]
-    if request.form.get('cool'):
-        tags.append('cool')
+    if request.form.get('music'):
+        tags.append('music')
     if request.form.get('sports'):
         tags.append('sports')
     if request.form.get('gaming'):
