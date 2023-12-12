@@ -155,13 +155,17 @@ def events(event_id):
     
     return render_template('view_event.html', event_data=event_data,  event_friends= event_friends)
 
-@app.get('/event/edit') 
-def edit_event_page():
-    return render_template('edit_event.html')
+@app.get('/event/<int:event_id>/edit') 
+def edit_event_page(event_id):
+    event = communifree_repository_singleton.get_event_by_id(event_id)
+    if not event:
+        return "Event not in database", 400
+    title=event.title
+    return render_template('edit_event.html', id=event_id, title=title)
 
-@app.post('/event/edit')
-def edit_event():
-    return redirect('/event')
+@app.post('/event/<int:event_id>')
+def edit_event(event_id):
+    return redirect(f'/event/{event_id}')
 
 @app.route('/FAQ')
 def faq():
