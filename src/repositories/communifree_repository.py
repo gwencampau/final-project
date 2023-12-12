@@ -28,17 +28,20 @@ class CommunifreeRepository:
         searched_event = event.query.filter(event.title.ilike(f"%{title}%")).all()
         return searched_event
     def get_friends_by_event(self, id):
-        # Instructor.query.filter_by(last_name='Garner').all()
-        attending = (
-    db.session.query(app_user)
-    .join(participatingIn, app_user.user_id == participatingIn.user_id)
-    .join(friends, (friends.user1_id == app_user.user_id) | (friends.user2_id == app_user.user_id))
-    .filter(participatingIn.event_id == id)
-    .all()
-)
-        
+        #Updated to be more readable
+        attending = db.session.query(app_user)
+        attending = attending.join(participatingIn, app_user.user_id == participatingIn.user_id)
+        attending = attending.join(friends, (friends.user1_id == app_user.user_id) | (friends.user2_id == app_user.user_id))
+        attending = attending.filter(participatingIn.event_id == id).all()
         return attending
         
+    def delete_events(self, id):
 
+        #
+        test_part= participatingIn.query.filter_by(event_id=id).delete()
+        test_event = event.query.filter_by(event_id=id).delete()
+        db.session.commit()
+        
+        return ""
 # Singleton to be used in other modules
 communifree_repository_singleton = CommunifreeRepository()
