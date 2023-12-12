@@ -53,9 +53,8 @@ def search_events():
 
 @app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot
 def delete_event(event_id):
-    delete = communifree_repository_singleton.get_event_by_id(event_id)
-    db.session.delete(delete)
-    db.session.commit()
+    communifree_repository_singleton.delete_events(event_id)
+    
     return render_template('delete.html')
 
 @app.get('/create')
