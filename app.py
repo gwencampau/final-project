@@ -7,6 +7,7 @@ from src.repositories.communifree_repository import communifree_repository_singl
 from flask_bcrypt import Bcrypt
 
 import os
+
 import datetime
 from dotenv import load_dotenv
 
@@ -100,11 +101,11 @@ def search_events():
         return index()
 
 
-@app.get('/delete') #Will change routing to /<event_name> once DB is troubleshot
-def delete_event():
-    # del = communifree_repository_singleton.get_event_by_id(x)
-    # db.session.delete(del)
-    # db.session.commit()
+@app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot
+def delete_event(event_id):
+    delete = communifree_repository_singleton.get_event_by_id(event_id)
+    db.session.delete(delete)
+    db.session.commit()
     return render_template('delete.html')
 
 @app.get('/create')
@@ -138,9 +139,12 @@ def friends_list():
 def about():
     return render_template('about.html', data=about_data)
     
-@app.route('/event') #Will change routing to /<event_name> once DB is started
-def events():
-    return render_template('view_event.html')
+@app.route('/event/<int:event_id>') #Will change routing to /<event_name> once DB is started
+def events(event_id):
+    event_data = communifree_repository_singleton.get_event_by_id(event_id)
+    event_friends = communifree_repository_singleton.get_friends_by_event(event_id)
+    
+    return render_template('view_event.html', event_data=event_data,  event_friends= event_friends)
 
 @app.get('/event/edit') 
 def edit_event_page():
