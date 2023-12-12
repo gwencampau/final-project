@@ -10,11 +10,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap" rel="stylesheet">
+
    
+    
     
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    {% if in_session %}
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <!--Login should be "Profile" when logged in, so We'll need to create that feature at some point"-->
+        </ul>
+    </nav>
+    {% else %}
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
@@ -22,6 +33,7 @@
             <!--Login should be "Profile" when logged in, so We'll need to create that feature at some point"-->
         </ul>
     </nav>
+    {% endif %}
     <main>
     {% block body %}{% endblock %}
     </main>
