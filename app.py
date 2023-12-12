@@ -85,7 +85,6 @@ def create_event():
         tags.append('tech')
     if request.form.get('crafts'):
         tags.append('crafts')
-    print(time)
     event=communifree_repository_singleton.create_event(title, description, location, date, time, link, public, tags)
     print(event)
     return redirect('/')
