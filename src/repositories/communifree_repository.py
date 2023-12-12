@@ -24,9 +24,10 @@ class CommunifreeRepository:
         db.session.commit()
         return new_event
     
-    def search_events(self, title: str):
-        searched_event = event.query.filter(event.title.ilike(f"%{title}%")).all()
-        return searched_event
+    def search_events(self, title: str) -> list[event]:
+        found_events: list[event] = event.query.filter(event.title.ilike(f'%{title}%')).all()
+        return found_events
+    
     def get_friends_by_event(self, id):
         # Instructor.query.filter_by(last_name='Garner').all()
         attending = (
