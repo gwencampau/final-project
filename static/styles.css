@@ -13,7 +13,7 @@ nav{
     background-color: var(--main-dark-blue);
     color: var(--main-white);
     position: fixed;
-    z-index: 1;
+    z-index: 10;
     display: flex;
     align-items: center;
     top: 0;
@@ -72,7 +72,6 @@ h1{
     background: var(--main-light-grey); 
   }
 
-
 .list-all-events {
     padding: 50px 150px;
     font-family: "Cabin", sans-serif;
@@ -112,11 +111,73 @@ h1{
     gap: 100px;
 }
 
-@media (min-width: 576px) {
-    .card-group.card-group-scroll.all-events {
-        overflow-x: auto;
-        flex-wrap: nowrap;
+/* Smallest */
+@media (max-width: 999px) {
+    .event {
+        padding: 10px;
+        border: 1px solid lightgray;
+        border-radius: 10px;
+        width: 175px;
+        height: 250px;
+        margin-bottom: 10px;
+        margin-right: 100px;
     }
+
+    .card-img-top {
+        height: 75px;
+    }
+
+    .card-text {
+        font-size: 8px;
+    }
+
+    .card-title {
+        font-size: 12px;
+    }
+
+    .detail-btn {
+        margin-bottom: -15px;
+        font-size: 10px;
+    }
+
+    .card-date {
+        font-size: 8px;
+    }
+}
+
+/* Medium */
+@media (min-width: 1000px) and (max-width: 1450px) {
+    .event {
+        padding: 10px;
+        border: 1px solid lightgray;
+        border-radius: 10px;
+        width: 250px;
+        height: 350px;
+        margin-bottom: 10px;
+        margin-right: 100px;
+    }
+
+    .card-img-top {
+        height: 100px;
+    }
+
+    .card-text {
+        font-size: 12px;
+    }
+
+    .detail-btn {
+        margin-bottom: -15px;
+        font-size: 15px;
+    }
+
+    .card-date {
+        font-size: 12px;
+    }
+}
+
+.card-group.card-group-scroll.all-events {
+    overflow-x: auto;
+    flex-wrap: nowrap;
 }
 
 .card-group.card-group-scroll.all-events > .card {
@@ -134,18 +195,6 @@ h1{
 
 .card-title {
     font-weight: 700;
-    position: absolute;
-    top: 180px;
-}
-
-.card-text {
-    position: absolute;
-    top: 220px;
-}
-
-.card-date {
-    position: absolute;
-    top: 70%;
 }
 
 .card-text .card-date {
@@ -159,6 +208,10 @@ h1{
 
 .top-btn {
     text-align: center;
+}
+
+.t-btn {
+    margin: 10px;
 }
 
 .top {
