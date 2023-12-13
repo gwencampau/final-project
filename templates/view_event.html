@@ -12,7 +12,16 @@
             <!----->
             <div class="d-flex align-items-start justify-content-center ">
 
-                <button type="button" class="btn btn-secondary btn-event btn-class" >Attend</button>
+                <!-- <button type="button" href="/event/{{event_data.event_id}}/attend" class="btn btn-secondary btn-event btn-class" >Attend</button> -->
+                {% if not attending %}
+                  <form action="/event/{{event_data.event_id}}/attend" method="get">
+                    <button class="btn btn-secondary btn-event btn-class" type="submit">Attend</button>
+                  </form>
+                {% else %}
+                  <form action="/event/{{event_data.event_id}}/unattend" method="get">
+                    <button class="btn btn-danger btn-event btn-class" type="submit">Unattend</button>
+                  </form>
+                {% endif %}
                 
                   <div class="dropdown btn-class">
                     <button class="btn btn-event btn-secondary dropdown-toggle" type="button"   data-bs-toggle="dropdown" >
@@ -54,8 +63,8 @@
         <div class="col flex-item flex" > <!--Right column-->
             <h1> {{event_data.title}}</h1>
             <div class="d-flex align-items-start justify-content-around">
-                <p  class="text-muted">{{event_data.date}}</p>
-                <p  class="text-muted">{{event_data.time}}</p>
+                <p  class="text-muted">{{ event_data.date.strftime('%B %dth, %Y') }}</p>
+                <p  class="text-muted">{{ event_data.time.strftime('%I:%M%p') }}</p>
             </div>   
             <p> {{event_data.description}}</p>
             
