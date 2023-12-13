@@ -155,7 +155,7 @@ def profile():
 def settings():
     if 'username' in session:
         return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session= True)
-
+    return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
 
 @app.get('/sign_up')
 def sign_up():
