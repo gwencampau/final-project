@@ -23,6 +23,18 @@ class CommunifreeRepository:
         db.session.add(new_event)
         db.session.commit()
         return new_event
+
+    def update_event(self, event_id, title, description, location, date, time, image_link, public, tags):
+        curr_event = event.query.get(event_id)
+        curr_event.title = title
+        curr_event.description = description
+        curr_event.location = location
+        curr_event.date = date
+        curr_event.time = time
+        curr_event.image_link = image_link
+        curr_event.public = public
+        curr_event.tags = tags
+        db.session.commit()
     
     def search_events(self, title: str) -> list[event]:
         found_events: list[event] = event.query.filter(event.title.ilike(f'%{title}%')).all()
