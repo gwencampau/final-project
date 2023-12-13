@@ -27,29 +27,26 @@ bcrypt.init_app(app)
 
 about_data = [{"title":"Fpeeling lonely?", "info":"Well CommuniFree is for you!"},{"title":"Cash strapped?", "info":"Test"},{"title":"For humans by humans", "info":"Test"}]
 test_create_form_data = []
-display_events = []
 
 @app.get('/')
 def index():
     all_events = event.query.all()
     today = date.today()
-    no_events = [1, 2, 3, 4]
     if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, no_events=no_events, in_session = True)
-    return render_template('index.html', events=all_events, today=today, no_events=no_events)
+        return render_template('index.html', events=all_events, today=today, in_session = True)
+    return render_template('index.html', events=all_events, today=today)
 
 @app.get('/events/search')
 def search_events():
     found_events = []
     q = request.args.get('q', '')
     if q != '':
+        found_events = communifree_repository_singleton.search_events(q)
         if 'username' in session:
-            found_events = communifree_repository_singleton.search_events(q)
             return render_template('search_events.html', search_active=True, events=found_events, search_query=q,in_session = True)
         return render_template('search_events.html', search_active=True, events=found_events, search_query=q)
     else:
         return index()
-
 
 @app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot
 def delete_event(event_id):
