@@ -48,7 +48,7 @@
                             <h5 class="card-title">{{ event.title }}</h5>
                             <p class="card-text">{{ event.description }}</p>
                             <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
-                            <h6 class="card-date">{{ event.date.strftime('%I:%M%p') }}</h6>
+                            <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                             <form action="/event/{{ event.event_id }}" method="get">
                                 <button class="detail-btn btn btn-primary" type="submit">Details</button>
                             </form>
@@ -91,7 +91,7 @@
                                 <h5 class="card-title">{{ event.title }}</h5>
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
-                                <h6 class="card-date">{{ event.date.strftime('%I:%M%p') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                                 <form action="/event/{{ event.event_id }}" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
@@ -136,7 +136,7 @@
                                 <h5 class="card-title">{{ event.title }}</h5>
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
-                                <h6 class="card-date">{{ event.date.strftime('%I:%M%p') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                                 <form action="/event/{{ event.event_id }}" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
@@ -181,7 +181,7 @@
                                 <h5 class="card-title">{{ event.title }}</h5>
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
-                                <h6 class="card-date">{{ event.date.strftime('%I:%M%p') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                                 <form action="/event/{{ event.event_id }}" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
@@ -226,7 +226,7 @@
                                 <h5 class="card-title">{{ event.title }}</h5>
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
-                                <h6 class="card-date">{{ event.date.strftime('%I:%M%p') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                                 <form action="/event/{{ event.event_id }}" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
@@ -271,7 +271,7 @@
                                 <h5 class="card-title">{{ event.title }}</h5>
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
-                                <h6 class="card-date">{{ event.date.strftime('%I:%M%p') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                                 <form action="/event/{{ event.event_id }}" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
@@ -315,7 +315,7 @@
                             <h5 class="card-title">{{ event.title }}</h5>
                             <p class="card-text">{{ event.description }}</p>
                             <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
-                            <h6 class="card-date">{{ event.date.strftime('%I:%M%p') }}</h6>
+                            <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                             <form action="/event/{{ event.event_id }}" method="get">
                                 <button class="detail-btn btn btn-primary" type="submit">View</button>
                             </form>
