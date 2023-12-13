@@ -42,9 +42,9 @@
             <div class="event">
                 <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top" alt="...">
                 <div class="card-body">
-                <h5 class="card-title">{{ event.title }}</h5>
-                <p class="card-text">{{ event.description }}</p>
-                <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+                <h5 class="card-title all-events-cards">{{ event.title }}</h5>
+                <p class="card-text all-events-cards">{{ event.description }}</p>
+                <h6 class="card-date all-events-cards">{{ event.date }} {{ event.time }}</h6>
                 <form action="/event/{{ event.event_id }}" method="get">
                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                 </form>
@@ -68,9 +68,9 @@
             <div class="event">
                 <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top" alt="...">
                 <div class="card-body">
-                <h5 class="card-title">{{ event.title }}</h5>
-                <p class="card-text">{{ event.description }}</p>
-                <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+                <h5 class="card-title all-events-cards">{{ event.title }}</h5>
+                <p class="card-text all-events-cards">{{ event.description }}</p>
+                <h6 class="card-date all-events-cards">{{ event.date }} {{ event.time }}</h6>
                 <form action="/event/{{ event.event_id }}" method="get">
                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                 </form>
@@ -82,9 +82,9 @@
             <div class="event">
                 <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
                 <div class="card-body">
-                <h5 class="card-title">Coming Soon!</h5>
-                <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
-                <h6 class="card-date"> </h6>
+                <h5 class="card-title all-events-cards">Coming Soon!</h5>
+                <p class="card-text all-events-cards">Stay tuned for a new upcoming event or make your own!</p>
+                <h6 class="card-date all-events-cards"> </h6>
                 <form action="/create" method="get">
                     <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
                 </form>
@@ -109,9 +109,9 @@
             <div class="event">
                 <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top past-event" alt="...">
                 <div class="card-body">
-                <h5 class="card-title">{{ event.title }}</h5>
-                <p class="card-text">{{ event.description }}</p>
-                <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+                <h5 class="card-title all-events-cards">{{ event.title }}</h5>
+                <p class="card-text all-events-cards">{{ event.description }}</p>
+                <h6 class="card-date all-events-cards">{{ event.date }} {{ event.time }}</h6>
                 <form action="/event/{{ event.event_id }}" method="get">
                     <button class="detail-btn btn btn-primary" type="submit">View</button>
                 </form>
@@ -137,9 +137,9 @@
                     <div class="event">
                         <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top past-event" alt="...">
                         <div class="card-body">
-                        <h5 class="card-title">{{ event.title }}</h5>
-                        <p class="card-text">{{ event.description }}</p>
-                        <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+                        <h5 class="card-title all-events-cards">{{ event.title }}</h5>
+                        <p class="card-text all-events-cards">{{ event.description }}</p>
+                        <h6 class="card-date all-events-cards">{{ event.date }} {{ event.time }}</h6>
                         <form action="/event/{{ event.event_id }}" method="get">
                             <button class="detail-btn btn btn-primary" type="submit">View</button>
                         </form>
@@ -166,9 +166,9 @@
                     <div class="event">
                         <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top past-event" alt="...">
                         <div class="card-body">
-                        <h5 class="card-title">{{ event.title }}</h5>
-                        <p class="card-text">{{ event.description }}</p>
-                        <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+                        <h5 class="card-title all-events-cards">{{ event.title }}</h5>
+                        <p class="card-text all-events-cards">{{ event.description }}</p>
+                        <h6 class="card-date all-events-cards">{{ event.date }} {{ event.time }}</h6>
                         <form action="/event/{{ event.event_id }}" method="get">
                             <button class="detail-btn btn btn-primary" type="submit">View</button>
                         </form>
@@ -182,9 +182,9 @@
         <div class="event">
             <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
             <div class="card-body">
-            <h5 class="card-title">Coming Soon!</h5>
-            <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
-            <h6 class="card-date"> </h6>
+            <h5 class="card-title all-events-cards">Coming Soon!</h5>
+            <p class="card-text all-events-cards">Stay tuned for a new upcoming event or make your own!</p>
+            <h6 class="card-date all-events-cards"> </h6>
             <form action="/create" method="get">
                 <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
             </form>
@@ -195,9 +195,9 @@
         <div class="event">
             <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
             <div class="card-body">
-            <h5 class="card-title">Coming Soon!</h5>
-            <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
-            <h6 class="card-date"> </h6>
+            <h5 class="card-title all-events-cards">Coming Soon!</h5>
+            <p class="card-text all-events-cards">Stay tuned for a new upcoming event or make your own!</p>
+            <h6 class="card-date all-events-cards"> </h6>
             <form action="/create" method="get">
                 <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
             </form>
