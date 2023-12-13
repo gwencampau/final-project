@@ -137,7 +137,6 @@ def create_event():
     if request.form.get('crafts'):
         tags.append('crafts')
     event=communifree_repository_singleton.create_event(title, description, location, date, time, link, public, tags)
-    print(event)
     return redirect('/')
 
 @app.route('/friends')
@@ -165,6 +164,28 @@ def edit_event_page(event_id):
 
 @app.post('/event/<int:event_id>')
 def edit_event(event_id):
+    title = request.form.get("title")
+    description = request.form.get("description")
+    location = request.form.get("location")
+    date = request.form.get('date')
+    time = request.form.get('time')
+    link = request.form.get("link")
+    public = request.form.get("public")
+    if not public:
+        public = False
+    public = True
+    tags=[]
+    if request.form.get('music'):
+        tags.append('music')
+    if request.form.get('sports'):
+        tags.append('sports')
+    if request.form.get('gaming'):
+        tags.append('gaming')
+    if request.form.get('tech'):
+        tags.append('tech')
+    if request.form.get('crafts'):
+        tags.append('crafts')
+    communifree_repository_singleton.update_event(event_id, title, description, location, date, time, link, public, tags)
     return redirect(f'/event/{event_id}')
 
 @app.route('/FAQ')
