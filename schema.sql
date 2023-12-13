@@ -42,3 +42,13 @@ CREATE TABLE friends(
     FOREIGN KEY (user1_id) REFERENCES app_user(user_id),
     FOREIGN KEY (user2_id) REFERENCES app_user(user_id)
 );
+
+CREATE TABLE user_cards(
+    card_id SERIAL,
+    author_user_id INT NOT NULL,
+    header_text VARCHAR(80) NOT NULL,
+    body_text TEXT NOT NULL,
+    visibility INT NOT NULL,
+    PRIMARY KEY (card_id),
+    FOREIGN KEY (author_user_id) REFERENCES app_user(user_id)
+);
