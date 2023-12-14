@@ -10,5 +10,5 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 for (let i = 0; i < eventData.length; i++) {
     let event = eventData[i];
     L.marker([event.latitude, event.longitude]).addTo(map)
-        .bindPopup(event.title + ': ' + event.description);
+        .bindPopup(event.title + ': ' + event.description + '<br>' + '<a href="/event/' + event.id + '">View Event</a>');
 }
