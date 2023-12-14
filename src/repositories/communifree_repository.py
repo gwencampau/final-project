@@ -40,6 +40,18 @@ class CommunifreeRepository:
         curr_event.tags = tags
         db.session.commit()
     
+    def get_group_by_id(self, id):
+        select_group = groups.query.get(id)
+        return select_group
+    
+    def update_group(self, group_id, title, description, image_link, tags):
+        curr_group = groups.query.get(group_id)
+        curr_group.title = title
+        curr_group.description = description
+        curr_group.image_link = image_link
+        curr_group.tags = tags
+        db.session.commit()
+    
     def search_events(self, title: str) -> list[event]:
         found_events: list[event] = event.query.filter(event.title.ilike(f'%{title}%')).all()
         return found_events

@@ -1,0 +1,65 @@
+{% extends '_layout.html' %}
+
+{% block title %}Edit Group{% endblock %}
+
+{% block body %}
+
+<div class="hero-image">
+  <div class="hero-text">
+    <h1>Edit group - {{title}}</h1>
+  </div>
+</div>
+
+<div class="container mt-5">
+    <form action="/group/{{group_id}}" method="post">
+      <div class="row">
+        <div class="col">
+          <div class="mb-5">
+            <label for="title" class="form-label">Title</label>
+            <input class="form-control border-create" name="title" id="title" placeholder="Enter event title" required>
+          </div>
+        <div class="mb-5">
+            <label for="description">Description</label>
+            <textarea class="form-control border-create" name="description" id="description" rows="5" required></textarea>
+          </div>
+         <!--Tags-->
+         
+        
+        </div>
+        <div class="col">
+
+            <h6>Tags</h6>
+            <div class="list-group mb-5">
+             <label class="list-group-item">
+               <input class="form-check-input me-1" type="checkbox" name="music" id="music">
+               Music
+             </label>
+             <label class="list-group-item">
+               <input class="form-check-input me-1" type="checkbox" name="sports" id="sports">
+               Sports
+             </label>
+             <label class="list-group-item">
+               <input class="form-check-input me-1" type="checkbox" name="gaming" id="gaming">
+               Gaming
+             </label>
+             <label class="list-group-item">
+               <input class="form-check-input me-1" type="checkbox" name="tech" id="tech">
+               Tech
+             </label>
+             <label class="list-group-item">
+               <input class="form-check-input me-1" type="checkbox" name="crafts" id="crafts">
+               Crafts
+             </label>
+           </div> 
+          
+            <label for="image" class="form-label">Image Link</label>
+            <input type="text" maxlength="500" class="form-control border-create" name="link" id="link" placeholder="Enter image url">
+          </div>
+          
+        </div>
+        <button type="submit"  class="btn btn-create mb-5 text-center mx-auto"  style="width: 30%">Save Changes</button>
+      </div>
+      
+    </form>
+</div>
+{% endblock %}
