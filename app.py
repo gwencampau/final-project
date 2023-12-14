@@ -107,12 +107,6 @@ def create_event():
     event=communifree_repository_singleton.create_event(title, description, location, date, time, link, public, tags, author_id)
     return redirect('/')
 
-@app.route('/friends')
-def friends_list():
-    if 'username' in session:
-        return render_template('/profile_sections/friends.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session = True)
-    return render_template('/profile_sections/friends.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
-
 @app.route('/about')
 def about():
     if 'username' in session:
@@ -195,9 +189,9 @@ def login_post():
 
 @app.route('/profile')
 def profile():
-    #if 'username' not in session:
-    #    return redirect('/sign_up')
-    user_id=2 #to test
+    if 'username' not in session:
+        return redirect('/sign_up')
+    user_id=session['user_id']
     profile_user=communifree_repository_singleton.get_user_by_id(user_id)
     if profile_user is None:
         abort(400)
@@ -216,9 +210,18 @@ def profile():
                     bio=profile_user.bio
                     )
 
+@app.post('/profile/<int:card_id>')
+def edit_card(card_id):
+    header_text = request.form.get("header_text")
+    body_text = request.form.get("body_text")
+    visibility = request.form.get("visibility")
+    communifree_repository_singleton.update_card(card_id, header_text, body_text, visibility)
+    return redirect(f'/profile/{card_id}')
+
 @app.route('/friends')
 def friends_list():
-    user_id=1 #to test
+    if 'username' not in session:
+        return redirect('/sign_up')
     profile_user=communifree_repository_singleton.get_user_by_id(user_id)
     friend_list = communifree_repository_singleton.get_friends_list(user_id)
     return render_template('/profile_sections/friends.html',

@@ -34,6 +34,13 @@ class CommunifreeRepository:
         cards_list = db.session.query(user_cards).where(user_cards.author_user_id==author_id).where(user_cards.visibility >= access)
         return cards_list
     
+    def update_card(self, card_id, header_text, body_text, visibility):
+        curr_card = user_cards.query.get(card_id)
+        curr_card.header_text = header_text
+        curr_card.body_text = body_text
+        curr_card.visibility = visibility
+        db.session.commit()
+
     def get_all_events(self):
         all_events = event.query.all()
         return all_events

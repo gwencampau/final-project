@@ -48,34 +48,9 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">{{card.header_text}}</h5>
-                <p class="card-text">{{card.body_text}}</p>
-                <p>{{card}}</p>
-                
+                <p class="card-text">{{card.body_text}}</p>                
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCard">
                     Edit
-                    {% set head_txt = card.header_text %}
-                    {% set body_txt = card.body_text %}
-                    {% if card.visibility == 4 %}
-                        {% set vis1 = 'checked' %}
-                        {% set vis2 = '' %}
-                        {% set vis3 = '' %}
-                        {% set vis4 = '' %}
-                    {% elif card.visibility == 3 %}
-                        {% set vis1 = '' %}
-                        {% set vis2 = 'checked' %}
-                        {% set vis3 = '' %}
-                        {% set vis4 = '' %}
-                    {% elif card.visibility == 2 %}
-                        {% set vis1 = '' %}
-                        {% set vis2 = '' %}
-                        {% set vis3 = 'checked' %}
-                        {% set vis4 = '' %}
-                    {% else %}
-                        {% set vis1 = '' %}
-                        {% set vis2 = '' %}
-                        {% set vis3 = '' %}
-                        {% set vis4 = 'checked' %}
-                    {% endif %}
                 </button>
             </div>
         </div>
