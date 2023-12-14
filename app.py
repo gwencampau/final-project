@@ -33,8 +33,8 @@ def index():
     all_events = event.query.all()
     today = date.today()
     if 'username' not in session:
-        return render_template('login.html')
-    return render_template('index.html', events=all_events, today=today, in_session = True)
+        return render_template('index.html', events=all_events, today=today, logged_in = False)
+    return render_template('index.html', events=all_events, today=today, in_session = True, logged_in = True)
 
 @app.get('/events/search')
 def search_events():

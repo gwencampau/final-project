@@ -49,9 +49,15 @@
                             <p class="card-text">{{ event.description }}</p>
                             <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                             <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
-                            <form action="/event/{{ event.event_id }}" method="get">
+                            {% if logged_in %}
+                            <form action="/create" method="get">
                                 <button class="detail-btn btn btn-primary" type="submit">Details</button>
                             </form>
+                            {% else %}
+                            <form action="/login" method="get">
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                            </form>
+                            {% endif %}
                             </div>
                         </div>
                     </div>
@@ -64,9 +70,15 @@
                     <h5 class="card-title">Coming Soon!</h5>
                     <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
                     <h6 class="card-date"> </h6>
+                    {% if logged_in %}
                     <form action="/create" method="get">
                         <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
                     </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -92,9 +104,15 @@
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                                 <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
-                                <form action="/event/{{ event.event_id }}" method="get">
+                                {% if logged_in %}
+                                <form action="/create" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -109,9 +127,15 @@
                     <h5 class="card-title">Coming Soon!</h5>
                     <p class="card-text">Stay tuned for a new upcoming music event or make your own!</p>
                     <h6 class="card-date"> </h6>
+                    {% if logged_in %}
                     <form action="/create" method="get">
                         <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
                     </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -137,9 +161,15 @@
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                                 <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
-                                <form action="/event/{{ event.event_id }}" method="get">
+                                {% if logged_in %}
+                                <form action="/create" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -154,9 +184,15 @@
                     <h5 class="card-title">Coming Soon!</h5>
                     <p class="card-text">Stay tuned for a new upcoming sports event or make your own!</p>
                     <h6 class="card-date"> </h6>
+                    {% if logged_in %}
                     <form action="/create" method="get">
                         <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
                     </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -182,9 +218,15 @@
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                                 <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
-                                <form action="/event/{{ event.event_id }}" method="get">
+                                {% if logged_in %}
+                                <form action="/create" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -199,9 +241,15 @@
                     <h5 class="card-title">Coming Soon!</h5>
                     <p class="card-text">Stay tuned for a new upcoming gaming event or make your own!</p>
                     <h6 class="card-date"> </h6>
+                    {% if logged_in %}
                     <form action="/create" method="get">
                         <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
                     </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -227,9 +275,15 @@
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                                 <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
-                                <form action="/event/{{ event.event_id }}" method="get">
+                                {% if logged_in %}
+                                <form action="/create" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -244,9 +298,15 @@
                     <h5 class="card-title">Coming Soon!</h5>
                     <p class="card-text">Stay tuned for a new upcoming tech event or make your own!</p>
                     <h6 class="card-date"> </h6>
+                    {% if logged_in %}
                     <form action="/create" method="get">
                         <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
                     </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -272,9 +332,15 @@
                                 <p class="card-text">{{ event.description }}</p>
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                                 <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
-                                <form action="/event/{{ event.event_id }}" method="get">
+                                {% if logged_in %}
+                                <form action="/create" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -289,9 +355,15 @@
                     <h5 class="card-title">Coming Soon!</h5>
                     <p class="card-text">Stay tuned for a new upcoming crafts event or make your own!</p>
                     <h6 class="card-date"> </h6>
+                    {% if logged_in %}
                     <form action="/create" method="get">
                         <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
                     </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -316,9 +388,15 @@
                             <p class="card-text">{{ event.description }}</p>
                             <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                             <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
-                            <form action="/event/{{ event.event_id }}" method="get">
-                                <button class="detail-btn btn btn-primary" type="submit">View</button>
+                            {% if logged_in %}
+                            <form action="/create" method="get">
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
                             </form>
+                            {% else %}
+                            <form action="/login" method="get">
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                            </form>
+                            {% endif %}
                             </div>
                         </div>
                     </div>
