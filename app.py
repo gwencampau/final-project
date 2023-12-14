@@ -33,9 +33,9 @@ test_create_form_data = []
 def index():
     all_events = event.query.all()
     today = date.today()
-    if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, in_session = True, logged_in = True)
-    return render_template('index.html', events=all_events, today=today, logged_in = False)
+    if 'username' not in session:
+        return render_template('index.html', events=all_events, today=today, logged_in = False)
+    return render_template('index.html', events=all_events, today=today, in_session=True, logged_in = True)
 
 @app.get('/event/<int:event_id>/attend')
 def attend_event(event_id):
