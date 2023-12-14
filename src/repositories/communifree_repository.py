@@ -78,7 +78,7 @@ class CommunifreeRepository:
         
         return ""
     def delete_group(self, id):
-        #test_part=  participating_in_group.query.filter_by(group_id=id).delete()
+        test_part =  participating_in_group.query.filter_by(group_id=id).delete()
         test_event = groups.query.filter_by(group_id=id).delete()
         db.session.commit()
         return ""
