@@ -1,0 +1,84 @@
+{% extends '_layout.html' %}
+
+{% block title %}Groups{% endblock %}
+
+{% block body %}
+
+<div class="hero-image">
+    <div class="hero-text">
+      <h1>Groups</h1>
+    </div>
+</div>
+
+<section class="list-all-events">
+
+    {% if in_session %}
+
+    <div class="top-btn">
+        <a href="/create/group"><button class="t-btn details btn btn-primary">Create a Group</button></a>
+    </div>
+
+    <div style="margin-top: 100px;"></div>
+
+    <p id="upcoming-events" style="color: white;">_</p>
+    <p style="color: white;">_</p>
+
+    <h1>My Groups</h1>
+    <div class="all-events card-group card-group-scroll">
+    {% for group in groups %}
+        {% if id == group.author_id %}
+        <div class="card">
+            <div class="event">
+                <img style="border-radius: 10px 10px 0px 0px;" src="{{ group.image_link }}" class="image_test card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ group.title }}</h5>
+                    <p class="card-text">{{ group.description }}</p>
+                    {% if in_session %}
+                        <form action="/group/{{ group.group_id }}" method="get">
+                            <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                        </form>
+                    {% else %}
+                        <form action="/login" method="get">
+                            <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 100px;"></div>
+
+    <p id="upcoming-events" style="color: white;">_</p>
+    <p style="color: white;">_</p>
+
+    <h1>All Groups</h1>
+
+    <div class="all-events card-group card-group-scroll">
+    {% for group in groups %}
+            <div class="card">
+                <div class="event">
+                    <img style="border-radius: 10px 10px 0px 0px;" src="{{ group.image_link }}" class="image_test card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ group.title }}</h5>
+                        <p class="card-text">{{ group.description }}</p>
+                        {% if in_session %}
+                            <form action="/group/{{ group.group_id }}" method="get">
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                            </form>
+                        {% else %}
+                            <form action="/login" method="get">
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+</section>
+
+
+{% endblock %}

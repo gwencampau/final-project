@@ -1,4 +1,5 @@
-from src.models import app_user, event, participatingIn, friends, groups, user_cards, db
+
+from src.models import app_user, event, participatingIn, friends, groups, participating_in_group, user_cards, db
 
 class CommunifreeRepository:
 
@@ -53,6 +54,10 @@ class CommunifreeRepository:
     def delete_card(self, card_id):
         del_card = user_cards.query.get(card_id).remove()
         db.session.commit()
+        
+    def get_id_by_user(self, name):
+        get_user_id = app_user.query.filter_by(username=name).first()
+        return get_user_id.user_id
 
     def get_all_events(self):
         all_events = event.query.all()
@@ -92,6 +97,24 @@ class CommunifreeRepository:
         attending = attending.join(friends, (friends.user1_id == app_user.user_id) | (friends.user2_id == app_user.user_id))
         attending = attending.filter(participatingIn.event_id == id).all()
         return attending
+    
+    def geocode_location(self, location: str):
+        import geopy
+        from geopy.geocoders import Nominatim
+        import ssl
+        import certifi
+        
+        ctx = ssl.create_default_context(cafile=certifi.where())
+        geopy.geocoders.options.default_ssl_context = ctx
+
+
+        geolocator = Nominatim(scheme='https', user_agent="communifree")
+        location_result = geolocator.geocode(location)
+        
+        if location_result:
+            return location_result.latitude, location_result.longitude
+        else:
+            return None, None
         
     def delete_events(self, id):
         test_part= participatingIn.query.filter_by(event_id=id).delete()
@@ -99,5 +122,33 @@ class CommunifreeRepository:
         db.session.commit()
         
         return ""
+    def delete_group(self, id):
+        #test_part=  participating_in_group.query.filter_by(group_id=id).delete()
+        test_event = groups.query.filter_by(group_id=id).delete()
+        db.session.commit()
+        return ""
+    def create_group(self, title, description, image_link, tags, author_id):
+        new_group = groups(title=title, description=description, image_link=image_link, tags=tags, author_id=author_id)
+        db.session.add(new_group)
+        db.session.commit()
+        return new_group
+    
+    def attend_event(self, u_id, e_id):
+        new_attend = participatingIn(user_id=u_id, event_id=e_id)
+        db.session.add(new_attend)
+        db.session.commit()
+        return new_attend
+
+    def unattend_event(self, u_id, e_id):
+        unattend = participatingIn.query.filter_by(user_id=u_id, event_id=e_id).delete()
+        db.session.commit()
+        return unattend
+
+    def check_if_user_attending(self, u_id, e_id):
+        if (participatingIn.query.filter_by(user_id=u_id, event_id=e_id).first()):
+            return True
+        else:
+            return False
+        
 # Singleton to be used in other modules
 communifree_repository_singleton = CommunifreeRepository()
