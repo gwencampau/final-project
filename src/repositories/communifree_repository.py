@@ -1,4 +1,4 @@
-from src.models import app_user, event, participatingIn, friends, db
+from src.models import app_user, event, participatingIn, friends, groups, db
 
 class CommunifreeRepository:
 
@@ -35,10 +35,12 @@ class CommunifreeRepository:
     .join(friends, (friends.user1_id == app_user.user_id) | (friends.user2_id == app_user.user_id))
     .filter(participatingIn.event_id == id)
     .all()
-)
+                    )
         
         return attending
-        
+    def get_group(self,id):
+        group_data = groups.query.get(int(id))
+        return group_data
 
 # Singleton to be used in other modules
 communifree_repository_singleton = CommunifreeRepository()
