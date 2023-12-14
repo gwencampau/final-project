@@ -490,3 +490,9 @@ footer ul li a:hover{
 footer ul li:last-child{
     font-size: small;
 }
+
+
+.btn-tags{
+    width:220px;
+    margin: 10px;
+}

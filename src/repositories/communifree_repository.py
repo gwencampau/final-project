@@ -90,7 +90,7 @@ class CommunifreeRepository:
         
         return ""
     def delete_group(self, id):
-        #test_part=  participating_in_group.query.filter_by(group_id=id).delete()
+        test_part =  participating_in_group.query.filter_by(group_id=id).delete()
         test_event = groups.query.filter_by(group_id=id).delete()
         db.session.commit()
         return ""
@@ -100,6 +100,19 @@ class CommunifreeRepository:
         db.session.commit()
         return new_group
     
+    def join_group(self, u_id, g_id):
+        new_join = participating_in_group(user_id=u_id, group_id=g_id)
+        db.session.add(new_join)
+        db.session.commit()
+        return new_join
+    
+    def get_group_members(self, g_id):
+        member = db.session.query(app_user)
+        member = member.join(participating_in_group, app_user.user_id == participating_in_group.user_id)
+        member = member.join(groups, participating_in_group.group_id == groups.group_id)
+        member = member.filter(participating_in_group.group_id == g_id).all()
+        return member
+
     def attend_event(self, u_id, e_id):
         new_attend = participatingIn(user_id=u_id, event_id=e_id)
         db.session.add(new_attend)
