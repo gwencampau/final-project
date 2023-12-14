@@ -12,7 +12,7 @@ class app_user(db.Model):
     # password VARCHAR(255) NOT NULL,
     password = db.Column(db.String(255), nullable=False)
     # profile_img VARCHAR(10) NULL, --Postgres does not support BLOB so I had to find an alternative
-    profile_img = db.Column(db.LargeBinary, nullable=True)
+    profile_img = db.Column(db.String(500), nullable=True)
     # bio VARCHAR(150) NULL,
     bio = db.Column(db.String(150), nullable=True)
 

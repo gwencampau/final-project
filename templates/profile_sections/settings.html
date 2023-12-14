@@ -28,20 +28,19 @@
 {% block content %}
 <h1>Settings</h1>
 <form action="/settings/update" method="post">
-    <div class="custom-file">
+    <div class="col-md-4 mb-3">
         <img src="{{profile_img}}" style="width: 50px;">
-        <input type="file" class="custom-file-input"id="profile-image">
-        <label class="custom-file-label" for="profile-image"></label>
-        <div class=""></div>
+        <label for="profile-image">Profile Image</label>
+        <input type="text" class="form-control" name='profile-image' id="profile-image">
     </div>
     <br>
     <div class="col-md-4 mb-3">
         <label for="p_username">Username</label>
-        <input type="text" class="form-control" id="p_username" value="{{username}}" required>
+        <input type="text" class="form-control" name= 'p_username' id="p_username" value="{{username}}" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="p_bio">Bio</label>
-        <input type="textarea" class="form-control" id="p_bio"value="{{bio}}" required>
+        <input type="textarea" class="form-control" name='p_bio' id="p_bio"value="{{bio}}" required>
     </div>
     <button type="submit"  class="btn btn-primary">Update Profile</button>
 </form>

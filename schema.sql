@@ -5,7 +5,7 @@ CREATE TABLE app_user (
     email VARCHAR(255) NOT NULL UNIQUE,
     username VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    profile_img bytea NULL, --Postgres does not support BLOB so I had to find an alternative
+    profile_img VARCHAR(255) NULL, --Postgres does not support BLOB so I had to find an alternative
     bio VARCHAR(150) NULL,
     PRIMARY KEY (user_id)
 );
