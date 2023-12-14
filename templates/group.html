@@ -9,7 +9,7 @@
     <div class="d-flex">
         <div class="col flex-item d-flex  flex-column gap-3 " > <!--Left column-->
             
-                <img src="{{group_data.image_link}}" alt="Data for class"   class="rounded img-event"> 
+                <img src="{{group_data.image_link}}" alt="Data for class"   class="rounded image_test img-event"> 
            
             <!----->
             <div class="d-flex align-items-start justify-content-center ">
@@ -65,17 +65,15 @@
             <h1> {{group_data.title}}</h1>
            
             <p> {{group_data.description}}</p>
+
+            {% for tag in group_data.tags %}
+            <button type="button" class="btn btn-tags btn-secondary btn-lg">{{ tag }}</button>
+             
+            {% endfor %}
             
         </div>
     </div>
 </div>
-<script>
-    
-  var currentURL = window.location.href;
-  document.getElementById("link").textContent =  currentURL;
 
-  
-  
-</script>
 
 {% endblock %}
