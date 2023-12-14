@@ -34,7 +34,7 @@ def index():
     today = date.today()
     all_groups= groups.query.all()
     if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, all_groups=all_groups in_session = True)
+        return render_template('index.html', events=all_events, today=today, all_groups=all_groups, in_session = True)
     return render_template('index.html', events=all_events, today=today)
 
 @app.get('/group/<int:group_id>')
