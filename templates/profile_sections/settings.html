@@ -27,6 +27,7 @@
 
 {% block content %}
 <h1>Settings</h1>
+<div>
 <form action="/settings/update" method="post">
     <div class="custom-file">
         <img src="{{profile_img}}" style="width: 50px;">
@@ -45,5 +46,12 @@
     </div>
     <button type="submit"  class="btn pro-buttons">Update Profile</button>
 </form>
+</div>
+
+<div>
+<form action="/profile/delete" method="post">
+    <button type="submit"  class="btn btn-primary pro-buttons">Delete</button>
+</form>
+</div>
 
 {% endblock %}

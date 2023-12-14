@@ -409,7 +409,7 @@ def remove_friend(user_id: int):
 @app.post('/users/<int:user_id>/addFriend')
 def add_friend(user_id: int):
     current_user=session['user_id']
-    if communifree_repository_singleton.get_friend_id is not None:
+    if communifree_repository_singleton.get_friend_id is None:
         return redirect(f'/users/{user_id}')
     new_friend = friends(user1_id=current_user, user2_id=user_id)
     db.session.add(new_friend)
@@ -453,6 +453,14 @@ def edit_profile():
     communifree_repository_singleton.update_user(user_id, profile_img, username, bio)
     db.session.commit()
     return redirect('/profile')
+
+@app.post('/profile/delete')
+def delete_profile():
+    user_id=session['user_id']
+    db.session.delete(app_user.query.get(user_id))
+    db.session.commit()
+    del session['username']
+    return redirect('/')
 
 @app.get('/sign_up')
 def sign_up():

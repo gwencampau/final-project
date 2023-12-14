@@ -505,8 +505,11 @@ form p{
     color: var(--main-dark-blue);
 }
 .pro-buttons{
-    fill: var(--main-dark-blue);
+    background-color: var(--main-dark-blue);
     color:#E8E8E8;
+}
+.pro-friend-buttons{
+    width:100%;
 }
 
 /* Footer Styling */
