@@ -414,10 +414,15 @@ def friends_list():
 def view_user(user_id):
     if 'username' not in session:
         access = 4
+        in_session=False
+    else:
+        in_session=True
     profile_user=communifree_repository_singleton.get_user_by_id(user_id)
     if profile_user is None:
         abort(400)
     current_user=session['user_id']
+    if user_id == session['user_id']:
+        return redirect('/profile')
     friend_check = communifree_repository_singleton.get_friend_id(current_user, user_id)
     user_profile_img = profile_user.profile_img
     user_username=profile_user.username
@@ -437,7 +442,7 @@ def view_user(user_id):
                             user_username=user_username,
                             user_bio=user_bio,
                             user_card_list=user_card_list,
-                            in_session = True
+                            in_session = in_session
                             )
 
 @app.post('/users/<int:user_id>/deleteFriend')
