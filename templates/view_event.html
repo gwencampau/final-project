@@ -23,7 +23,7 @@
                   </form>
                 {% endif %}
                 
-                  <div class="dropdown btn-class">
+                  <div class="dropdown  btn btn-class">
                     <button class="btn btn-event btn-secondary dropdown-toggle" type="button"   data-bs-toggle="dropdown" >
                       Share
                     </button>
@@ -33,7 +33,7 @@
                     
                   </div>
 
-                  <div class="dropdown">
+                  <div class="dropdown btn-class">
                     <button class="btn btn-secondary dropdown-toggle btn-event" type="button"  data-bs-toggle="dropdown" >
                       Edit
                     </button>
@@ -53,7 +53,7 @@
             </div> 
             {%for x in event_friends %}
             <div  class="profile-div">
-                <img src="{{x.profile_img}}"  class="rounded-circle profile-img" alt="Place holder" > 
+                <img src="{{x.profile_img}}"  class="rounded-circle profile-img image_test" alt="Place holder" > 
               
             </div>
             {%endfor%}

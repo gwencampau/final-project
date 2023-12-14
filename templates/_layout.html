@@ -48,5 +48,17 @@
             <li>© 2023 - All Rights Reserved</li>
     </footer>
     {% endblock %}
+    <script>
+        //Test if image loads
+        image_test =document.getElementsByClassName("image_test");
+        
+        for (var i = 0; i < image_test.length; i++) {
+            if (typeof  image_test[i].naturalWidth == "undefined" || image_test[i].naturalWidth == 0) {
+          image_test[i].src = "/static/404.jpg";
+          }
+        }
+        
+        
+        </script>
 </body>
 </html>

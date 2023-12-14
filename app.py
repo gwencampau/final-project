@@ -56,12 +56,13 @@ def unattend_event(event_id):
 @app.get('/group/<int:group_id>')
 def view_groups(group_id):
     group_data = groups.query.get(group_id)
+    members = communifree_repository_singleton.get_group_members(group_id)
     if group_data==None:
          return render_template('error.html')
     in_session=False
     if 'username' in session:
         in_session = True
-    return render_template('group.html', group_data=group_data, in_session=in_session)
+    return render_template('group.html', group_data=group_data, in_session=in_session, members=members)
 
 
 @app.route('/map')
@@ -85,6 +86,7 @@ def map():
         
 
         event_data.append({
+            'id': event.event_id,
             'title': event.title, 
             'description': event.description, 
             'location': event.location, 
@@ -93,6 +95,9 @@ def map():
         })
     
     event_data_json = json.dumps(event_data)
+
+    if 'username' in session:
+        return render_template('map.html', event_data_json=event_data_json, in_session = True)
     
     return render_template('map.html', event_data_json=event_data_json)
 
@@ -157,6 +162,12 @@ def create_group():
         return redirect('/')
     return redirect('/login')
 
+@app.get('/group/<int:group_id>/join')
+def join_event(group_id):
+    if 'username' not in session:
+        abort(404)
+    new_join = communifree_repository_singleton.join_group(session['user_id'], group_id)
+    return redirect(f'/group/{group_id}')
 
 @app.get('/create')
 def create_form_event():
@@ -173,9 +184,6 @@ def create_event():
     date = request.form.get('date')
     time = request.form.get('time')
     link = request.form.get("link")
-    public = request.form.get("public")
-    if not public:
-        public = False
     public = True
     tags=[]
     if request.form.get('music'):
@@ -217,6 +225,8 @@ def events(event_id):
         return render_template('view_event.html', owner=owner, event_data=event_data,  event_friends= event_friends, in_session = True, attending = attending)
     return render_template('view_event.html', owner=owner, event_data=event_data, event_friends= event_friends, attending = attending)
 
+
+
 @app.get('/event/<int:event_id>/edit') 
 def edit_event_page(event_id):
     event = communifree_repository_singleton.get_event_by_id(event_id)
@@ -228,7 +238,6 @@ def edit_event_page(event_id):
         return "Event not in database", 400
     title=event.title
     return render_template('edit_event.html', id=event_id, title=title, in_session=True)
-
 @app.post('/event/<int:event_id>')
 def edit_event(event_id):
     title = request.form.get("title")
@@ -254,6 +263,39 @@ def edit_event(event_id):
         tags.append('crafts')
     communifree_repository_singleton.update_event(event_id, title, description, location, date, time, link, public, tags)
     return redirect(f'/event/{event_id}')
+#------
+@app.get('/group/<int:group_id>/edit') 
+def edit_group_page(group_id):
+    group = communifree_repository_singleton.get_group_by_id(group_id)
+
+    if 'username' not in session:
+        return redirect(f'/groups/{group_id}')
+    if session['user_id'] != group.author_id:
+        return redirect(f'/groups/{group_id}')
+    if not group:
+        return "Event not in database", 400
+    title=group.title
+    return render_template('edit_group.html', group_id=group_id, title=title, in_session=True)
+
+
+@app.post('/group/<int:group_id>')
+def edit_group(group_id):
+    title = request.form.get("title")
+    description = request.form.get("description")
+    link = request.form.get("link")
+    tags = []
+    if request.form.get('music'):
+        tags.append('music')
+    if request.form.get('sports'):
+        tags.append('sports')
+    if request.form.get('gaming'):
+        tags.append('gaming')
+    if request.form.get('tech'):
+        tags.append('tech')
+    if request.form.get('crafts'):
+        tags.append('crafts')
+    communifree_repository_singleton.update_group(group_id, title, description, link, tags)
+    return redirect(f'/group/{group_id}')
 
 @app.route('/FAQ')
 def faq():
@@ -461,6 +503,9 @@ def delete_profile():
     db.session.commit()
     del session['username']
     return redirect('/')
+    if 'username' in session:
+        return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session= True)
+    return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
 
 @app.get('/sign_up')
 def sign_up():
