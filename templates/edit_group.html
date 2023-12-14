@@ -1,22 +1,22 @@
 {% extends '_layout.html' %}
 
-{% block title %}Create Group{% endblock %}
+{% block title %}Edit Group{% endblock %}
 
 {% block body %}
 
 <div class="hero-image">
   <div class="hero-text">
-    <h1>Create Group</h1>
+    <h1>Edit group - {{title}}</h1>
   </div>
 </div>
 
 <div class="container mt-5">
-    <form action="/create/group" method="post">
+    <form action="/group/{{group_id}}" method="post">
       <div class="row">
         <div class="col">
           <div class="mb-5">
             <label for="title" class="form-label">Title</label>
-            <input class="form-control border-create" name="title" id="title" placeholder="Enter group title" required>
+            <input class="form-control border-create" name="title" id="title" placeholder="Enter event title" required>
           </div>
         <div class="mb-5">
             <label for="description">Description</label>
@@ -57,7 +57,7 @@
           </div>
           
         </div>
-        <button type="submit"  class="btn btn-create mb-5 text-center mx-auto"  style="width: 30%">Create Group</button>
+        <button type="submit"  class="btn btn-create mb-5 text-center mx-auto"  style="width: 30%">Save Changes</button>
       </div>
       
     </form>
