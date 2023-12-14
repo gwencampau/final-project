@@ -1,4 +1,4 @@
-from src.models import app_user, event, participatingIn, friends, groups, db
+from src.models import app_user, event, participatingIn, friends, groups, participating_in_group, db
 
 class CommunifreeRepository:
 
@@ -55,5 +55,15 @@ class CommunifreeRepository:
         db.session.commit()
         
         return ""
+    def delete_group(self, id):
+        #test_part=  participating_in_group.query.filter_by(group_id=id).delete()
+        test_event = groups.query.filter_by(group_id=id).delete()
+        db.session.commit()
+        return ""
+    def create_group(self, title, description, image_link, tags, author_id):
+        new_group = groups(title=title, description=description, image_link=image_link, tags=tags, author_id=author_id)
+        db.session.add(new_group)
+        db.session.commit()
+        return new_group
 # Singleton to be used in other modules
 communifree_repository_singleton = CommunifreeRepository()

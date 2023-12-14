@@ -111,7 +111,7 @@ class friends(db.Model):
         return f'Friends({self.friend_id}, {self.user1_id}, {self.user2_id})'
     
 class groups(db.Model):
-    group_id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(50), nullable=False)
     image_link = db.Column(db.String(500), nullable=True)
     description = db.Column(db.String(150), nullable=False)
@@ -130,4 +130,35 @@ class groups(db.Model):
     def __repr__(self) -> str:
         return f'Group({self.title}, {self.image_link}, {self.description}, {self.tags}, {self.author_id})'
 
+class participating_in_group(db.Model):
+    participating_id = db.Column(db.Integer, primary_key=True)
     
+   
+    user_id = db.Column(db.Integer, db.ForeignKey('app_user.user_id'), nullable=False)
+    user = db.relationship('app_user', foreign_keys=[user_id],backref='user_group')
+ 
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.group_id'), nullable=False)
+    group = db.relationship('groups', foreign_keys=[group_id], backref='group_user')
+
+    def __init__(self, user_id: int, group_id: int):
+        self.user_id = user_id
+        self.group_id = group_id
+
+
+    def __repr__(self) -> str:
+        return f'Participation ({self.user_id}, {self.group_id})'
+    
+class group_events(db.Model):
+    grev_id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.event_id'), nullable=False)
+    event = db.relationship('event', foreign_keys=[event_id],backref='event_pair')
+ 
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.group_id'), nullable=False)
+    group = db.relationship('groups', foreign_keys=[group_id], backref='group_pair')
+
+    def __init__(self, group_id: int, event_id: int):
+        self.event_id = event_id
+        self.group_id = group_id
+
+    def __repr__(self) -> str:
+        return f'Group events ({self.group_id}, {self.event_id})'
