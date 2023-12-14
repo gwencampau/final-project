@@ -58,7 +58,7 @@ def delete_event(event_id):
 def create_form():
     if 'username' in session:
         return render_template('create_event.html',in_session=True)
-    return render_template('create_event.html')
+    return redirect('/login')
 
 @app.post('/create')
 def create_event():
@@ -84,7 +84,8 @@ def create_event():
         tags.append('tech')
     if request.form.get('crafts'):
         tags.append('crafts')
-    event=communifree_repository_singleton.create_event(title, description, location, date, time, link, public, tags)
+    author_id = session['user_id']
+    event=communifree_repository_singleton.create_event(title, description, location, date, time, link, public, tags, author_id)
     return redirect('/')
 
 @app.route('/friends')
@@ -104,17 +105,24 @@ def about():
 def events(event_id):
     event_data = communifree_repository_singleton.get_event_by_id(event_id)
     event_friends = communifree_repository_singleton.get_friends_by_event(event_id)
+    owner=False
     if 'username' in session:
-        return render_template('view_event.html', event_data=event_data,  event_friends= event_friends,in_session = True)
-    return render_template('view_event.html', event_data=event_data,  event_friends= event_friends)
+        if session['user_id'] == event_data.author_id:
+            owner = True
+        return render_template('view_event.html', owner=owner, event_data=event_data,  event_friends= event_friends, in_session = True)
+    return render_template('view_event.html', owner=owner, event_data=event_data, event_friends= event_friends)
 
 @app.get('/event/<int:event_id>/edit') 
 def edit_event_page(event_id):
     event = communifree_repository_singleton.get_event_by_id(event_id)
+    if 'username' not in session:
+        return redirect(f'/event/{event_id}')
+    if session['user_id'] != event.author_id:
+        return redirect(f'/event/{event_id}')
     if not event:
         return "Event not in database", 400
     title=event.title
-    return render_template('edit_event.html', id=event_id, title=title)
+    return render_template('edit_event.html', id=event_id, title=title, in_session=True)
 
 @app.post('/event/<int:event_id>')
 def edit_event(event_id):
@@ -161,6 +169,7 @@ def login_post():
     existing_user = app_user.query.filter_by(username=username).first()
     if existing_user and bcrypt.check_password_hash(existing_user.password, raw_password):
         session['username'] = username
+        session['user_id'] = existing_user.user_id
         return redirect('/')
     else:
         return render_template('login.html', show_wrong=True)
