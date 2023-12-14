@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, request, abort, session
+import json
 from datetime import date, datetime
 
 from src.models import db, app_user, event, participatingIn, friends, groups , user_cards
@@ -33,16 +34,67 @@ def index():
     all_events = event.query.all()
     today = date.today()
     if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, in_session = True)
-    return render_template('index.html', events=all_events, today=today)
+        return render_template('index.html', events=all_events, today=today, in_session = True, logged_in = True)
+    return render_template('index.html', events=all_events, today=today, logged_in = False)
+
+@app.get('/event/<int:event_id>/attend')
+def attend_event(event_id):
+    if 'username' not in session:
+        abort(404)
+    user_id = communifree_repository_singleton.get_id_by_user(session['username'])
+    attend = communifree_repository_singleton.attend_event(user_id, event_id)
+    return events(event_id)
+
+@app.get('/event/<int:event_id>/unattend')
+def unattend_event(event_id):
+    if 'username' not in session:
+        abort(404)
+    user_id = communifree_repository_singleton.get_id_by_user(session['username'])
+    unattend = communifree_repository_singleton.unattend_event(user_id, event_id)
+    return events(event_id)
 
 @app.get('/group/<int:group_id>')
 def view_groups(group_id):
-    group_data = communifree_repository_singleton.get_group(group_id)
-    event_data = communifree_repository_singleton.get_event_by_id(1)
-    print(group_data)
-    return render_template('group.html', group_data=group_data)
+    group_data = groups.query.get(group_id)
+    if group_data==None:
+         return render_template('error.html')
+    in_session=False
+    if 'username' in session:
+        in_session = True
+    return render_template('group.html', group_data=group_data, in_session=in_session)
 
+
+@app.route('/map')
+def map():
+    from src.models import db, event
+    all_events = event.query.all()
+    event_data = []
+
+    for event in all_events:
+
+        if event.latitude == None or event.longitude == None:
+            try:
+                location = event.location
+                latitude, longitude = communifree_repository_singleton.geocode_location(location)
+                event.latitude = latitude
+                event.longitude = longitude
+                db.session.commit()
+            except Exception as e:
+                print(e)
+                continue
+        
+
+        event_data.append({
+            'title': event.title, 
+            'description': event.description, 
+            'location': event.location, 
+            'latitude': event.latitude, 
+            'longitude': event.longitude
+        })
+    
+    event_data_json = json.dumps(event_data)
+    
+    return render_template('map.html', event_data_json=event_data_json)
 
 @app.get('/events/search')
 def search_events():
@@ -50,31 +102,64 @@ def search_events():
     q = request.args.get('q', '')
     if q != '':
         found_events = communifree_repository_singleton.search_events(q)
-        if 'username' in session:
-            return render_template('search_events.html', search_active=True, events=found_events, search_query=q,in_session = True)
-        return render_template('search_events.html', search_active=True, events=found_events, search_query=q)
+        if 'username' not in session:
+            abort(404)
+        return render_template('search_events.html', search_active=True, events=found_events, search_query=q,in_session = True)
     else:
         return index()
 
+@app.get('/groups')
+def get_all_groups():
+    in_session = False
+    if 'username' in session:
+        in_session = True
+    all_groups = groups.query.all()
+    id = session['user_id']
+    return render_template('get_all_groups.html', in_session=in_session, groups=all_groups, id = id)
 
 @app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
 def delete_event(event_id):
-    delete = communifree_repository_singleton.get_event_by_id(event_id)
-    name = delete.title
-    db.session.delete(delete)
-    db.session.commit()
-    return render_template('delete.html', name=name)
+    communifree_repository_singleton.delete_events(event_id)
+    return render_template('delete.html')
 
-@app.get('/delete/groups/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
-def delete_group(event_id):
-    delete = communifree_repository_singleton.get_event_by_id(event_id)
-    db.session.delete(delete)
-    db.session.commit()
-    return render_template('delete.html', )
+@app.get('/delete/group/<int:group_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
+def delete_group(group_id):
+    communifree_repository_singleton.delete_group(group_id)
+    return render_template('delete.html' )
+
+@app.get('/create/group')
+def create_form_group():
+    if 'username' in session:
+        return render_template('create_group.html',in_session=True)
+    return redirect('/login')
+
+@app.post('/create/group')
+def create_group():
+    if 'username' in session:
+    #Still in progress testing this
+        title = request.form.get("title")
+        link = request.form.get("link")
+        description = request.form.get("description")
+
+        tags=[]
+        if request.form.get('music'):
+            tags.append('music')
+        if request.form.get('sports'):
+            tags.append('sports')
+        if request.form.get('gaming'):
+            tags.append('gaming')
+        if request.form.get('tech'):
+            tags.append('tech')
+        if request.form.get('crafts'):
+            tags.append('crafts')
+        author_id = session['user_id']
+        group=communifree_repository_singleton.create_group(title, description, link, tags, author_id)
+        return redirect('/')
+    return redirect('/login')
 
 
 @app.get('/create')
-def create_form():
+def create_form_event():
     if 'username' in session:
         return render_template('create_event.html',in_session=True)
     return redirect('/login')
@@ -114,16 +199,23 @@ def about():
     return render_template('about.html')
     
 
+
 @app.route('/event/<int:event_id>') #Will change routing to /<event_name> once DB is started
 def events(event_id):
     event_data = communifree_repository_singleton.get_event_by_id(event_id)
     event_friends = communifree_repository_singleton.get_friends_by_event(event_id)
+
+    user_id = communifree_repository_singleton.get_id_by_user(session['username'])
+    attending = communifree_repository_singleton.check_if_user_attending(user_id, event_id)
+
     owner=False
+    if event_data==None:
+        return render_template('error.html')
     if 'username' in session:
         if session['user_id'] == event_data.author_id:
             owner = True
-        return render_template('view_event.html', owner=owner, event_data=event_data,  event_friends= event_friends, in_session = True)
-    return render_template('view_event.html', owner=owner, event_data=event_data, event_friends= event_friends)
+        return render_template('view_event.html', owner=owner, event_data=event_data,  event_friends= event_friends, in_session = True, attending = attending)
+    return render_template('view_event.html', owner=owner, event_data=event_data, event_friends= event_friends, attending = attending)
 
 @app.get('/event/<int:event_id>/edit') 
 def edit_event_page(event_id):
@@ -384,3 +476,7 @@ def events_faq():
 def logout():
     del session['username']
     return redirect('/')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error.html'), 404
