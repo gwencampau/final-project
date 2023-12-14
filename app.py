@@ -34,8 +34,24 @@ def index():
     all_events = event.query.all()
     today = date.today()
     if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, in_session = True)
-    return render_template('index.html', events=all_events, today=today)
+        return render_template('index.html', events=all_events, today=today, all_groups=all_groups, in_session = True, logged_in = True)
+    return render_template('index.html', events=all_events, today=today, logged_in = False)
+
+@app.get('/event/<int:event_id>/attend')
+def attend_event(event_id):
+    if 'username' not in session:
+        abort(404)
+    user_id = communifree_repository_singleton.get_id_by_user(session['username'])
+    attend = communifree_repository_singleton.attend_event(user_id, event_id)
+    return events(event_id)
+
+@app.get('/event/<int:event_id>/unattend')
+def unattend_event(event_id):
+    if 'username' not in session:
+        abort(404)
+    user_id = communifree_repository_singleton.get_id_by_user(session['username'])
+    unattend = communifree_repository_singleton.unattend_event(user_id, event_id)
+    return events(event_id)
 
 @app.get('/group/<int:group_id>')
 def view_groups(group_id):
@@ -83,9 +99,9 @@ def search_events():
     q = request.args.get('q', '')
     if q != '':
         found_events = communifree_repository_singleton.search_events(q)
-        if 'username' in session:
-            return render_template('search_events.html', search_active=True, events=found_events, search_query=q,in_session = True)
-        return render_template('search_events.html', search_active=True, events=found_events, search_query=q)
+        if 'username' not in session:
+            abort(404)
+        return render_template('search_events.html', search_active=True, events=found_events, search_query=q,in_session = True)
     else:
         return index()
 
@@ -190,14 +206,18 @@ def about():
 def events(event_id):
     event_data = communifree_repository_singleton.get_event_by_id(event_id)
     event_friends = communifree_repository_singleton.get_friends_by_event(event_id)
+
+    user_id = communifree_repository_singleton.get_id_by_user(session['username'])
+    attending = communifree_repository_singleton.check_if_user_attending(user_id, event_id)
+
     owner=False
     if event_data==None:
         return render_template('error.html')
     if 'username' in session:
         if session['user_id'] == event_data.author_id:
             owner = True
-        return render_template('view_event.html', owner=owner, event_data=event_data,  event_friends= event_friends, in_session = True)
-    return render_template('view_event.html', owner=owner, event_data=event_data, event_friends= event_friends)
+        return render_template('view_event.html', owner=owner, event_data=event_data,  event_friends= event_friends, in_session = True, attending = attending)
+    return render_template('view_event.html', owner=owner, event_data=event_data, event_friends= event_friends, attending = attending)
 
 @app.get('/event/<int:event_id>/edit') 
 def edit_event_page(event_id):
