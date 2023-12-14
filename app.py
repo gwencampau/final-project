@@ -85,6 +85,7 @@ def map():
         
 
         event_data.append({
+            'id': event.event_id,
             'title': event.title, 
             'description': event.description, 
             'location': event.location, 
@@ -93,6 +94,9 @@ def map():
         })
     
     event_data_json = json.dumps(event_data)
+
+    if 'username' in session:
+        return render_template('map.html', event_data_json=event_data_json, in_session = True)
     
     return render_template('map.html', event_data_json=event_data_json)
 
