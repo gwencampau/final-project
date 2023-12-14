@@ -13,10 +13,11 @@
 <section class="list-all-events">
         
     <div class="top-btn">
-        <a href="#events-all"><button class="t-btn details btn btn-primary">All Events</button></a>
         <a href="#upcoming-events"><button class="t-btn details btn btn-primary">Upcoming Events</button></a>
-        <a href="#cool-events"><button class="t-btn details btn btn-primary">Cool Events</button></a>
         <a href="#sports-events"><button class="t-btn details btn btn-primary">Sports Events</button></a>
+        <a href="#gaming-events"><button class="t-btn details btn btn-primary">Gaming Events</button></a>
+        <a href="#tech-events"><button class="t-btn details btn btn-primary">Tech Events</button></a>
+        <a href="#crafts-events"><button class="t-btn details btn btn-primary">Crafts Events</button></a>
         <a href="#past-events"><button class="t-btn details btn btn-primary">Past Events</button></a>
     </div>
 
@@ -31,47 +32,6 @@
         </div>
     </form>
 
-    <p id="events-all" style="color: white;">_</p>
-    <p style="color: white;">_</p>
-
-    <h1>All Events - Testing Purposes Only</h1>
-
-    <div class="all-events card-group card-group-scroll">
-    {% if events %}
-        {% for event in events %}
-            <div class="card">
-                <div class="event">
-                    <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">{{ event.title }}</h5>
-                    <p class="card-text">{{ event.description }}</p>
-                    <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
-                    <form action="/event/{{ event.event_id }}" method="get">
-                        <button class="detail-btn btn btn-primary" type="submit">Details</button>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        {% for no in no_events %}
-            <div class="card">
-                <div class="event">
-                    <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">Coming Soon!</h5>
-                    <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
-                    <h6 class="card-date"> </h6>
-                    <form action="/create" method="get">
-                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% endif %}
-    </div>
-
     <div style="margin-top: 100px;"></div>
 
     <p id="upcoming-events" style="color: white;">_</p>
@@ -80,117 +40,50 @@
     <h1>Upcoming Events</h1>
 
     <div class="all-events card-group card-group-scroll">
-        {% if events %}
-            {% for event in events %}
-                {% if today <= event.date %}
-                    <div class="card">
-                        <div class="event">
-                            <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                            <h5 class="card-title">{{ event.title }}</h5>
-                            <p class="card-text">{{ event.description }}</p>
-                            <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+    {% for event in events %}
+        {% if today <= event.date %}
+            <div class="card">
+                <div class="event">
+                    <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="image_test card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">{{ event.description }}</p>
+                        <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
+                        <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
+                        {% if logged_in %}
                             <form action="/event/{{ event.event_id }}" method="get">
                                 <button class="detail-btn btn btn-primary" type="submit">Details</button>
                             </form>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-            <div class="card">
-                <div class="event">
-                    <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">Coming Soon!</h5>
-                    <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
-                    <h6 class="card-date"> </h6>
-                    <form action="/create" method="get">
-                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
-                    </form>
+                        {% else %}
+                            <form action="/login" method="get">
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        {% else %}
-            {% for no in no_events %}
-                <div class="card">
-                    <div class="event">
-                        <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
-                        <div class="card-body">
-                        <h5 class="card-title">Coming Soon!</h5>
-                        <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
-                        <h6 class="card-date"> </h6>
-                        <form action="/create" method="get">
-                            <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
-                        </form>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
         {% endif %}
-        </div>
-
-    <div style="margin-top: 100px;"></div>
-
-    <p id="cool-events" style="color: white;">_</p>
-    <p style="color: white;">_</p>
-
-    <h1>Upcoming Cool Events</h1>
-
-    <div class="all-events card-group card-group-scroll">
-        {% if events %}
-            {% for event in events %}
-                {% if today <= event.date %}
-                    {% for tag in event.tags %}
-                        {% if tag == 'cool' %}
-                            <div class="card">
-                                <div class="event">
-                                    <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                    <h5 class="card-title">{{ event.title }}</h5>
-                                    <p class="card-text">{{ event.description }}</p>
-                                    <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
-                                    <form action="/event/{{ event.event_id }}" method="get">
-                                        <button class="detail-btn btn btn-primary" type="submit">Details</button>
-                                    </form>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            {% endfor %}
-                <div class="card">
-                    <div class="event">
-                        <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
-                        <div class="card-body">
-                        <h5 class="card-title">Coming Soon!</h5>
-                        <p class="card-text">Stay tuned for a new upcoming cool event or make your own!</p>
-                        <h6 class="card-date"> </h6>
-                        <form action="/create" method="get">
-                            <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
-                        </form>
-                        </div>
-                    </div>
+    {% endfor %}
+        <div class="card">
+            <div class="event">
+                <img style="border-radius: 10px 10px 0px 0px;" src="../static/upcoming-event.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Coming Soon!</h5>
+                    <p class="card-text">Stay tuned for a new upcoming event or make your own!</p>
+                    <h6 class="card-date"> </h6>
+                    {% if logged_in %}
+                    <form action="/create" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
                 </div>
-        {% else %}
-            {% for no in no_events %}
-                <div class="card">
-                    <div class="event">
-                        <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
-                        <div class="card-body">
-                        <h5 class="card-title">Coming Soon!</h5>
-                        <p class="card-text">Stay tuned for a new upcoming cool event or make your own!</p>
-                        <h6 class="card-date"> </h6>
-                        <form action="/create" method="get">
-                            <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
-                        </form>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
+            </div>
         </div>
+    </div>
 
     <div style="margin-top: 100px;"></div>
 
@@ -200,62 +93,228 @@
     <h1>Upcoming Sports Events</h1>
 
     <div class="all-events card-group card-group-scroll">
-        {% if events %}
-            {% for event in events %}
-                {% if today <= event.date %}
-                    {% for tag in event.tags %}
-                        {% if tag == 'sports' %}
-                            <div class="card">
-                                <div class="event">
-                                    <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                    <h5 class="card-title">{{ event.title }}</h5>
-                                    <p class="card-text">{{ event.description }}</p>
-                                    <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
-                                    <form action="/event/{{ event.event_id }}" method="get">
-                                        <button class="detail-btn btn btn-primary" type="submit">Details</button>
-                                    </form>
-                                    </div>
-                                </div>
+    {% for event in events %}
+        {% if today <= event.date %}
+            {% for tag in event.tags %}
+                {% if tag == 'sports' %}
+                    <div class="card">
+                        <div class="event">
+                            <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="image_test card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.title }}</h5>
+                                <p class="card-text">{{ event.description }}</p>
+                                <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
+                                {% if logged_in %}
+                                <form action="/event/{{ event.event_id }}" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
                             </div>
-                        {% endif %}
-                    {% endfor %}
+                        </div>
+                    </div>
                 {% endif %}
             {% endfor %}
-                <div class="card">
-                    <div class="event">
-                        <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
-                        <div class="card-body">
-                        <h5 class="card-title">Coming Soon!</h5>
-                        <p class="card-text">Stay tuned for a new upcoming sports event or make your own!</p>
-                        <h6 class="card-date"> </h6>
-                        <form action="/create" method="get">
-                            <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
-                        </form>
-                        </div>
-                    </div>
-                </div>
-        {% else %}
-            {% for no in no_events %}
-                <div class="card">
-                    <div class="event">
-                        <img style="border-radius: 10px 10px 0px 0px;" src="../static/test.jpeg" class="card-img-top blank-event" alt="...">
-                        <div class="card-body">
-                        <h5 class="card-title">Coming Soon!</h5>
-                        <p class="card-text">Stay tuned for a new upcoming sports event or make your own!</p>
-                        <h6 class="card-date"> </h6>
-                        <form action="/create" method="get">
-                            <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
-                        </form>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
         {% endif %}
+    {% endfor %}
+        <div class="card">
+            <div class="event">
+                <img style="border-radius: 10px 10px 0px 0px;" src="../static/sports-event.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Coming Soon!</h5>
+                    <p class="card-text">Stay tuned for a new upcoming sports event or make your own!</p>
+                    <h6 class="card-date"> </h6>
+                    {% if logged_in %}
+                    <form action="/create" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
         </div>
+    </div>
 
     <div style="margin-top: 100px;"></div>
 
+    <p id="gaming-events" style="color: white;">_</p>
+    <p style="color: white;">_</p>
+
+    <h1>Upcoming Gaming Events</h1>
+
+    <div class="all-events card-group card-group-scroll">
+    {% for event in events %}
+        {% if today <= event.date %}
+            {% for tag in event.tags %}
+                {% if tag == 'gaming' %}
+                    <div class="card">
+                        <div class="event">
+                            <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="image_test card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.title }}</h5>
+                                <p class="card-text">{{ event.description }}</p>
+                                <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
+                                {% if logged_in %}
+                                <form action="/create" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+        <div class="card">
+            <div class="event">
+                <img style="border-radius: 10px 10px 0px 0px;" src="../static/gaming-event.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Coming Soon!</h5>
+                    <p class="card-text">Stay tuned for a new upcoming gaming event or make your own!</p>
+                    <h6 class="card-date"> </h6>
+                    {% if logged_in %}
+                    <form action="/create" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 100px;"></div>
+
+    <p id="tech-events" style="color: white;">_</p>
+    <p style="color: white;">_</p>
+
+    <h1>Upcoming Tech Events</h1>
+
+    <div class="all-events card-group card-group-scroll">
+    {% for event in events %}
+        {% if today <= event.date %}
+            {% for tag in event.tags %}
+                {% if tag == 'tech' %}
+                    <div class="card">
+                        <div class="event">
+                            <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="image_test card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.title }}</h5>
+                                <p class="card-text">{{ event.description }}</p>
+                                <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
+                                {% if logged_in %}
+                                <form action="/event/{{ event.event_id }}" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+        <div class="card">
+            <div class="event">
+                <img style="border-radius: 10px 10px 0px 0px;" src="../static/tech-event.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Coming Soon!</h5>
+                    <p class="card-text">Stay tuned for a new upcoming tech event or make your own!</p>
+                    <h6 class="card-date"> </h6>
+                    {% if logged_in %}
+                    <form action="/create" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 100px;"></div>
+
+    <p id="crafts-events" style="color: white;">_</p>
+    <p style="color: white;">_</p>
+
+    <h1>Upcoming Crafts Events</h1>
+
+    <div class="all-events card-group card-group-scroll">
+    {% for event in events %}
+        {% if today <= event.date %}
+            {% for tag in event.tags %}
+                {% if tag == 'crafts' %}
+                    <div class="card">
+                        <div class="event">
+                            <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="image_test card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.title }}</h5>
+                                <p class="card-text">{{ event.description }}</p>
+                                <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
+                                <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
+                                {% if logged_in %}
+                                <form action="/event/{{ event.event_id }}" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% else %}
+                                <form action="/login" method="get">
+                                    <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+        <div class="card">
+            <div class="event">
+                <img style="border-radius: 10px 10px 0px 0px;" src="../static/crafts-event.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Coming Soon!</h5>
+                    <p class="card-text">Stay tuned for a new upcoming crafts event or make your own!</p>
+                    <h6 class="card-date"> </h6>
+                    {% if logged_in %}
+                    <form action="/create" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% else %}
+                    <form action="/login" method="get">
+                        <button class="detail-btn btn btn-primary" type="submit">Create Event</button>
+                    </form>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div style="margin-top: 100px;"></div>    
+    
     <p id="past-events" style="color: white;">_</p>
     <p style="color: white;">_</p>
 
@@ -267,14 +326,21 @@
                 {% if today > event.date %}
                     <div class="card">
                         <div class="event">
-                            <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="past-event card-img-top" alt="...">
+                            <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="image_test past-event card-img-top" alt="...">
                             <div class="card-body">
                             <h5 class="card-title">{{ event.title }}</h5>
                             <p class="card-text">{{ event.description }}</p>
-                            <h6 class="card-date">{{ event.date }} {{ event.time }}</h6>
+                            <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
+                            <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
+                            {% if logged_in %}
                             <form action="/event/{{ event.event_id }}" method="get">
-                                <button class="detail-btn btn btn-primary" type="submit">View</button>
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
                             </form>
+                            {% else %}
+                            <form action="/login" method="get">
+                                <button class="detail-btn btn btn-primary" type="submit">Details</button>
+                            </form>
+                            {% endif %}
                             </div>
                         </div>
                     </div>
@@ -291,4 +357,16 @@
 
 
 </section>
+<script>
+//Test if image loads
+image_test =document.getElementsByClassName("image_test");
+
+for (var i = 0; i < image_test.length; i++) {
+    if (typeof  image_test[i].naturalWidth == "undefined" || image_test[i].naturalWidth == 0) {
+  image_test[i].src = "/static/test.jpeg";
+  }
+}
+
+
+</script>
 {% endblock %}
