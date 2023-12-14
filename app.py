@@ -16,7 +16,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = \
-     f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/communifree'
+    f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/communifree'
 
 app.secret_key = 'chicken_nuggies'
 
@@ -195,10 +195,89 @@ def login_post():
 
 @app.route('/profile')
 def profile():
-    if 'username' in session:
-        return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username=session['username'],in_session = True)
+    #if 'username' not in session:
+    #    return redirect('/sign_up')
+    user_id=2 #to test
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    user_card_list=communifree_repository_singleton.list_all_user_cards(user_id)
 
-    return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username='@username')
+    return render_template('/profile_sections/home.html', 
+                    selfProfilePage=True, 
+                    leftEmpty=False, 
+                    logged_in=True,  
+                    #user_id=session['user_id'],
+                    #username=session['username'],
+                    #profile_img=session['profile_img'],
+                    username=profile_user.username,
+                    user_card_list=user_card_list,
+                    profile_img=profile_user.profile_img,
+                    bio=profile_user.bio
+                    )
+
+@app.route('/friends')
+def friends_list():
+    user_id=1 #to test
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    friend_list = communifree_repository_singleton.get_friends_list(user_id)
+    return render_template('/profile_sections/friends.html',
+                            username=profile_user.username,
+                            profile_img=profile_user.profile_img,
+                            logged_in=True, 
+                            user_selected=False, 
+                            selfProfilePage=True, 
+                            user="self", 
+                            leftEmpty=False, 
+                            friend_list=friend_list)
+
+@app.get('/users/<int:user_id>')
+def view_user(user_id):
+    current_user=1
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    friend_check = communifree_repository_singleton.get_friend_id(current_user, user_id)
+    user_profile_img = profile_user.profile_img
+    user_username=profile_user.username
+    user_bio = profile_user.bio
+    user_user_id=profile_user.user_id
+
+    if current_user==None:
+        access = 4
+    elif friend_check == None:
+        access = 3
+    else:
+        access = 2
+
+    user_card_list=communifree_repository_singleton.list_accessible_user_cards(user_id, access)
+
+    return render_template('/profile_sections/other_user.html',
+                            logged_in=True, 
+                            friend_check=friend_check,
+                            user_user_id=user_user_id, 
+                            access=access,
+                            user_profile_img=user_profile_img, 
+                            user_username=user_username,
+                            user_bio=user_bio,
+                            user_card_list=user_card_list
+                            )
+
+@app.post('/users/<int:user_id>/deleteFriend')
+def remove_friend(user_id: int):
+    current_user=1
+    friend_id = communifree_repository_singleton.get_friend_id(current_user, user_id)
+    db.session.delete(friends.query.get(friend_id))
+    db.session.commit()
+    return redirect(f'/users/{user_id}')
+
+@app.post('/users/<int:user_id>/addFriend')
+def add_friend(user_id: int):
+    current_user=1
+    new_friend = friends(user1_id=current_user, user2_id=user_id)
+    db.session.add(new_friend)
+    db.session.commit()
+    return redirect(f'/users/{user_id}')
 
 @app.route('/settings')
 def settings():

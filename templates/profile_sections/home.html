@@ -4,8 +4,8 @@
 
 {% block user_info %}
 <div class="p-2" style="margin:10px;">
-    <img src="{{user_image}}" style="width: 100%;">
-    <p class="text-center">@{{user_username}}</p>
+    <img src="{{profile_img}}" style="width: 100%;">
+    <p class="text-center">@{{username}}</p>
 </div>
 {% endblock user_info %}
 
@@ -28,34 +28,123 @@
 {% block content %}
 <div class="tab-content" id="profile-tabs-content" style="margin: 0px 15px;">
     <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <button>Add</button>
         <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">User Bio</h5>
+                <p class="card-text">{{bio}}</p>
+            </div>
+        </div>
+        
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCard">
+            Add
+            {% set head_txt = '' %}
+            {% set body_txt = '' %}
+            {% set vis1 = '' %}
+            {% set vis2 = 'checked' %}
+            {% set vis3 = '' %}
+            {% set vis4 = '' %}
+        </button>
+        {% for card in user_card_list %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{card.header_text}}</h5>
+                <p class="card-text">{{card.body_text}}</p>
+                <p>{{card}}</p>
+                
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCard">
+                    Edit
+                    {% set head_txt = card.header_text %}
+                    {% set body_txt = card.body_text %}
+                    {% if card.visibility == 4 %}
+                        {% set vis1 = 'checked' %}
+                        {% set vis2 = '' %}
+                        {% set vis3 = '' %}
+                        {% set vis4 = '' %}
+                    {% elif card.visibility == 3 %}
+                        {% set vis1 = '' %}
+                        {% set vis2 = 'checked' %}
+                        {% set vis3 = '' %}
+                        {% set vis4 = '' %}
+                    {% elif card.visibility == 2 %}
+                        {% set vis1 = '' %}
+                        {% set vis2 = '' %}
+                        {% set vis3 = 'checked' %}
+                        {% set vis4 = '' %}
+                    {% else %}
+                        {% set vis1 = '' %}
+                        {% set vis2 = '' %}
+                        {% set vis3 = '' %}
+                        {% set vis4 = 'checked' %}
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+        
+        {% endfor %}
+        <div class="modal fade" id="editCard" tabindex="-1" aria-labelledby="editCardLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editCardLabel"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="card_title">Title</label>
+                                <input class="form-control" type="text" id="card_title" placeholder="Title goes here" value="{{head_txt}}">
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="visibility1" value="4" {{vis1}}>
+                                        <label class="form-check-label" for="visibility1">
+                                            Public
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="visibility2" value="3" {{vis2}}>
+                                        <label class="form-check-label" for="visibility2">
+                                            Users only
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="visibility3" value="2" {{vis3}}>
+                                        <label class="form-check-label" for="visibility3">
+                                            Friends only
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="visibility4" value="1" {{vis4}}>
+                                        <label class="form-check-label" for="visibility4">
+                                            Private
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="card_body">Body</label>
+                                <textarea class="form-control" id="card_body" rows="3" value="{{body_txt}}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" value="delete">Delete</button>
+                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" value="close">Close</button>
+                                <button type="submit" class="btn btn-primary" value="save">Save changes</button>    
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!--<div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">Header</h5>
                 <p class="card-text">About</p>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCard">
                     Edit
                 </button>
-                <div class="modal fade" id="editCard" tabindex="-1" aria-labelledby="editCardLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="editCardLabel">Visibility Settings</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h6>Visible to [friend]:</h6>
-                                <input type="checkbox" id="profile1" name="profile1" value="item1">
-                                <label for="profile1">Item 1</label><br>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                
         </div>
-        {% endblock %}
+    </div>-->
+{% endblock %}

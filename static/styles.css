@@ -195,6 +195,19 @@ h1{
 
 .card-title {
     font-weight: 700;
+    top: 180px;
+}
+
+.card-text {
+    top: 220px;
+}
+
+.card-date {
+    top: 70%;
+}
+
+.all-events-cards{
+    position:absolute
 }
 
 .card-text .card-date {

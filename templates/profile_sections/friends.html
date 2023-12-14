@@ -3,18 +3,24 @@
 
 
 {% block left_column %}
-<div class="p-4 offcanvas-parent flex-fill" id="content" style="position: relative;">
+<!--<div class="p-4 offcanvas-parent flex-fill" id="content" style="position: relative;">
     <div class="offcanvas offcanvas-start" data-bs-backdrop="false"  tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel" style="position:absolute; height:100%">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasLabel"></h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            {% block user_info %}
-            <div class="p-2">
-                <img src="{{user_image}}" style="width: 100%;">
-                <p class="text-center">{{user_username}}</p>
+        <div class="offcanvas-body">-->
+            
+        {% block user_info %}
+            <!--<div class="p-2">
+                <img id="friend_image" src="{{profile_img}}" style="width: 100%;">
+                <p class="text-center" id="friend_username">@{{username}}</p>
+             </div>-->
+             <div class="p-2" style="margin:10px;">
+                <img src="{{profile_img}}" style="width: 100%;">
+                <p class="text-center">@{{username}}</p>
             </div>
+       
         {% endblock user_info %}
         {% block button_area %}
         <!--
@@ -55,7 +61,7 @@
                 </form>
             </div>
         -->
-        <div  class="d-grid gap-1">
+        <!--<div  class="d-grid gap-1">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFriendSettings">
                 Edit Preferences
             </button>
@@ -66,12 +72,21 @@
             <button type="button" class="btn btn-primary">Block</button>
             <button type="button" class="btn btn-primary">Report</button>
         </div>
-        
-            
+    -->
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/settings">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Log Out</a>
+            </li>
+        </ul>    
         {% endblock button_area %}        
-    </div>
-    </div>
-    </div>
+        
+    
 {% endblock left_column %}
 
 {% block content %}
@@ -80,33 +95,31 @@
             <tr>
                 <th style="width: auto;">Friend</th>
                 <th style="width: 80%;"></th>
-                <th style="width: 20%; min-width: 90px;">Level</th>
+                <!--<th style="width: 20%; min-width: 90px;">Level</th>-->
                 <th style="width: auto;"></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="clickable" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
-                <!--
+            {% for friend in friend_list %}
+            <tr class="clickable" onclick="window.location='/users/{{friend.user_id}}'">
+
                 <td>
-                    <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layout-sidebar-inset" viewBox="0 0 16 16">
-                            <path d="M14 2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2z"/>
-                            <path d="M3 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
-                          </svg>
-                    </button>
-                </td>
-            -->
-                <td>
-                    <img src="/static/test.jpeg" style="width:45px;height:45px;">
+                    <img src="{{friend.profile_img}}" style="width:45px;height:45px;">
                 </td>
                 <td>
                     <div>
-                        <h6 class="text-left" style="margin-bottom: 0px;">@Username</h6>
+                        <h6 class="text-left" style="margin-bottom: 0px;">@{{friend.username}}</h6>
                     </div>
                 </td>
-                <td>
-                    Not close
-                </td>
+                <!--<td>
+                    {% if friend.friend_level == 1 %}
+                        Close friends
+                    {% elif friend.friend_level == 2 %}
+                        Friends
+                    {% elif friend.friend_level == 3 %}
+                        Not close friends
+                    {% endif %}
+                </td>-->
                 <td>
                     <div class="dropdown">
                         <button class="btn" type="button" id="friendOptions" data-bs-toggle="dropdown" aria-expanded="false" style="justify-content: right;">
@@ -115,7 +128,7 @@
                             </svg>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="friendOptions">
-                          <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editFriendSettings">Edit Friend Level</button></li>
+                          <!--<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editFriendSettings">Edit Friend Level</button></li>-->
                           <li><button class="dropdown-item" type="button">Remove Friend</button></li>
                           <li><button class="dropdown-item" type="button">Block</button></li>
                           <li><button class="dropdown-item" type="button">Report</button></li>
@@ -123,10 +136,10 @@
                       </div>
                 </td>
             </tr>
-            
+            {% endfor %}
         </tbody>
     </table>
-    
+    <!--
     <div class="modal fade" id="editFriendSettings" tabindex="-1" aria-labelledby="editFriendSettingsLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -169,4 +182,5 @@
             </div>
         </div>
     </div>
+    -->
 {% endblock %}

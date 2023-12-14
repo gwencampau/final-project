@@ -1,0 +1,35 @@
+{% extends 'profile_sections/base_profile.html' %}
+
+
+
+{% block body %}
+<div class="tab-content" id="profile-tabs-content" style="margin: 0px 15px;">
+    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <form action="/profile/{{card_id}}" method="post" class="mt-3">
+            <div class="form-group">
+                <label for="card_title">Title</label>
+                <input class="form-control" type="text" id="card_title" placeholder="Title goes here" value="{{header_text}}">
+            </div>
+            <div class="form-group p-2">
+                <label for="visibility_type">Edit Visibility</label>
+                <select class="form-select" id="visibility_type" aria-label="New visibility select form">
+                    <option value="4">Public</option>
+                    <option value="3">Users Only</option>
+                    <option value="2">Friends Only</option>
+                    <option value="1">Private</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="card_body">Body</label>
+                <textarea class="form-control" placeholder="Text goes here" id="card_body" rows="3" value="{{body_text}}"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-secondary" value="delete">Delete</button>
+                <button type="submit" class="btn btn-primary" value="save">Save changes</button>    
+            </div>
+        </form>
+            </div>
+        </div>
+
+{% endblock %}

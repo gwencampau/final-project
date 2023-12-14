@@ -1,4 +1,4 @@
-from src.models import app_user, event, participatingIn, friends, groups, db
+from src.models import app_user, event, participatingIn, friends, groups, user_cards, db
 
 class CommunifreeRepository:
 
@@ -6,9 +6,33 @@ class CommunifreeRepository:
         all_user = app_user.query.all()
         return all_user
 
-    def get_user_by_id(self, id):
+    def get_user_by_id(self, id) -> app_user | None:
         select_user = app_user.query.get(id)
         return select_user
+    
+    def get_friends_list(self, id):
+        friends_list = db.session.query(app_user).join(friends, (friends.user2_id == app_user.user_id)).where(friends.user1_id==id)
+        return friends_list
+    
+    def get_friend_id(self, id, other_id):
+        f_id = friends.query.where(friends.user1_id==id and friends.user2_id==other_id).first()
+        if f_id != None:
+            f_id = f_id.friend_id
+        return f_id
+
+    def add_friend(self, id, friend_id):
+        new_friend = friends(user1_id=id, user2_id=friend_id)
+        db.session.add(new_friend)
+        db.session.commit()
+        return new_friend
+    
+    def list_all_user_cards(self, author_id):
+        cards_list = db.session.query(user_cards).where(user_cards.author_user_id==author_id).all()
+        return cards_list
+    
+    def list_accessible_user_cards(self, author_id, access):
+        cards_list = db.session.query(user_cards).where(user_cards.author_user_id==author_id).where(user_cards.visibility >= access)
+        return cards_list
     
     def get_all_events(self):
         all_events = event.query.all()

@@ -71,3 +71,12 @@ CREATE TABLE group_events(
     FOREIGN KEY (event_id) REFERENCES event(event_id),
     FOREIGN KEY (group_id) REFERENCES group(group_id)
 );
+CREATE TABLE user_cards(
+    card_id SERIAL,
+    author_user_id INT NOT NULL,
+    header_text VARCHAR(80) NOT NULL,
+    body_text TEXT NOT NULL,
+    visibility INT NOT NULL,
+    PRIMARY KEY (card_id),
+    FOREIGN KEY (author_user_id) REFERENCES app_user(user_id)
+);
