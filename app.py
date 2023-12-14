@@ -521,7 +521,8 @@ def sign_up_post():
     
     hashed_password = bcrypt.generate_password_hash(raw_password, 12).decode()
     hashed_email = bcrypt.generate_password_hash(email, 12).decode()
-    new_user = app_user(hashed_email, username, hashed_password, None, None)
+    default_pfp = "../static/Unknown.png"
+    new_user = app_user(hashed_email, username, hashed_password, default_pfp, None)
     db.session.add(new_user)
     db.session.commit()
 
