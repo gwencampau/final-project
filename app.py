@@ -119,12 +119,17 @@ def about():
         return render_template('about.html',in_session = True)
     return render_template('about.html')
     
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error.html'), 404
 
 @app.route('/event/<int:event_id>') #Will change routing to /<event_name> once DB is started
 def events(event_id):
     event_data = communifree_repository_singleton.get_event_by_id(event_id)
     event_friends = communifree_repository_singleton.get_friends_by_event(event_id)
     owner=False
+    if event_data==None:
+        return render_template('error.html')
     if 'username' in session:
         if session['user_id'] == event_data.author_id:
             owner = True
