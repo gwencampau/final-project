@@ -281,10 +281,6 @@ def edit_group(group_id):
     title = request.form.get("title")
     description = request.form.get("description")
     link = request.form.get("link")
-   
-    if not public:
-        public = False
-    public = True
     tags = []
     if request.form.get('music'):
         tags.append('music')
