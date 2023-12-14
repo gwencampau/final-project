@@ -1,0 +1,28 @@
+{% extends '_layout.html' %}
+
+{% block title %}Groups{% endblock %}
+
+{% block body %}
+
+<div class="hero-image">
+    <div class="hero-text">
+      <h1>Groups</h1>
+    </div>
+</div>
+
+<section class="list-all-events">
+
+    {% if in_session %}
+    <div style="margin-top: 100px;"></div>
+
+    <p id="upcoming-events" style="color: white;">_</p>
+    <p style="color: white;">_</p>
+
+    <h1>My Groups</h1>
+
+    
+    {% endif %}
+</section>
+
+
+{% endblock %}

@@ -33,9 +33,8 @@ test_create_form_data = []
 def index():
     all_events = event.query.all()
     today = date.today()
-    all_groups= groups.query.all()
     if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, all_groups=all_groups, in_session = True)
+        return render_template('index.html', events=all_events, today=today, in_session = True)
     return render_template('index.html', events=all_events, today=today)
 
 @app.get('/group/<int:group_id>')
@@ -90,6 +89,13 @@ def search_events():
     else:
         return index()
 
+@app.get('/groups')
+def get_all_groups():
+    in_session = False
+    if 'username' in session:
+        in_session = True
+    all_groups = groups.query.all()
+    return render_template('get_all_groups.html', in_session=in_session, groups=all_groups)
 
 @app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
 def delete_event(event_id):
