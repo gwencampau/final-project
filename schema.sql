@@ -62,7 +62,7 @@ CREATE TABLE participating_in_group(
     group_id INT NOT NULL,
     PRIMARY KEY (participating_id),
     FOREIGN KEY (user_id) REFERENCES app_user(user_id),
-    FOREIGN KEY (group_id) REFERENCES group(group_id)
+    FOREIGN KEY (group_id) REFERENCES groups(group_id)
 );
 
 CREATE TABLE group_events(
@@ -71,5 +71,5 @@ CREATE TABLE group_events(
     group_id INT NOT NULL,
     PRIMARY KEY (grev_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id),
-    FOREIGN KEY (group_id) REFERENCES group(group_id)
+    FOREIGN KEY (group_id) REFERENCES groups(group_id)
 );
