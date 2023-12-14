@@ -1,4 +1,5 @@
 from flask import Flask, redirect, render_template, request, abort, session
+import json
 from datetime import date, datetime
 
 from src.models import db, app_user, event, participatingIn, friends, groups 
@@ -44,6 +45,38 @@ def view_groups(group_id):
          return render_template('error.html')
     return render_template('group.html', group_data=group_data)
 
+
+@app.route('/map')
+def map():
+    from src.models import db, event
+    all_events = event.query.all()
+    event_data = []
+
+    for event in all_events:
+
+        if event.latitude == None or event.longitude == None:
+            try:
+                location = event.location
+                latitude, longitude = communifree_repository_singleton.geocode_location(location)
+                event.latitude = latitude
+                event.longitude = longitude
+                db.session.commit()
+            except Exception as e:
+                print(e)
+                continue
+        
+
+        event_data.append({
+            'title': event.title, 
+            'description': event.description, 
+            'location': event.location, 
+            'latitude': event.latitude, 
+            'longitude': event.longitude
+        })
+    
+    event_data_json = json.dumps(event_data)
+    
+    return render_template('map.html', event_data_json=event_data_json)
 
 @app.get('/events/search')
 def search_events():

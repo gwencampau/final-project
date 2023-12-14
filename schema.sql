@@ -21,6 +21,8 @@ CREATE TABLE event (
     tags TEXT[] NULL,
     public BOOLEAN NOT NULL,
     location VARCHAR(255) NOT NULL,
+    latitude FLOAT NULL,
+    longitude FLOAT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (author_id) REFERENCES app_user(user_id)
 );
