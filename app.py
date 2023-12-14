@@ -56,12 +56,13 @@ def unattend_event(event_id):
 @app.get('/group/<int:group_id>')
 def view_groups(group_id):
     group_data = groups.query.get(group_id)
+    members = communifree_repository_singleton.get_group_members(group_id)
     if group_data==None:
          return render_template('error.html')
     in_session=False
     if 'username' in session:
         in_session = True
-    return render_template('group.html', group_data=group_data, in_session=in_session)
+    return render_template('group.html', group_data=group_data, in_session=in_session, members=members)
 
 
 @app.route('/map')
@@ -157,6 +158,12 @@ def create_group():
         return redirect('/')
     return redirect('/login')
 
+@app.get('/group/<int:group_id>/join')
+def join_event(group_id):
+    if 'username' not in session:
+        abort(404)
+    new_join = communifree_repository_singleton.join_group(session['user_id'], group_id)
+    return redirect(f'/group/{group_id}')
 
 @app.get('/create')
 def create_form_event():
@@ -173,9 +180,6 @@ def create_event():
     date = request.form.get('date')
     time = request.form.get('time')
     link = request.form.get("link")
-    public = request.form.get("public")
-    if not public:
-        public = False
     public = True
     tags=[]
     if request.form.get('music'):

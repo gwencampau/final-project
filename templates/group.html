@@ -14,10 +14,12 @@
             <!----->
             <div class="d-flex align-items-start justify-content-center ">
 
-                <button type="button" class="btn btn-secondary btn-event btn-class" >
+              <form action="/group/{{group_data.group_id}}/join" method="get">
+                <button type="submit" class="btn btn-secondary btn-event btn-class" >
                     Join
                 </button>
-                
+              </form>
+
                   <div class="dropdown btn-class">
                     <button class="btn btn-event btn-secondary dropdown-toggle" type="button"   data-bs-toggle="dropdown" >
                       Share
@@ -34,7 +36,7 @@
                     </button>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="/event/edit">Edit</a></li> 
-                      <li><a class="dropdown-item" href="/groups/delete/group/{{group_data.event_id}}">delete</a></li> 
+                      <li><a class="dropdown-item" href="/delete/group/{{group_data.group_id}}">delete</a></li> 
                       
                     </ul>
                   </div>
@@ -45,14 +47,18 @@
                <!--Will be converted once DB is done  event_friends--> 
                 <span  class="h2">Members</span>
                 
+                
             </div> 
-            {%for x in event_friends %}
-            <div  class="profile-div">
-                <img src="{{x.profile_img}}"  class="rounded-circle profile-img" alt="Place holder" > 
-              
-            </div>
-            {%endfor%}
-            
+            <table>
+              <th>Username</th>
+              <th>Image</th>
+                {%for member in members %}
+                    <tr>
+                      <td>{{member.username}}</td>
+                      <td><img src="{{member.profile_img}}"  class="rounded-circle profile-img" alt="Place holder" > </td>
+                    </tr>                                              
+                {%endfor%}
+            </table>
         </div>
 
         <div class="col flex-item flex" > <!--Right column-->
