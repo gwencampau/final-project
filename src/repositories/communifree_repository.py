@@ -59,6 +59,13 @@ class CommunifreeRepository:
         get_user_id = app_user.query.filter_by(username=name).first()
         return get_user_id.user_id
 
+    def update_user(self, user_id, profile_img, username, bio):
+        c_user = app_user.query.get(user_id)
+        c_user.profile_img = profile_img
+        c_user.username = username
+        c_user.bio = bio
+        return c_user
+    
     def get_all_events(self):
         all_events = event.query.all()
         return all_events

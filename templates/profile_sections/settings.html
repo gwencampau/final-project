@@ -27,17 +27,17 @@
 
 {% block content %}
 <h1>Settings</h1>
-<form action="/settings/{{user_id}}" method="post">
+<form action="/settings/update" method="post">
     <div class="custom-file">
         <img src="{{profile_img}}" style="width: 50px;">
-        <input type="file" class="custom-file-input"id="customFile">
-        <label class="custom-file-label" for="customFile"></label>
+        <input type="file" class="custom-file-input"id="profile-image">
+        <label class="custom-file-label" for="profile-image"></label>
         <div class=""></div>
     </div>
     <br>
     <div class="col-md-4 mb-3">
         <label for="p_username">Username</label>
-        <input type="text" class="form-control" id="p_username" value="{{user_name}}" required>
+        <input type="text" class="form-control" id="p_username" value="{{username}}" required>
     </div>
     <div class="col-md-4 mb-3">
         <label for="p_bio">Bio</label>

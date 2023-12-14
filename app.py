@@ -339,7 +339,6 @@ def edit_card(card_id):
     body_text = request.form.get("body_text")
     visibility = request.form.get("visibility_type")
     communifree_repository_singleton.update_card(card_id, header_text, body_text, visibility)
-    communifree_repository_singleton.update_card(card_id, header_text, body_text, visibility)
     return redirect(f'/profile/{card_id}')
 
 
@@ -439,6 +438,20 @@ def settings():
                     profile_img=profile_user.profile_img,
                     bio=profile_user.bio
                     )
+
+@app.post('/settings/update')
+def edit_profile():
+    if 'username' not in session:
+        return redirect('/sign_up')
+    user_id=session['user_id']
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    profile_img = request.form.get("profile-image")
+    username = request.form.get("p_username")
+    bio = request.form.get("p_bio")
+    communifree_repository_singleton.update_user(user_id, profile_img, username, bio)
+    return redirect('/profile')
 
 @app.get('/sign_up')
 def sign_up():
