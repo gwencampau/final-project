@@ -38,9 +38,9 @@ def index():
 
 @app.get('/group/<int:group_id>')
 def view_groups(group_id):
-    group_data = communifree_repository_singleton.get_group(group_id)
-    event_data = communifree_repository_singleton.get_event_by_id(1)
-    print(group_data)
+    group_data = groups.query.get(group_id)
+    if group_data==None:
+         return render_template('error.html')
     return render_template('group.html', group_data=group_data)
 
 
@@ -59,18 +59,13 @@ def search_events():
 
 @app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
 def delete_event(event_id):
-    delete = communifree_repository_singleton.get_event_by_id(event_id)
-    name = delete.title
-    db.session.delete(delete)
-    db.session.commit()
-    return render_template('delete.html', name=name)
+    communifree_repository_singleton.delete_events(event_id)
+    return render_template('delete.html')
 
-@app.get('/delete/groups/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
-def delete_group(event_id):
-    delete = communifree_repository_singleton.get_event_by_id(event_id)
-    db.session.delete(delete)
-    db.session.commit()
-    return render_template('delete.html', )
+@app.get('/delete/group/<int:group_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
+def delete_group(group_id):
+    communifree_repository_singleton.delete_group(group_id)
+    return render_template('delete.html' )
 
 
 @app.get('/create')
