@@ -34,7 +34,7 @@ def index():
     all_events = event.query.all()
     today = date.today()
     if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, all_groups=all_groups, in_session = True, logged_in = True)
+        return render_template('index.html', events=all_events, today=today, in_session = True, logged_in = True)
     return render_template('index.html', events=all_events, today=today, logged_in = False)
 
 @app.get('/event/<int:event_id>/attend')
@@ -58,7 +58,10 @@ def view_groups(group_id):
     group_data = groups.query.get(group_id)
     if group_data==None:
          return render_template('error.html')
-    return render_template('group.html', group_data=group_data)
+    in_session=False
+    if 'username' in session:
+        in_session = True
+    return render_template('group.html', group_data=group_data, in_session=in_session)
 
 
 @app.route('/map')
@@ -111,7 +114,8 @@ def get_all_groups():
     if 'username' in session:
         in_session = True
     all_groups = groups.query.all()
-    return render_template('get_all_groups.html', in_session=in_session, groups=all_groups)
+    id = session['user_id']
+    return render_template('get_all_groups.html', in_session=in_session, groups=all_groups, id = id)
 
 @app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
 def delete_event(event_id):
