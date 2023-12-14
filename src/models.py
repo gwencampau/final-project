@@ -12,7 +12,7 @@ class app_user(db.Model):
     # password VARCHAR(255) NOT NULL,
     password = db.Column(db.String(255), nullable=False)
     # profile_img VARCHAR(10) NULL, --Postgres does not support BLOB so I had to find an alternative
-    profile_img = db.Column(db.LargeBinary, nullable=True)
+    profile_img = db.Column(db.String(500), nullable=True)
     # bio VARCHAR(150) NULL,
     bio = db.Column(db.String(150), nullable=True)
 
@@ -104,7 +104,7 @@ class friends(db.Model):
     # FOREIGN KEY (user2_id) REFERENCES app_user(user_id)
     user2_id = db.Column(db.Integer, db.ForeignKey('app_user.user_id'), nullable=False)
     user2 = db.relationship('app_user', foreign_keys=[user2_id], backref='user2')
-
+    
     def __init__(self, user1_id: int, user2_id: int):
         self.user1_id = user1_id
         self.user2_id = user2_id
@@ -132,6 +132,32 @@ class groups(db.Model):
     def __repr__(self) -> str:
         return f'Group({self.title}, {self.image_link}, {self.description}, {self.tags}, {self.author_id})'
 
+    
+    
+class user_cards(db.Model):
+    # card_id SERIAL,
+    # PRIMARY KEY (friend_id),
+    card_id = db.Column(db.Integer, primary_key=True)
+    # header_text VARCHAR(80) NOT NULL,
+    header_text = db.Column(db.String(80), nullable=False)
+    # body_text TEXT(1000) NOT NULL,
+    body_text = db.Column(db.String(1000), nullable=False)
+    # author_user_id INT NOT NULL,
+    # FOREIGN KEY (author_user_id) REFERENCES app_user(user_id)
+    author_user_id = db.Column(db.Integer, db.ForeignKey('app_user.user_id'), nullable=False)
+    user = db.relationship('app_user', backref='creator')
+    # visibility INT NOT NULL,
+    visibility = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, header_text: str, body_text: str, author_user_id: int, visibility: int):
+        self.header_text = header_text
+        self.body_text = body_text
+        self.author_user_id = author_user_id
+        self.visibility = visibility
+    
+    def __repr__(self) -> str:
+        return f'user_cards({self.card_id}, {self.header_text}, {self.body_text}, {self.author_user_id}, {self.visibility})'
+    
 class participating_in_group(db.Model):
     participating_id = db.Column(db.Integer, primary_key=True)
     

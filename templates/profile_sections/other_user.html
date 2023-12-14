@@ -1,0 +1,48 @@
+{% extends 'profile_sections/base_profile.html' %}
+
+{% block left_column %}
+
+{% block user_info %}
+<div class="p-2" style="margin:10px;">
+    <img src="{{user_profile_img}}" style="width: 100%;">
+    <p class="text-center">@{{user_username}}</p>
+</div>
+
+{% endblock user_info %}
+
+{% block button_area %}        
+<div class="d-grid gap-1" style="margin-top:15px;">
+    {% if friend_check != None%}
+    <form action="/users/{{user_user_id}}/deleteFriend" method="post">
+        <button type="submit"  class="pro-buttons btn pro-friend-buttons">Remove Friend</button>
+    </form>
+    {% else %}
+    <form action="/users/{{user_user_id}}/addFriend" method="post">
+        <button type="submit" class="pro-buttons btn pro-friend-buttons">Add Friend</button>
+    </form>
+    
+    {%endif%}
+</div>
+{% endblock button_area %}      
+
+{%endblock left_column %}
+
+{% block content %}
+<div class="tab-content" id="profile-tabs-content" style="margin: 0px 15px;">
+    <div class="card mb-3 pro-cards">
+        <div class="card-body">
+            <h5 class="card-title pcard-text">User Bio</h5>
+            <p class="card-text pcard-body">{{user_bio}}</p>
+        </div>
+    </div>
+
+    {% for card in user_card_list %}
+    <div class="card mb-3 pro-cards">
+        <div class="card-body">
+            <h5 class="card-title pcard-text">{{card.header_text}}</h5>
+            <p class="card-text pcard-body">{{card.body_text}}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

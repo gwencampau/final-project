@@ -1,5 +1,56 @@
 {% extends 'profile_sections/base_profile.html' %}
 
+
+{% block user_info %}
+<div class="p-2" style="margin:10px;">
+    <img src="{{profile_img}}" style="width: 100%;">
+    <p class="text-center">@{{username}}</p>
+</div>
+{% endblock user_info %}
+
+{% block button_area %}
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link pro-nav" href="/profile">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link pro-nav" href="/friends">Friends</a>
+    </li>
+    <li class="nav-item">
+        <form action="/logout" method="post">
+            <button type="submit" class="nav-link pro-nav">Logout</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}
+
+
 {% block content %}
 <h1>Settings</h1>
+<div>
+<form action="/settings/update" method="post">
+    <div class="col-md-4 mb-3">
+        <img src="{{profile_img}}" style="width: 50px;">
+        <label for="profile-image">Profile Image</label>
+        <input type="text" class="form-control" name='profile-image' id="profile-image">
+    </div>
+    <br>
+    <div class="col-md-4 mb-3">
+        <label for="p_username">Username</label>
+        <input type="text" class="form-control" name="p_username" id="p_username" value="{{username}}" required>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="p_bio">Bio</label>
+        <input type="textarea" class="form-control" name="p_bio"id="p_bio"value="{{bio}}" required>
+    </div>
+    <button type="submit"  class="btn pro-buttons">Update Profile</button>
+</form>
+</div>
+
+<div>
+<form action="/profile/delete" method="post">
+    <button type="submit"  class="btn btn-primary pro-buttons">Delete</button>
+</form>
+</div>
+
 {% endblock %}

@@ -198,6 +198,19 @@ h1{
 
 .card-title {
     font-weight: 700;
+    top: 180px;
+}
+
+.card-text {
+    top: 220px;
+}
+
+.card-date {
+    top: 70%;
+}
+
+.all-events-cards{
+    position:absolute
 }
 
 .card-text .card-date {
@@ -464,6 +477,42 @@ form p{
     margin: 0;
     padding: 0;
     z-index: 1;
+}
+
+.map #search {
+    font-family: "Cabin", sans-serif;
+    position: relative;
+    z-index: 10;
+    background-color: white;
+    color: var(--main-dark-blue);
+    padding: .75rem;
+    top: .75rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    border: none;
+}
+
+/*profile styling*/
+.pro-cards{
+    width:100%;
+}
+.pcard-text{
+    font-size: 16px;
+}
+.pcard-body{
+    font-size: 14px;
+}
+.pro-nav{
+    fill: none;
+    color: var(--main-dark-blue);
+}
+.pro-buttons{
+    background-color: var(--main-dark-blue);
+    color:#E8E8E8;
+}
+.pro-friend-buttons{
+    width:100%;
 }
 
 /* Footer Styling */

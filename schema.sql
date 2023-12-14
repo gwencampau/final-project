@@ -5,7 +5,7 @@ CREATE TABLE app_user (
     email VARCHAR(255) NOT NULL UNIQUE,
     username VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    profile_img bytea NULL, --Postgres does not support BLOB so I had to find an alternative
+    profile_img VARCHAR(255) NULL, --Postgres does not support BLOB so I had to find an alternative
     bio VARCHAR(150) NULL,
     PRIMARY KEY (user_id)
 );
@@ -72,4 +72,13 @@ CREATE TABLE group_events(
     PRIMARY KEY (grev_id),
     FOREIGN KEY (event_id) REFERENCES event(event_id),
     FOREIGN KEY (group_id) REFERENCES groups(group_id)
+);
+CREATE TABLE user_cards(
+    card_id SERIAL,
+    author_user_id INT NOT NULL,
+    header_text VARCHAR(80) NOT NULL,
+    body_text TEXT NOT NULL,
+    visibility INT NOT NULL,
+    PRIMARY KEY (card_id),
+    FOREIGN KEY (author_user_id) REFERENCES app_user(user_id)
 );

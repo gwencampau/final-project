@@ -2,7 +2,7 @@ from flask import Flask, redirect, render_template, request, abort, session
 import json
 from datetime import date, datetime
 
-from src.models import db, app_user, event, participatingIn, friends, groups 
+from src.models import db, app_user, event, participatingIn, friends, groups , user_cards
 from src.repositories.communifree_repository import communifree_repository_singleton
 
 from flask_bcrypt import Bcrypt
@@ -17,7 +17,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = \
-     f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/communifree'
+    f'postgresql://{os.getenv("DB_USER")}:{os.getenv("DB_PASS")}@{os.getenv("DB_HOST")}:{os.getenv("DB_PORT")}/communifree'
 
 app.secret_key = 'chicken_nuggies'
 
@@ -33,9 +33,9 @@ test_create_form_data = []
 def index():
     all_events = event.query.all()
     today = date.today()
-    if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, in_session = True, logged_in = True)
-    return render_template('index.html', events=all_events, today=today, logged_in = False)
+    if 'username' not in session:
+        return render_template('index.html', events=all_events, today=today, logged_in = False)
+    return render_template('index.html', events=all_events, today=today, in_session=True, logged_in = True)
 
 @app.get('/event/<int:event_id>/attend')
 def attend_event(event_id):
@@ -200,12 +200,6 @@ def create_event():
     event=communifree_repository_singleton.create_event(title, description, location, date, time, link, public, tags, author_id)
     return redirect('/')
 
-@app.route('/friends')
-def friends_list():
-    if 'username' in session:
-        return render_template('/profile_sections/friends.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session = True)
-    return render_template('/profile_sections/friends.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")
-
 @app.route('/about')
 def about():
     if 'username' in session:
@@ -329,13 +323,186 @@ def login_post():
 
 @app.route('/profile')
 def profile():
-    if 'username' in session:
-        return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username=session['username'],in_session = True)
+    if 'username' not in session:
+        return redirect('/sign_up')
+    user_id=session['user_id']
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    user_card_list=communifree_repository_singleton.list_all_user_cards(user_id)
+    return render_template('/profile_sections/home.html', 
+                    selfProfilePage=True, 
+                    leftEmpty=False, 
+                    logged_in=True,  
+                    #user_id=session['user_id'],
+                    #username=session['username'],
+                    #profile_img=session['profile_img'],
+                    username=profile_user.username,
+                    user_card_list=user_card_list,
+                    profile_img=profile_user.profile_img,
+                    bio=profile_user.bio,
+                    in_session = True
+                    )
 
-    return render_template('/profile_sections/home.html', selfProfilePage=True, user="self", leftEmpty=False, logged_in=True, user_image="/static/test.jpeg", user_username='@username')
+@app.get('/profile/add')
+def create_card_form():
+    if 'username' in session:
+        return render_template('/profile_sections/add_card.html',in_session=True)
+    return redirect('/login')
+
+@app.post('/profile/add')
+def create_card():
+    header_text = request.form.get("header_text")
+    body_text = request.form.get("body_text")
+    visibility = request.form.get("visibility_type")
+    author_user_id = session['user_id']
+    card=communifree_repository_singleton.create_card(header_text,body_text,author_user_id,visibility)
+    return redirect('/profile')
+
+@app.get('/profile/<int:card_id>/edit')
+def edit_card_page(card_id):
+    card = communifree_repository_singleton.get_card_by_id(card_id)
+    header_text = card.header_text
+    body_text = card.body_text
+    visibility = card.visibility
+    if 'username' not in session:
+        return redirect('/profile')
+    if not user_cards:
+        return "Card not in database", 400
+    return render_template('/profile_sections/edit_card.html', in_session=True,
+                        header_text=header_text,
+                        body_text=body_text,
+                        visibility=visibility)
+
+
+@app.post('/profile/<int:card_id>')
+def edit_card(card_id):
+    header_text = request.form.get("header_text")
+    body_text = request.form.get("body_text")
+    visibility = request.form.get("visibility_type")
+    communifree_repository_singleton.update_card(card_id, header_text, body_text, visibility)
+    return redirect(f'/profile/{card_id}')
+
+
+
+@app.post('/profile/<int:card_id>/delete')
+def delete_card(card_id: int):
+    if 'username' not in session:
+        return redirect('/profile')
+    db.session.delete(user_cards.query.get(card_id))
+    db.session.commit()
+    return redirect('/profile')
+
+@app.route('/friends')
+def friends_list():
+    if 'username' not in session:
+        return redirect('/sign_up')
+    profile_user=communifree_repository_singleton.get_user_by_id(session['user_id'] )
+    friend_list = communifree_repository_singleton.get_friends_list(session['user_id'] )
+    return render_template('/profile_sections/friends.html',
+                            username=profile_user.username,
+                            profile_img=profile_user.profile_img,
+                            logged_in=True, 
+                            user_selected=False, 
+                            selfProfilePage=True, 
+                            user="self", 
+                            leftEmpty=False, 
+                            friend_list=friend_list,
+                            in_session = True)
+
+@app.get('/users/<int:user_id>')
+def view_user(user_id):
+    if 'username' not in session:
+        access = 4
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    current_user=session['user_id']
+    friend_check = communifree_repository_singleton.get_friend_id(current_user, user_id)
+    user_profile_img = profile_user.profile_img
+    user_username=profile_user.username
+    user_bio = profile_user.bio
+    user_user_id=profile_user.user_id
+    if friend_check == None:
+        access = 3
+    else:
+        access = 2
+    user_card_list=communifree_repository_singleton.list_accessible_user_cards(user_id, access)
+    return render_template('/profile_sections/other_user.html',
+                            logged_in=True, 
+                            friend_check=friend_check,
+                            user_user_id=user_user_id, 
+                            access=access,
+                            user_profile_img=user_profile_img, 
+                            user_username=user_username,
+                            user_bio=user_bio,
+                            user_card_list=user_card_list,
+                            in_session = True
+                            )
+
+@app.post('/users/<int:user_id>/deleteFriend')
+def remove_friend(user_id: int):
+    current_user=session['user_id']
+    friend_id = communifree_repository_singleton.get_friend_id(current_user, user_id)
+    db.session.delete(friends.query.get(friend_id))
+    db.session.commit()
+    return redirect(f'/users/{user_id}')
+
+@app.post('/users/<int:user_id>/addFriend')
+def add_friend(user_id: int):
+    current_user=session['user_id']
+    if communifree_repository_singleton.get_friend_id is None:
+        return redirect(f'/users/{user_id}')
+    new_friend = friends(user1_id=current_user, user2_id=user_id)
+    db.session.add(new_friend)
+    db.session.commit()
+    return redirect(f'/users/{user_id}')
 
 @app.route('/settings')
 def settings():
+    if 'username' not in session:
+        return redirect('/sign_up')
+    user_id=session['user_id']
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    user_card_list=communifree_repository_singleton.list_all_user_cards(user_id)
+    return render_template('/profile_sections/settings.html', 
+                    selfProfilePage=True, 
+                    leftEmpty=False, 
+                    logged_in=True, 
+                    in_session = True, 
+                    #user_id=session['user_id'],
+                    #username=session['username'],
+                    #profile_img=session['profile_img'],
+                    username=profile_user.username,
+                    user_card_list=user_card_list,
+                    profile_img=profile_user.profile_img,
+                    bio=profile_user.bio
+                    )
+
+@app.post('/settings/update')
+def edit_profile():
+    if 'username' not in session:
+        return redirect('/sign_up')
+    user_id=session['user_id']
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    profile_img = request.form.get("profile-image")
+    username = request.form.get("p_username")
+    bio = request.form.get("p_bio")
+    communifree_repository_singleton.update_user(user_id, profile_img, username, bio)
+    db.session.commit()
+    return redirect('/profile')
+
+@app.post('/profile/delete')
+def delete_profile():
+    user_id=session['user_id']
+    db.session.delete(app_user.query.get(user_id))
+    db.session.commit()
+    del session['username']
+    return redirect('/')
     if 'username' in session:
         return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session= True)
     return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username")

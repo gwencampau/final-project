@@ -33,3 +33,13 @@ VALUES
 ;
 
 SELECT * FROM friends;
+
+INSERT INTO user_cards (card_id, author_user_id, header_text, body_text, visibility)
+VALUES
+    (1, 2, 'Abc', 'aaaaaaaaaaaaaaaaaaaaaaaaa', 2),
+    (2, 2, 'B', 'e', 4),
+    (3, 2, 'Abc', 'adasdawd', 1),
+    (4, 2, 'Abc', 'askdjlkashd', 3)
+;
+
+SELECT * FROM user_cards;

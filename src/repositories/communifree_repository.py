@@ -1,4 +1,5 @@
-from src.models import app_user, event, participatingIn, friends, groups, participating_in_group, db
+
+from src.models import app_user, event, participatingIn, friends, groups, participating_in_group, user_cards, db
 
 class CommunifreeRepository:
 
@@ -6,14 +7,69 @@ class CommunifreeRepository:
         all_user = app_user.query.all()
         return all_user
 
-    def get_user_by_id(self, id):
+    def get_user_by_id(self, id) -> app_user | None:
         select_user = app_user.query.get(id)
         return select_user
     
+    def get_friends_list(self, id):
+        friends_list = db.session.query(app_user).join(friends, (friends.user2_id == app_user.user_id)).where(friends.user1_id==id)
+        return friends_list
+    
+    def get_friend_id(self, id, other_id):
+        f_id = friends.query.where(friends.user1_id==id and friends.user2_id==other_id).first()
+        if f_id != None:
+            f_id = f_id.friend_id
+        return f_id
+
+    def add_friend(self, id, friend_id):
+        new_friend = friends(user1_id=id, user2_id=friend_id)
+        db.session.add(new_friend)
+        db.session.commit()
+        return new_friend
+    
+    def list_all_user_cards(self, author_id):
+        cards_list = db.session.query(user_cards).where(user_cards.author_user_id==author_id).all()
+        return cards_list
+    
+    def list_accessible_user_cards(self, author_id, access):
+        cards_list = db.session.query(user_cards).where(user_cards.author_user_id==author_id).where(user_cards.visibility >= access)
+        return cards_list
+    
+    def get_card_by_id(self, id) -> user_cards | None:
+        select_card = user_cards.query.get(id)
+        return select_card
+
+    def update_card(self, card_id, header_text, body_text, visibility):
+        curr_card = user_cards.query.get(card_id)
+        curr_card.header_text = header_text
+        curr_card.body_text = body_text
+        curr_card.visibility = visibility
+        return curr_card
+
+    def create_card(self, header_text, body_text, author_user_id, visibility):
+        new_card = user_cards(header_text=header_text,body_text=body_text,author_user_id=author_user_id,visibility=visibility)
+        db.session.add(new_card)
+        db.session.commit()
+
+    def delete_card(self, card_id):
+        del_card = user_cards.query.get(card_id).remove()
+        db.session.commit()
+        
     def get_id_by_user(self, name):
         get_user_id = app_user.query.filter_by(username=name).first()
         return get_user_id.user_id
 
+    def update_user(self, user_id, profile_img, username, bio):
+        c_user = app_user.query.get(user_id)
+        c_user.profile_img = profile_img
+        c_user.username = username
+        c_user.bio = bio
+        db.session.commit()
+
+    def delete_user(self, user_id):
+        del_user = app_user.query.get(user_id).remove()
+        db.session.commit()
+    
     def get_all_events(self):
         all_events = event.query.all()
         return all_events
