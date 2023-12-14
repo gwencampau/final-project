@@ -206,7 +206,8 @@ def profile():
                     username=profile_user.username,
                     user_card_list=user_card_list,
                     profile_img=profile_user.profile_img,
-                    bio=profile_user.bio
+                    bio=profile_user.bio,
+                    in_session = True
                     )
 
 @app.get('/profile/add')
@@ -273,7 +274,8 @@ def friends_list():
                             selfProfilePage=True, 
                             user="self", 
                             leftEmpty=False, 
-                            friend_list=friend_list)
+                            friend_list=friend_list,
+                            in_session = True)
 
 @app.get('/users/<int:user_id>')
 def view_user(user_id):
@@ -301,7 +303,8 @@ def view_user(user_id):
                             user_profile_img=user_profile_img, 
                             user_username=user_username,
                             user_bio=user_bio,
-                            user_card_list=user_card_list
+                            user_card_list=user_card_list,
+                            in_session = True
                             )
 
 @app.post('/users/<int:user_id>/deleteFriend')
@@ -334,7 +337,8 @@ def settings():
     return render_template('/profile_sections/settings.html', 
                     selfProfilePage=True, 
                     leftEmpty=False, 
-                    logged_in=True,  
+                    logged_in=True, 
+                    in_session = True, 
                     #user_id=session['user_id'],
                     #username=session['username'],
                     #profile_img=session['profile_img'],
