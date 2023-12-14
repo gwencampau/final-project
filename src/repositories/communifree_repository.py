@@ -65,6 +65,10 @@ class CommunifreeRepository:
         c_user.username = username
         c_user.bio = bio
         db.session.commit()
+
+    def delete_user(self, user_id):
+        del_user = app_user.query.get(user_id).remove()
+        db.session.commit()
     
     def get_all_events(self):
         all_events = event.query.all()

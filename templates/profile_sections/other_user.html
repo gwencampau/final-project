@@ -14,12 +14,11 @@
 <div class="d-grid gap-1" style="margin-top:15px;">
     {% if friend_check != None%}
     <form action="/users/{{user_user_id}}/deleteFriend" method="post">
-        <button type="submit"  class="btn btn-primary pro-buttons">Remove Friend</button>
-
+        <button type="submit"  class="pro-buttons btn pro-friend-buttons">Remove Friend</button>
     </form>
     {% else %}
     <form action="/users/{{user_user_id}}/addFriend" method="post">
-        <button type="submit" class="btn btn-primary pro-buttons">Add Friend</button>
+        <button type="submit" class="pro-buttons btn pro-friend-buttons">Add Friend</button>
     </form>
     
     {%endif%}
