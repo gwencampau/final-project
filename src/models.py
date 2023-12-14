@@ -111,7 +111,7 @@ class friends(db.Model):
         return f'Friends({self.friend_id}, {self.user1_id}, {self.user2_id})'
     
 class groups(db.Model):
-    group_id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(50), nullable=False)
     image_link = db.Column(db.String(500), nullable=True)
     description = db.Column(db.String(150), nullable=False)

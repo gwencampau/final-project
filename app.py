@@ -32,8 +32,9 @@ test_create_form_data = []
 def index():
     all_events = event.query.all()
     today = date.today()
+    all_groups= groups.query.all()
     if 'username' in session:
-        return render_template('index.html', events=all_events, today=today, in_session = True)
+        return render_template('index.html', events=all_events, today=today, all_groups=all_groups in_session = True)
     return render_template('index.html', events=all_events, today=today)
 
 @app.get('/group/<int:group_id>')
@@ -67,9 +68,39 @@ def delete_group(group_id):
     communifree_repository_singleton.delete_group(group_id)
     return render_template('delete.html' )
 
+@app.get('/create/group')
+def create_form_group():
+    if 'username' in session:
+        return render_template('create_group.html',in_session=True)
+    return redirect('/login')
+
+@app.post('/create/group')
+def create_group():
+    if 'username' in session:
+    #Still in progress testing this
+        title = request.form.get("title")
+        link = request.form.get("link")
+        description = request.form.get("description")
+
+        tags=[]
+        if request.form.get('music'):
+            tags.append('music')
+        if request.form.get('sports'):
+            tags.append('sports')
+        if request.form.get('gaming'):
+            tags.append('gaming')
+        if request.form.get('tech'):
+            tags.append('tech')
+        if request.form.get('crafts'):
+            tags.append('crafts')
+        author_id = session['user_id']
+        group=communifree_repository_singleton.create_group(title, description, link, tags, author_id)
+        return redirect('/')
+    return redirect('/login')
+
 
 @app.get('/create')
-def create_form():
+def create_form_event():
     if 'username' in session:
         return render_template('create_event.html',in_session=True)
     return redirect('/login')
@@ -114,9 +145,7 @@ def about():
         return render_template('about.html',in_session = True)
     return render_template('about.html')
     
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('error.html'), 404
+
 
 @app.route('/event/<int:event_id>') #Will change routing to /<event_name> once DB is started
 def events(event_id):
@@ -242,3 +271,7 @@ def events_faq():
 def logout():
     del session['username']
     return redirect('/')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error.html'), 404
