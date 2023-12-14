@@ -43,7 +43,7 @@ CREATE TABLE friends(
     FOREIGN KEY (user2_id) REFERENCES app_user(user_id)
 );
 
-CREATE TABLE group (
+CREATE TABLE groups (
     group_id SERIAL,
     title VARCHAR(50) NOT NULL,
     image_link VARCHAR(500) NULL,
