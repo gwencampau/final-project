@@ -42,3 +42,32 @@ CREATE TABLE friends(
     FOREIGN KEY (user1_id) REFERENCES app_user(user_id),
     FOREIGN KEY (user2_id) REFERENCES app_user(user_id)
 );
+
+CREATE TABLE group (
+    group_id SERIAL,
+    title VARCHAR(50) NOT NULL,
+    image_link VARCHAR(500) NULL,
+    description VARCHAR(150) NULL,
+    author_id INT NOT NULL,
+    tags TEXT[] NULL,
+    PRIMARY KEY (group_id),
+    FOREIGN KEY (author_id) REFERENCES app_user(user_id)
+);
+
+CREATE TABLE participating_in_group(
+    participating_id SERIAL,
+    user_id INT NOT NULL,
+    group_id INT NOT NULL,
+    PRIMARY KEY (participating_id),
+    FOREIGN KEY (user_id) REFERENCES app_user(user_id),
+    FOREIGN KEY (group_id) REFERENCES group(group_id)
+);
+
+CREATE TABLE group_events(
+    grev_id SERIAL,
+    event_id INT NOT NULL,
+    group_id INT NOT NULL,
+    PRIMARY KEY (grev_id),
+    FOREIGN KEY (event_id) REFERENCES event(event_id),
+    FOREIGN KEY (group_id) REFERENCES group(group_id)
+);

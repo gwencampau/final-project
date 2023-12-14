@@ -1,18 +1,22 @@
 {% extends '_layout.html' %}
 
-{% block title %}Event page{% endblock %}
+{% block title %}Group{% endblock %}
 
 {% block body %}
+
+
 <div class="container-fluid">
     <div class="d-flex">
         <div class="col flex-item d-flex  flex-column gap-3 " > <!--Left column-->
             
-                <img src="{{event_data.image_link}}" alt="Data for class"  id="event_image" class="rounded img-event"> 
+                <img src="{{group_data.image_link}}" alt="Data for class"   class="rounded img-event"> 
            
             <!----->
             <div class="d-flex align-items-start justify-content-center ">
 
-                <button type="button" class="btn btn-secondary btn-event btn-class" >Attend</button>
+                <button type="button" class="btn btn-secondary btn-event btn-class" >
+                    Join
+                </button>
                 
                   <div class="dropdown btn-class">
                     <button class="btn btn-event btn-secondary dropdown-toggle" type="button"   data-bs-toggle="dropdown" >
@@ -24,25 +28,22 @@
                     
                   </div>
 
-                  {% if owner %}
                   <div class="dropdown btn-class">
-
                     <button class="btn btn-secondary dropdown-toggle btn-event" type="button"  data-bs-toggle="dropdown" >
                       Edit
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="/event/{{event_data.event_id}}/edit">Edit</a></li> 
-                      <li><a class="dropdown-item" href="/delete/{{event_data.event_id}}">delete</a></li> 
+                      <li><a class="dropdown-item" href="/event/edit">Edit</a></li> 
+                      <li><a class="dropdown-item" href="/groups/delete/{{group_data.event_id}}">delete</a></li> 
                       
                     </ul>
                   </div>
-                  {%endif%}
                 
 
             </div>
             <div class="d-flex justify-content-around">
                <!--Will be converted once DB is done  event_friends--> 
-                <span  class="h2"> Friends attending</span>
+                <span  class="h2">Members</span>
                 
             </div> 
             {%for x in event_friends %}
@@ -55,12 +56,9 @@
         </div>
 
         <div class="col flex-item flex" > <!--Right column-->
-            <h1> {{event_data.title}}</h1>
-            <div class="d-flex align-items-start justify-content-around">
-                <p  class="text-muted">{{event_data.date}}</p>
-                <p  class="text-muted">{{event_data.time}}</p>
-            </div>   
-            <p> {{event_data.description}}</p>
+            <h1> {{group_data.title}}</h1>
+           
+            <p> {{group_data.description}}</p>
             
         </div>
     </div>
@@ -69,12 +67,9 @@
     
   var currentURL = window.location.href;
   document.getElementById("link").textContent =  currentURL;
-  const image_test = document.getElementById("event_image");
-  
-  if (typeof  image_test.naturalWidth != "undefined" && image_test.naturalWidth == 0) {
-    image_test.src = "/static/test.jpeg";
-    }
 
+  
+  
 </script>
 
 {% endblock %}

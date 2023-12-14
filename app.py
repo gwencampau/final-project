@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, abort, session
 from datetime import date, datetime
 
-from src.models import db, app_user, event, participatingIn, friends
+from src.models import db, app_user, event, participatingIn, friends, groups 
 from src.repositories.communifree_repository import communifree_repository_singleton
 
 from flask_bcrypt import Bcrypt
@@ -36,6 +36,14 @@ def index():
         return render_template('index.html', events=all_events, today=today, in_session = True)
     return render_template('index.html', events=all_events, today=today)
 
+@app.get('/group/<int:group_id>')
+def view_groups(group_id):
+    group_data = communifree_repository_singleton.get_group(group_id)
+    event_data = communifree_repository_singleton.get_event_by_id(1)
+    print(group_data)
+    return render_template('group.html', group_data=group_data)
+
+
 @app.get('/events/search')
 def search_events():
     found_events = []
@@ -48,11 +56,22 @@ def search_events():
     else:
         return index()
 
-@app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot
+
+@app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
 def delete_event(event_id):
-    communifree_repository_singleton.delete_events(event_id)
-    
-    return render_template('delete.html')
+    delete = communifree_repository_singleton.get_event_by_id(event_id)
+    name = delete.title
+    db.session.delete(delete)
+    db.session.commit()
+    return render_template('delete.html', name=name)
+
+@app.get('/delete/groups/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
+def delete_group(event_id):
+    delete = communifree_repository_singleton.get_event_by_id(event_id)
+    db.session.delete(delete)
+    db.session.commit()
+    return render_template('delete.html', )
+
 
 @app.get('/create')
 def create_form():
