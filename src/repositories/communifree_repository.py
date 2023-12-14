@@ -34,11 +34,24 @@ class CommunifreeRepository:
         cards_list = db.session.query(user_cards).where(user_cards.author_user_id==author_id).where(user_cards.visibility >= access)
         return cards_list
     
+    def get_card_by_id(self, id) -> user_cards | None:
+        select_card = user_cards.query.get(id)
+        return select_card
+
     def update_card(self, card_id, header_text, body_text, visibility):
         curr_card = user_cards.query.get(card_id)
         curr_card.header_text = header_text
         curr_card.body_text = body_text
         curr_card.visibility = visibility
+        return curr_card
+
+    def create_card(self, header_text, body_text, author_user_id, visibility):
+        new_card = user_cards(header_text=header_text,body_text=body_text,author_user_id=author_user_id,visibility=visibility)
+        db.session.add(new_card)
+        db.session.commit()
+
+    def delete_card(self, card_id):
+        del_card = user_cards.query.get(card_id).remove()
         db.session.commit()
 
     def get_all_events(self):

@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, abort, session
 from datetime import date, datetime
 
-from src.models import db, app_user, event, participatingIn, friends, groups 
+from src.models import db, app_user, event, participatingIn, friends, groups , user_cards
 from src.repositories.communifree_repository import communifree_repository_singleton
 
 from flask_bcrypt import Bcrypt
@@ -210,20 +210,63 @@ def profile():
                     bio=profile_user.bio
                     )
 
+@app.get('/profile/add')
+def create_card_form():
+    if 'username' in session:
+        return render_template('/profile_sections/add_card.html',in_session=True)
+    return redirect('/login')
+
+@app.post('/profile/add')
+def create_card():
+    header_text = request.form.get("header_text")
+    body_text = request.form.get("body_text")
+    visibility = request.form.get("visibility_type")
+    author_user_id = session['user_id']
+    card=communifree_repository_singleton.create_card(header_text,body_text,author_user_id,visibility)
+    return redirect('/profile')
+
+@app.get('/profile/<int:card_id>/edit')
+def edit_card_page(card_id):
+    card = communifree_repository_singleton.get_card_by_id(card_id)
+    header_text = card.header_text
+    body_text = card.body_text
+    visibility = card.visibility
+    if 'username' not in session:
+        return redirect('/profile')
+    if not user_cards:
+        return "Card not in database", 400
+    
+    return render_template('/profile_sections/edit_card.html', in_session=True,
+                        header_text=header_text,
+                        body_text=body_text,
+                        visibility=visibility)
+
+
 @app.post('/profile/<int:card_id>')
 def edit_card(card_id):
     header_text = request.form.get("header_text")
     body_text = request.form.get("body_text")
-    visibility = request.form.get("visibility")
+    visibility = request.form.get("visibility_type")
+    communifree_repository_singleton.update_card(card_id, header_text, body_text, visibility)
     communifree_repository_singleton.update_card(card_id, header_text, body_text, visibility)
     return redirect(f'/profile/{card_id}')
+
+@app.post('/profile/delete') 
+def delete_card(card_id):
+    if 'username' not in session:
+        return redirect('/profile')
+    card_id = communifree_repository_singleton.get_card_by_id(card_id)
+    db.session.delete(user_cards.query.get(card_id))
+    db.session.commit()
+    return redirect('/profile')
+
 
 @app.route('/friends')
 def friends_list():
     if 'username' not in session:
         return redirect('/sign_up')
-    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
-    friend_list = communifree_repository_singleton.get_friends_list(user_id)
+    profile_user=communifree_repository_singleton.get_user_by_id(session['user_id'] )
+    friend_list = communifree_repository_singleton.get_friends_list(session['user_id'] )
     return render_template('/profile_sections/friends.html',
                             username=profile_user.username,
                             profile_img=profile_user.profile_img,
