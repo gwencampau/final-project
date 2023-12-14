@@ -109,3 +109,25 @@ class friends(db.Model):
 
     def __repr__(self) -> str:
         return f'Friends({self.friend_id}, {self.user1_id}, {self.user2_id})'
+    
+class groups(db.Model):
+    group_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    image_link = db.Column(db.String(500), nullable=True)
+    description = db.Column(db.String(150), nullable=False)
+    tags = db.Column(db.ARRAY(db.String))
+
+    author_id = db.Column(db.Integer, db.ForeignKey('app_user.user_id'), nullable=False)
+    author = db.relationship('app_user', backref='author_event')
+
+    def __init__(self, title: str,image_link: str, description: str,  tags: list, author_id: int):
+        self.title= title
+        self.image_link = image_link
+        self.description = description
+        self.tags= tags
+        self.author_id = author_id
+
+    def __repr__(self) -> str:
+        return f'Group({self.title}, {self.image_link}, {self.description}, {self.tags}, {self.author_id})'
+
+    

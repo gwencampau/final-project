@@ -1,4 +1,4 @@
-from src.models import app_user, event, participatingIn, friends, db
+from src.models import app_user, event, participatingIn, friends, groups, db
 
 class CommunifreeRepository:
 
@@ -41,6 +41,7 @@ class CommunifreeRepository:
         return found_events
     
     def get_friends_by_event(self, id):
+
         #Updated to be more readable
         attending = db.session.query(app_user)
         attending = attending.join(participatingIn, app_user.user_id == participatingIn.user_id)
@@ -49,8 +50,6 @@ class CommunifreeRepository:
         return attending
         
     def delete_events(self, id):
-
-        #
         test_part= participatingIn.query.filter_by(event_id=id).delete()
         test_event = event.query.filter_by(event_id=id).delete()
         db.session.commit()
