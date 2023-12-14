@@ -18,7 +18,7 @@ class CommunifreeRepository:
         select_event = event.query.get(id)
         return select_event
     
-    def create_event(self, title, description, location, date, time, image_link, public, tags, author_id=1):
+    def create_event(self, title, description, location, date, time, image_link, public, tags, author_id):
         new_event = event(title=title, description=description, location=location, date=date, time=time, image_link=image_link, public=public, tags=tags, author_id=author_id)
         db.session.add(new_event)
         db.session.commit()
