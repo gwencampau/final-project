@@ -251,15 +251,15 @@ def edit_card(card_id):
     communifree_repository_singleton.update_card(card_id, header_text, body_text, visibility)
     return redirect(f'/profile/{card_id}')
 
-@app.post('/profile/delete') 
-def delete_card(card_id):
+
+
+@app.post('/profile/<int:card_id>/delete')
+def delete_card(card_id: int):
     if 'username' not in session:
         return redirect('/profile')
-    card_id = communifree_repository_singleton.get_card_by_id(card_id)
     db.session.delete(user_cards.query.get(card_id))
     db.session.commit()
     return redirect('/profile')
-
 
 @app.route('/friends')
 def friends_list():

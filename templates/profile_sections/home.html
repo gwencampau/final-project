@@ -43,8 +43,8 @@
             <div class="card-body">
                 <h5 class="card-title">{{card.header_text}}</h5>
                 <p class="card-text">{{card.body_text}}</p>
-                <form>
-                    <input type="submit" method="post" formaction="/profile/delete" value="Delete"/>
+                <form action="/profile/{{card.card_id}}/delete" method="post">
+                    <button type="submit"  class="btn btn-primary">Delete</button>
                 </form>
 
             </div>
