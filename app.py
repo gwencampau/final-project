@@ -62,9 +62,17 @@ def search_events():
 @app.get('/delete/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
 def delete_event(event_id):
     delete = communifree_repository_singleton.get_event_by_id(event_id)
+    name = delete.title
     db.session.delete(delete)
     db.session.commit()
-    return render_template('delete.html')
+    return render_template('delete.html', name=name)
+
+@app.get('/delete/groups/<int:event_id>') #Will change routing to /<event_name> once DB is troubleshot /<int:group_id>
+def delete_group(event_id):
+    delete = communifree_repository_singleton.get_event_by_id(event_id)
+    db.session.delete(delete)
+    db.session.commit()
+    return render_template('delete.html', )
 
 @app.get('/create')
 def create_form():
