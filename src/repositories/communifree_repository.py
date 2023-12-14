@@ -64,7 +64,7 @@ class CommunifreeRepository:
         c_user.profile_img = profile_img
         c_user.username = username
         c_user.bio = bio
-        return c_user
+        db.session.commit()
     
     def get_all_events(self):
         all_events = event.query.all()

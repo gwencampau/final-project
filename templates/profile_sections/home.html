@@ -12,12 +12,12 @@
 {% block button_area %}
 <ul class="nav flex-column">
     <li class="nav-item">
-        <a class="nav-link" href="/friends">Friends</a>
+        <a class="nav-link pro-nav" href="/friends">Friends</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/settings">Settings</a>
+        <a class="nav-link pro-nav" href="/settings">Settings</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item pro-nav">
         <form action="/logout" method="post">
             <button type="submit" class="btn btn-primary btn-sm">Logout</button>
         </form>
@@ -28,10 +28,10 @@
 {% block content %}
 <div class="tab-content" id="profile-tabs-content" style="margin: 0px 15px;">
     <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="card mb-3">
+        <div class="card mb-3 pro-cards">
             <div class="card-body">
-                <h5 class="card-title">User Bio</h5>
-                <p class="card-text">{{bio}}</p>
+                <h5 class="card-title pcard-text">User Bio</h5>
+                <p class="card-text pcard-body">{{bio}}</p>
             </div>
         </div>
         
@@ -39,12 +39,12 @@
             <input type="submit" formaction="/profile/add" value="Add"/>
         </form>
         {% for card in user_card_list %}
-        <div class="card mb-3">
+        <div class="card mb-3 pro-cards pcard-text" >
             <div class="card-body">
-                <h5 class="card-title">{{card.header_text}}</h5>
-                <p class="card-text">{{card.body_text}}</p>
+                <h5 class="card-title pcard-text">{{card.header_text}}</h5>
+                <p class="card-text pcard-body">{{card.body_text}}</p>
                 <form action="/profile/{{card.card_id}}/delete" method="post">
-                    <button type="submit"  class="btn btn-primary">Delete</button>
+                    <button type="submit"  class="btn btn-primary pro-buttons">Delete</button>
                 </form>
 
             </div>

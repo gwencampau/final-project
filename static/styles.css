@@ -490,6 +490,24 @@ form p{
     border: none;
 }
 
+/*profile styling*/
+.pro-cards{
+    width:100%;
+}
+.pcard-text{
+    font-size: 16px;
+}
+.pcard-body{
+    font-size: 14px;
+}
+.pro-nav{
+    fill: none;
+    color: var(--main-dark-blue);
+}
+.pro-buttons{
+    fill: var(--main-dark-blue);
+    color:#E8E8E8;
+}
 
 /* Footer Styling */
 footer {

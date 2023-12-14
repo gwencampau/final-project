@@ -23,65 +23,15 @@
        
         {% endblock user_info %}
         {% block button_area %}
-        <!--
-            <div class="dropdown">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                    Edit Preferences
-                </button>
-                <form class="dropdown-menu p-4">
-                    <div class="text-body-secondary" style="max-width: 100%;">
-                        <h5>Friend Visibility</h5>
-                        <p>Friends can be put into 3 categories. Each category has a different level of access:</p>
-                        <ul>
-                            <li>Not close friend</li>
-                            <li>Friend</li>
-                            <li>Close friend</li>
-                        </ul>
-                        <p>If friendship level is unspecified when friending a user, the default level given is "friend".</p>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="friendVis" id="friendVis1" value="3">
-                        <label class="form-check-label" for="friendVis1">
-                            Not Close Friend
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="friendVis" id="friendVis2" value="2" checked>
-                        <label class="form-check-label" for="friendVis2">
-                            Friend
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="friendVis" id="friendVis3" value="1">
-                        <label class="form-check-label" for="friendVis3">
-                            Close Friend
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
-        -->
-        <!--<div  class="d-grid gap-1">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editFriendSettings">
-                Edit Preferences
-            </button>
-            <button type="button" class="btn btn-primary">View Friend Page</button>
-        </div>
-        <div class="d-grid gap-1" style="margin-top:15px;">
-            <button type="button" class="btn btn-primary">Remove Friend</button>
-            <button type="button" class="btn btn-primary">Block</button>
-            <button type="button" class="btn btn-primary">Report</button>
-        </div>
-    -->
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="/profile">Profile</a>
+                <a class="nav-link pro-nav" href="/profile">Profile</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item pro-nav">
                 <a class="nav-link" href="/settings">Settings</a>
             </li>
             <form action="/logout" method="post">
-                <button type="submit" class="btn btn-primary btn-sm">Logout</button>
+                <button type="submit" class="pro-nav btn btn-primary btn-sm">Logout</button>
             </form>
         </ul>    
         {% endblock button_area %}        
@@ -111,15 +61,7 @@
                         <h6 class="text-left" style="margin-bottom: 0px;">@{{friend.username}}</h6>
                     </div>
                 </td>
-                <!--<td>
-                    {% if friend.friend_level == 1 %}
-                        Close friends
-                    {% elif friend.friend_level == 2 %}
-                        Friends
-                    {% elif friend.friend_level == 3 %}
-                        Not close friends
-                    {% endif %}
-                </td>-->
+
                 <td>
                     <div class="dropdown">
                         <button class="btn" type="button" id="friendOptions" data-bs-toggle="dropdown" aria-expanded="false" style="justify-content: right;">
@@ -128,7 +70,6 @@
                             </svg>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="friendOptions">
-                          <!--<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editFriendSettings">Edit Friend Level</button></li>-->
                           <li><button class="dropdown-item" type="button">Remove Friend</button></li>
                           <li><button class="dropdown-item" type="button">Block</button></li>
                           <li><button class="dropdown-item" type="button">Report</button></li>
@@ -139,48 +80,4 @@
             {% endfor %}
         </tbody>
     </table>
-    <!--
-    <div class="modal fade" id="editFriendSettings" tabindex="-1" aria-labelledby="editFriendSettingsLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editFriendSettingsLabel">Edit</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="text-body-secondary" style="max-width: 100%;">
-                        <h3>Friend Visibility</h3>
-                        <h4>Friends can be put into 3 categories. Each category has a different level of access:</h4>
-                        <ul>
-                            <li>Not close friend</li>
-                            <li>Friend</li>
-                            <li>Close friend</li>
-                        </ul>
-                        <p>If friendship level is unspecified when friending a user, the default level given is "friend".</p>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="friendVis" id="friendVis1" value="3">
-                        <label class="form-check-label" for="friendVis1">
-                            Not Close Friend
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="friendVis" id="friendVis2" value="2" checked>
-                        <label class="form-check-label" for="friendVis2">
-                            Friend
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="friendVis" id="friendVis3" value="1">
-                        <label class="form-check-label" for="friendVis3">
-                            Close Friend
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    -->
 {% endblock %}

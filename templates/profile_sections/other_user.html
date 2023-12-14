@@ -14,12 +14,12 @@
 <div class="d-grid gap-1" style="margin-top:15px;">
     {% if friend_check != None%}
     <form action="/users/{{user_user_id}}/deleteFriend" method="post">
-        <button type="submit"  class="btn btn-primary">Remove Friend</button>
+        <button type="submit"  class="btn btn-primary pro-buttons">Remove Friend</button>
 
     </form>
     {% else %}
     <form action="/users/{{user_user_id}}/addFriend" method="post">
-        <button type="submit" class="btn btn-primary">Add Friend</button>
+        <button type="submit" class="btn btn-primary pro-buttons">Add Friend</button>
     </form>
     
     {%endif%}
@@ -30,18 +30,18 @@
 
 {% block content %}
 <div class="tab-content" id="profile-tabs-content" style="margin: 0px 15px;">
-    <div class="card mb-3">
+    <div class="card mb-3 pro-cards">
         <div class="card-body">
-            <h5 class="card-title">User Bio</h5>
-            <p class="card-text">{{user_bio}}</p>
+            <h5 class="card-title pcard-text">User Bio</h5>
+            <p class="card-text pcard-body">{{user_bio}}</p>
         </div>
     </div>
 
     {% for card in user_card_list %}
-    <div class="card mb-3">
+    <div class="card mb-3 pro-cards">
         <div class="card-body">
-            <h5 class="card-title">{{card.header_text}}</h5>
-            <p class="card-text">{{card.body_text}}</p>
+            <h5 class="card-title pcard-text">{{card.header_text}}</h5>
+            <p class="card-text pcard-body">{{card.body_text}}</p>
         </div>
     </div>
     {% endfor %}

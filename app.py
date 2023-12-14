@@ -451,6 +451,7 @@ def edit_profile():
     username = request.form.get("p_username")
     bio = request.form.get("p_bio")
     communifree_repository_singleton.update_user(user_id, profile_img, username, bio)
+    db.session.commit()
     return redirect('/profile')
 
 @app.get('/sign_up')
