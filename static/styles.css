@@ -453,6 +453,31 @@ form p{
 }
   /*End*/
 
+/* Map Page Styling */
+#mapid {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+}
+
+.map #search {
+    font-family: "Cabin", sans-serif;
+    position: relative;
+    z-index: 10;
+    background-color: white;
+    color: var(--main-dark-blue);
+    padding: .75rem;
+    top: .75rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    border: none;
+}
+
+
 /* Footer Styling */
 footer {
     background-color: var(--main-dark-blue);

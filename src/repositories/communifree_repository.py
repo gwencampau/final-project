@@ -48,6 +48,24 @@ class CommunifreeRepository:
         attending = attending.join(friends, (friends.user1_id == app_user.user_id) | (friends.user2_id == app_user.user_id))
         attending = attending.filter(participatingIn.event_id == id).all()
         return attending
+    
+    def geocode_location(self, location: str):
+        import geopy
+        from geopy.geocoders import Nominatim
+        import ssl
+        import certifi
+        
+        ctx = ssl.create_default_context(cafile=certifi.where())
+        geopy.geocoders.options.default_ssl_context = ctx
+
+
+        geolocator = Nominatim(scheme='https', user_agent="communifree")
+        location_result = geolocator.geocode(location)
+        
+        if location_result:
+            return location_result.latitude, location_result.longitude
+        else:
+            return None, None
         
     def delete_events(self, id):
         test_part= participatingIn.query.filter_by(event_id=id).delete()

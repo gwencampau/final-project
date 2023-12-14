@@ -51,6 +51,8 @@ class event(db.Model):
     # public BOOLEAN NOT NULL,
     public = db.Column(db.Boolean, nullable=False)
     location = db.Column(db.String(255), nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
 
     def __init__(self, title: str, date: str, time: str, image_link: str, description: str, tags: list, author_id: int, public: bool, location: str):
         self.title = title

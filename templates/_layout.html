@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap" rel="stylesheet">
+    {% block head %}{% endblock %}
 
    
     
@@ -21,6 +22,7 @@
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
+            <li><a href="/map">Map</a></li>
             <li><a href="/profile">Profile</a></li>
             <!--Login should be "Profile" when logged in, so We'll need to create that feature at some point"-->
             <li><a href="/create">Create Event</a></li>
@@ -31,18 +33,19 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/login">Login</a></li>
-            <!--Login should be "Profile" when logged in, so We'll need to create that feature at some point"-->
         </ul>
     </nav>
     {% endif %}
     <main>
     {% block body %}{% endblock %}
     </main>
+    {% block footer %}
     <footer>
         <ul>
             <li><a href="/about">About Us</a></li>
             <li><a href="/FAQ">Frequently Asked Questions</a></li>
             <li>© 2023 - All Rights Reserved</li>
     </footer>
+    {% endblock %}
 </body>
 </html>
