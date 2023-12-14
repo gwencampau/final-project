@@ -1,10 +1,49 @@
 {% extends 'profile_sections/base_profile.html' %}
 
+
+{% block user_info %}
+<div class="p-2" style="margin:10px;">
+    <img src="{{profile_img}}" style="width: 100%;">
+    <p class="text-center">@{{username}}</p>
+</div>
+{% endblock user_info %}
+
+{% block button_area %}
+<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="nav-link" href="/profile">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/friends">Friends</a>
+    </li>
+    <li class="nav-item">
+        <form action="/logout" method="post">
+            <button type="submit" class="btn btn-primary btn-sm">Logout</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}
+
+
 {% block content %}
 <h1>Settings</h1>
-<div class="custom-file">
-    <input type="file" class="custom-file-input" id="customFile" required>
-    <label class="custom-file-label" for="customFile">Choose file...</label>
-    <div class=""></div>
-</div>
+<form action="/settings/{{user_id}}" method="post">
+    <div class="custom-file">
+        <img src="{{profile_img}}" style="width: 50px;">
+        <input type="file" class="custom-file-input"id="customFile">
+        <label class="custom-file-label" for="customFile"></label>
+        <div class=""></div>
+    </div>
+    <br>
+    <div class="col-md-4 mb-3">
+        <label for="p_username">Username</label>
+        <input type="text" class="form-control" id="p_username" value="{{user_name}}" required>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="p_bio">Bio</label>
+        <input type="textarea" class="form-control" id="p_bio"value="{{bio}}" required>
+    </div>
+    <button type="submit"  class="btn btn-primary">Update Profile</button>
+</form>
+
 {% endblock %}

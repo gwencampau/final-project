@@ -196,7 +196,6 @@ def profile():
     if profile_user is None:
         abort(400)
     user_card_list=communifree_repository_singleton.list_all_user_cards(user_id)
-
     return render_template('/profile_sections/home.html', 
                     selfProfilePage=True, 
                     leftEmpty=False, 
@@ -235,7 +234,6 @@ def edit_card_page(card_id):
         return redirect('/profile')
     if not user_cards:
         return "Card not in database", 400
-    
     return render_template('/profile_sections/edit_card.html', in_session=True,
                         header_text=header_text,
                         body_text=body_text,
@@ -279,25 +277,22 @@ def friends_list():
 
 @app.get('/users/<int:user_id>')
 def view_user(user_id):
-    current_user=1
+    if 'username' not in session:
+        access = 4
     profile_user=communifree_repository_singleton.get_user_by_id(user_id)
     if profile_user is None:
         abort(400)
+    current_user=session['user_id']
     friend_check = communifree_repository_singleton.get_friend_id(current_user, user_id)
     user_profile_img = profile_user.profile_img
     user_username=profile_user.username
     user_bio = profile_user.bio
     user_user_id=profile_user.user_id
-
-    if current_user==None:
-        access = 4
-    elif friend_check == None:
+    if friend_check == None:
         access = 3
     else:
         access = 2
-
     user_card_list=communifree_repository_singleton.list_accessible_user_cards(user_id, access)
-
     return render_template('/profile_sections/other_user.html',
                             logged_in=True, 
                             friend_check=friend_check,
@@ -311,7 +306,7 @@ def view_user(user_id):
 
 @app.post('/users/<int:user_id>/deleteFriend')
 def remove_friend(user_id: int):
-    current_user=1
+    current_user=session['user_id']
     friend_id = communifree_repository_singleton.get_friend_id(current_user, user_id)
     db.session.delete(friends.query.get(friend_id))
     db.session.commit()
@@ -319,7 +314,9 @@ def remove_friend(user_id: int):
 
 @app.post('/users/<int:user_id>/addFriend')
 def add_friend(user_id: int):
-    current_user=1
+    current_user=session['user_id']
+    if communifree_repository_singleton.get_friend_id is not None:
+        return redirect(f'/users/{user_id}')
     new_friend = friends(user1_id=current_user, user2_id=user_id)
     db.session.add(new_friend)
     db.session.commit()
@@ -327,9 +324,25 @@ def add_friend(user_id: int):
 
 @app.route('/settings')
 def settings():
-    if 'username' in session:
-        return render_template('/profile_sections/settings.html',logged_in=True, user_selected=False, selfProfilePage=True, user="self", leftEmpty=False, user_image="/static/test.jpeg", user_username="@Username",in_session= True)
-
+    if 'username' not in session:
+        return redirect('/sign_up')
+    user_id=session['user_id']
+    profile_user=communifree_repository_singleton.get_user_by_id(user_id)
+    if profile_user is None:
+        abort(400)
+    user_card_list=communifree_repository_singleton.list_all_user_cards(user_id)
+    return render_template('/profile_sections/settings.html', 
+                    selfProfilePage=True, 
+                    leftEmpty=False, 
+                    logged_in=True,  
+                    #user_id=session['user_id'],
+                    #username=session['username'],
+                    #profile_img=session['profile_img'],
+                    username=profile_user.username,
+                    user_card_list=user_card_list,
+                    profile_img=profile_user.profile_img,
+                    bio=profile_user.bio
+                    )
 
 @app.get('/sign_up')
 def sign_up():
