@@ -25,7 +25,7 @@ db.init_app(app)
 bcrypt = Bcrypt()
 bcrypt.init_app(app)
 
-about_data = [{"title":"Fpeeling lonely?", "info":"Well CommuniFree is for you!"},{"title":"Cash strapped?", "info":"Test"},{"title":"For humans by humans", "info":"Test"}]
+about_data = [{"title":"Feeling lonely?", "info":"Well CommuniFree is for you!"},{"title":"Cash strapped?", "info":"Test"},{"title":"For humans by humans", "info":"Test"}]
 test_create_form_data = []
 
 @app.get('/')
