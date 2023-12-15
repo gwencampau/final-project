@@ -472,7 +472,7 @@ form p{
 /* Map Page Styling */
 #mapid {
     position: absolute;
-    height: 100vh;
+    height: calc(100vh - 3rem);
     width: 100vw;
     margin: 0;
     padding: 0;
