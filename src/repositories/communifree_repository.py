@@ -16,7 +16,7 @@ class CommunifreeRepository:
         return friends_list
     
     def get_friend_id(self, id, other_id):
-        f_id = friends.query.where(friends.user1_id==id and friends.user2_id==other_id).first()
+        f_id = friends.query.filter_by(user1_id=id).where(friends.user2_id==other_id).first()
         if f_id != None:
             f_id = f_id.friend_id
         return f_id
