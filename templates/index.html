@@ -209,7 +209,7 @@
                                 <h6 class="card-date">{{ event.date.strftime('%B %dth, %Y') }}</h6>
                                 <h6 class="card-date">{{ event.time.strftime('%I:%M%p') }}</h6>
                                 {% if logged_in %}
-                                <form action="/create" method="get">
+                                <form action="/event/{{ event.event_id }}" method="get">
                                     <button class="detail-btn btn btn-primary" type="submit">Details</button>
                                 </form>
                                 {% else %}
@@ -359,7 +359,7 @@
     {% for event in events %}
         {% if today <= event.date %}
             {% for tag in event.tags %}
-                {% if tag == 'tech' %}
+                {% if tag == 'crafts' %}
                     <div class="card">
                         <div class="event">
                             <img style="border-radius: 10px 10px 0px 0px;" src="{{ event.image_link }}" class="image_test card-img-top" alt="...">
